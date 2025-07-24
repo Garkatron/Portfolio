@@ -1,4 +1,4 @@
-let constrain = 1000;
+let constrain = 3000;
 let mouseOverContainer = document.getElementById("ex1");
 let ex1Layer = document.getElementById("ex1-layer");
 

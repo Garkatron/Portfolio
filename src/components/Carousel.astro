@@ -1,47 +1,50 @@
-<div class="carousel">
+<div class="carousel" mask>
     <slot />
 </div>
 
 <style>
     .carousel {
-        --items: 6;
-        --carousel-duration: 40s;
+        --items: 5;
+        --carousel-duration: 50s;
 
         @media (width > 600px) {
             --carousel-duration: 30s;
         }
 
-        --carousel-width: min(80vw, 1200px);
         --carousel-item-width: 380px;
         --carousel-item-height: 380px;
         --carousel-item-gap: 2rem;
 
         --clr-cta: rgb(0, 132, 209);
 
+        /* Layout */
         position: relative;
-        width: var(--carousel-width);
+        width: 100%;
         height: var(--carousel-item-height);
         overflow: clip;
-
-        &[mask] {
-            mask-image: linear-gradient(
-                to right,
-                transparent,
-                black 10% 90%,
-                transparent
-            );
-        }
-
-        &[reverse] > article {
-            animation-direction: reverse;
-        }
-
-        &:hover > article {
-            animation-play-state: paused;
-        }
     }
 
-    /* 👇 importante: animación global */
+    .carousel[mask] {
+        mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 10% 90%,
+            transparent
+        );
+    }
+
+    .carousel > * {
+        animation: marquee var(--carousel-duration) linear infinite;
+    }
+
+    .carousel[reverse] > * {
+        animation-direction: reverse;
+    }
+
+    .carousel *:hover {
+        animation-play-state: paused;
+    }
+
     :global(@keyframes marquee) {
         100% {
             transform: translateX(

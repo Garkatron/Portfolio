@@ -2,6 +2,7 @@
 import Icon from "./Icon.astro";
 import Photo from "./Photo.astro";
 import facephoto from "../assets/photo.jpg";
+import TechGrid from "./TechGrid.astro";
 ---
 
 <section class="profile-section">
@@ -56,7 +57,74 @@ import facephoto from "../assets/photo.jpg";
             learner, great at researching, and experienced in working with
             existing codebases, whether libraries or forks.
         </p>
+        <h4>About use of AI</h4>
+        <p>
+            I use AI to support research and find learning resources. I also
+            rely on it as a complement when I need to clarify an explanation
+            that I haven’t fully understood on my own. In addition, I use it for
+            small code refactorings and optimization queries (with careful
+            judgment). Overall, it helps me save time on minor or repetitive
+            tasks that would otherwise take a few extra minutes.
+        </p>
+        <h4>What don’t I use it for?</h4>
+        <p>
+            I avoid using AI for large-scale refactorings, complex
+            optimizations, project structuring, or as my primary source of
+            learning.
+        </p>
     </div>
+    <section id="tech-stack">
+        <h2 style="text-align: center;">Tech Stack</h2>
+        <TechGrid title="Languages">
+            <Icon src="/icons/java-svgrepo-com.svg" type="dev" title="Java" />
+            <Icon src="/icons/rust-svgrepo-com.svg" type="dev" title="Rust" />
+            <Icon
+                src="/icons/js-svgrepo-com.svg"
+                type="dev"
+                title="JavaScript"
+            />
+            <Icon
+                src="/icons/python-svgrepo-com.svg"
+                type="dev"
+                title="Python"
+            />
+            <Icon
+                src="/icons/kotlin-svgrepo-com.svg"
+                type="dev"
+                title="Kotlin"
+            />
+        </TechGrid>
+        <TechGrid title="Frameworks & Libraries">
+            <Icon
+                src="/icons/bootstrap-4-logo-svgrepo-com.svg"
+                type="dev"
+                title="Bootstrap"
+            />
+        </TechGrid>
+
+        <TechGrid title="Tools">
+            <Icon src="/icons/git-svgrepo-com.svg" type="dev" title="Git" />
+            <Icon
+                src="/icons/postman-icon-svgrepo-com.svg"
+                type="dev"
+                title="Postman"
+            />
+        </TechGrid>
+
+        <TechGrid title="Other">
+            <Icon src="/icons/linux-svgrepo-com.svg" type="dev" title="Linux" />
+            <Icon
+                src="/icons/android-svgrepo-com.svg"
+                type="dev"
+                title="Android"
+            />
+            <Icon
+                src="/icons/sql-database-generic-svgrepo-com.svg"
+                type="dev"
+                title="SQL Database"
+            />
+        </TechGrid>
+    </section>
 </section>
 <script>
     function copyEmail() {
@@ -80,10 +148,14 @@ import facephoto from "../assets/photo.jpg";
         align-items: center;
         gap: 2rem;
         max-width: 950px;
-        margin-top: 2.5%;
-        margin-right: auto;
-        margin-left: auto;
+        margin: 10px;
+        padding: 10px;
     }
+
+    #tech-stack {
+        width: 100%;
+    }
+
     .presentation {
         flex: 1;
         font-size: 1.1rem;
@@ -105,7 +177,7 @@ import facephoto from "../assets/photo.jpg";
     }
 
     .description {
-        text-align: center;
+        text-align: left;
         font-size: 1.1rem;
     }
 

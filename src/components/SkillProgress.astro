@@ -1,0 +1,12 @@
+---
+import Icon from "./Icon.astro";
+
+const { src, progress = 0, title = "Title" } = Astro.props;
+---
+
+<div>
+    <Icon src={src} type="dev" title={title} />
+    <progress id="file" max="100" value={progress}>70%</progress>
+</div>
+
+<style></style>

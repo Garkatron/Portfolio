@@ -7,13 +7,15 @@ import TechGrid from "./TechGrid.astro";
 
 <section class="profile-section">
     <Photo src={facephoto} />
-    <div class="presentation">
-        <h1>
-            Hi, I'm <span class="highlight">Matias</span>, <br />a <span
-                class="highlight">Web Developer</span
-            >
-            <br />
-        </h1>
+    <div>
+        <div class="presentation">
+            <h1>
+                Hi, I'm <span class="highlight">Matias</span>, <br />a <span
+                    class="highlight">Web Developer</span
+                >
+                <br />
+            </h1>
+        </div>
         <div class="profile-links">
             <a
                 href="./other/MatiasGuliasCarrascalCV.pdf"
@@ -71,59 +73,6 @@ import TechGrid from "./TechGrid.astro";
             </p>
         </section>
     </div>
-
-    <section id="tech-stack">
-        <h2 style="text-align: center;">Tech Stack</h2>
-        <TechGrid title="Languages">
-            <Icon src="/icons/java-svgrepo-com.svg" type="dev" title="Java" />
-            <Icon src="/icons/rust-svgrepo-com.svg" type="dev" title="Rust" />
-            <Icon
-                src="/icons/js-svgrepo-com.svg"
-                type="dev"
-                title="JavaScript"
-            />
-            <Icon
-                src="/icons/python-svgrepo-com.svg"
-                type="dev"
-                title="Python"
-            />
-            <Icon
-                src="/icons/kotlin-svgrepo-com.svg"
-                type="dev"
-                title="Kotlin"
-            />
-        </TechGrid>
-        <TechGrid title="Frameworks & Libraries">
-            <Icon
-                src="/icons/bootstrap-4-logo-svgrepo-com.svg"
-                type="dev"
-                title="Bootstrap"
-            />
-        </TechGrid>
-
-        <TechGrid title="Tools">
-            <Icon src="/icons/git-svgrepo-com.svg" type="dev" title="Git" />
-            <Icon
-                src="/icons/postman-icon-svgrepo-com.svg"
-                type="dev"
-                title="Postman"
-            />
-        </TechGrid>
-
-        <TechGrid title="Other">
-            <Icon src="/icons/linux-svgrepo-com.svg" type="dev" title="Linux" />
-            <Icon
-                src="/icons/android-svgrepo-com.svg"
-                type="dev"
-                title="Android"
-            />
-            <Icon
-                src="/icons/sql-database-generic-svgrepo-com.svg"
-                type="dev"
-                title="SQL Database"
-            />
-        </TechGrid>
-    </section>
 </section>
 <script>
     function copyEmail() {
@@ -142,22 +91,19 @@ import TechGrid from "./TechGrid.astro";
 </script>
 <style>
     .profile-section {
+        justify-content: center;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         gap: 2rem;
-        max-width: 950px;
+        width: 60%;
         margin: 10px;
         padding: 10px;
     }
 
-    #tech-stack {
-        width: 100%;
-    }
-
     .presentation {
         flex: 1;
-        font-size: 1.1rem;
+        font-size: 1.8rem;
         line-height: 1.5;
     }
 
@@ -177,7 +123,7 @@ import TechGrid from "./TechGrid.astro";
 
     .description {
         text-align: left;
-        font-size: 1.1rem;
+        font-size: 1.4rem;
     }
 
     .profile-links {

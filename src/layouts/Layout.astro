@@ -8,6 +8,7 @@ import ProjectCard from "../components/ProjectCard.astro";
 import ProjectGrid from "../components/ProjectGrid.astro";
 import CarouselItem from "../components/CarouselItem.astro";
 import Carousel from "../components/Carousel.astro";
+import SkillProgress from "../components/SkillProgress.astro";
 ---
 
 <!doctype html>
@@ -30,43 +31,119 @@ import Carousel from "../components/Carousel.astro";
 	<body>
 		<img
 			src="https://images.unsplash.com/photo-1581299327801-faeb40ea459e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9uZG9zJTIwYXp1bGVzfGVufDB8fDB8fHww"
-			alt=""
+			alt="Background effect"
 			id="effect"
 		/>
 
-		<main class="slice">
-			<div class="left-info">
-				<PresentationCard />
+		<!-- Section 1: Presentation -->
+		<main id="section1" class="slice">
+			<div class="section-content">
+				<div
+					style="display: flex; width: 100%; justify-content: center;"
+				>
+					<PresentationCard />
+				</div>
+				<div class="section-content">
+					<h2>Featured Projects</h2>
+					<ProjectGrid>
+						<ProjectCard
+							title="3D Rasterizer in Rust"
+							link="https://github.com/Garkatron/ScrapRenderer"
+							description="A 2D rendering engine written in Rust, built to experiment with graphics and optimization."
+							image="/images/renderer3d.png"
+						/>
+						<ProjectCard
+							title="Rlox lang"
+							description="A programming language based on jlox from Crafting Interpreters"
+							link="https://github.com/Garkatron/Rust-Lox-Interpreter"
+							image="https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png"
+						/>
+						<ProjectCard
+							title="Rust-Coded LRU"
+							description="Rust LRU Cache"
+							link="https://github.com/Garkatron/LRU-Cache-Rust"
+							image="https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg"
+						/>
+					</ProjectGrid>
+				</div>
 			</div>
-			<div class="right-info">
-				<section>
-					<h2>Bests Projects</h2>
-					<div class="project-section">
-						<ProjectGrid>
-							<ProjectCard
-								title="3D Rasterizer in Rust"
-								link="https://github.com/Garkatron/ScrapRenderer"
-								description="A 2D rendering engine written in Rust, built to experiment with graphics and optimization."
-								image="/images/renderer3d.png"
-							/>
-							<ProjectCard
-								title="Rlox lang"
-								description="A programming language based on jlox from Crafting Interpreters"
-								link="https://github.com/Garkatron/Rust-Lox-Interpreter"
-								image="https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png"
-							/>
-							<ProjectCard
-								title="Rust-Coded LRU"
-								description="Rust LRU Cache"
-								link="https://github.com/Garkatron/LRU-Cache-Rust"
-								image="https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg"
-							/>
-						</ProjectGrid>
-					</div>
-				</section>
-				<section>
-					<h5>Other projects</h5>
+		</main>
 
+		<!-- Section 2: Featured Projects -->
+		<div id="section2" class="slice">
+			<section id="tech-stack">
+				<h2 style="text-align: center;">Tech Stack</h2>
+				<TechGrid title="Languages">
+					<SkillProgress
+						src="/icons/java-svgrepo-com.svg"
+						progress="70"
+						title="Java"
+					/>
+					<SkillProgress
+						src="/icons/rust-svgrepo-com.svg"
+						progress="35"
+						title="Rust"
+					/>
+					<SkillProgress
+						src="/icons/js-svgrepo-com.svg"
+						progress="80"
+						title="JavaScript"
+					/>
+					<SkillProgress
+						src="/icons/python-svgrepo-com.svg"
+						progress="30"
+						title="Python"
+					/>
+					<SkillProgress
+						src="/icons/kotlin-svgrepo-com.svg"
+						progress="50"
+						title="Kotlin"
+					/>
+				</TechGrid>
+				<TechGrid title="Frameworks & Libraries">
+					<SkillProgress
+						src="/icons/bootstrap-4-logo-svgrepo-com.svg"
+						progress="100"
+						title="Bootstrap"
+					/>
+				</TechGrid>
+				<TechGrid title="Tools">
+					<SkillProgress
+						src="/icons/git-svgrepo-com.svg"
+						progress="100"
+						title="Git"
+					/>
+					<SkillProgress
+						src="/icons/postman-icon-svgrepo-com.svg"
+						progress="100"
+						title="Postman"
+					/>
+				</TechGrid>
+				<TechGrid title="Other">
+					<SkillProgress
+						src="/icons/linux-svgrepo-com.svg"
+						progress="65"
+						title="Linux"
+					/>
+					<SkillProgress
+						src="/icons/android-svgrepo-com.svg"
+						progress="100"
+						title="Android"
+					/>
+					<SkillProgress
+						src="/icons/sql-database-generic-svgrepo-com.svg"
+						progress="100"
+						title="SQL Database"
+					/>
+				</TechGrid>
+			</section>
+		</div>
+
+		<!-- Section 3: Other Projects and Knowledge -->
+		<div id="section3" class="slice">
+			<div class="section-content">
+				<section>
+					<h2>Other Projects</h2>
 					<Carousel>
 						<CarouselItem
 							title="CHIP-8 Emulator"
@@ -84,7 +161,6 @@ import Carousel from "../components/Carousel.astro";
 						<CarouselItem
 							title="PC Pokémon Web"
 							href="https://garkatron.github.io/PC-PokeApi/"
-							,
 							image="/images/pokeapi.png"
 						>
 							An interactive web app for exploring Pokémon data
@@ -99,115 +175,48 @@ import Carousel from "../components/Carousel.astro";
 						</CarouselItem>
 					</Carousel>
 				</section>
+				<section>
+					<h2>Knowledge</h2>
+					<h5>Resources and topics I've explored</h5>
+					<Carousel reverse="true">
+						<CarouselItem
+							title="How Async Works"
+							href="https://www.youtube.com/watch?v=eiC58R16hb8"
+							image="/images/jsloop.gif"
+						>
+							Null
+						</CarouselItem>
+						<CarouselItem
+							title="Crafting Interpreters"
+							href="https://craftinginterpreters.com/"
+							image="/images/craftinginterpreters.png"
+						>
+							Null
+						</CarouselItem>
+						<CarouselItem
+							title="Million Dollar Error"
+							href="https://medium.com/%40dilhan9g/the-billion-dollar-mistake-the-invention-of-null-1767465ee9e1"
+							image="/images/nullptr.jpg"
+						>
+							Null
+						</CarouselItem>
+					</Carousel>
+				</section>
 			</div>
-		</main>
-		<div class="slice">
-			<section>
-				<h2>Knowledge</h2>
-				<h5>Things I researched or learned and their links</h5>
-				<Carousel reverse="true">
-					<CarouselItem
-						title="How work Async"
-						href="https://www.youtube.com/watch?v=eiC58R16hb8"
-						image="/images/jsloop.gif"
-					>
-						Null
-					</CarouselItem>
-					<CarouselItem
-						title="Crafting Interpreters"
-						href="https://craftinginterpreters.com/"
-						image="/images/craftinginterpreters.png"
-					>
-						Null
-					</CarouselItem>
-					<CarouselItem
-						title="Millon dolar error"
-						href="https://medium.com/%40dilhan9g/the-billion-dollar-mistake-the-invention-of-null-1767465ee9e1"
-						image="/images/nullptr.jpg"
-					>
-						Null
-					</CarouselItem>
-				</Carousel>
-			</section>
 		</div>
 	</body>
 </html>
 
-<script is:inline>
-	document.addEventListener("DOMContentLoaded", () => {
-		document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-			anchor.addEventListener("click", function (e) {
-				e.preventDefault();
-				const targetId = this.getAttribute("href");
-				const targetElement = document.querySelector(targetId);
-				if (targetElement) {
-					targetElement.scrollIntoView({
-						behavior: "instant",
-						block: "start",
-					});
-				}
-			});
-		});
-
-		let isScrolling = false;
-
-		window.addEventListener(
-			"wheel",
-			(e) => {
-				e.preventDefault();
-				if (isScrolling) return;
-				isScrolling = true;
-
-				setTimeout(() => {
-					isScrolling = false;
-				}, 300);
-				const sections = document.querySelectorAll(".slice");
-				if (sections.length === 0) {
-					console.warn(
-						"No se encontraron elementos con la clase .section",
-					);
-					return;
-				}
-
-				let currentSection = 0;
-
-				sections.forEach((section, index) => {
-					const rect = section.getBoundingClientRect();
-					if (
-						rect.top <= window.innerHeight / 2 &&
-						rect.bottom >= window.innerHeight / 2
-					) {
-						currentSection = index;
-					}
-				});
-
-				if (e.deltaY > 0) {
-					currentSection = Math.min(
-						currentSection + 1,
-						sections.length - 1,
-					);
-				} else {
-					currentSection = Math.max(currentSection - 1, 0);
-				}
-
-				sections[currentSection].scrollIntoView({ behavior: "smooth" });
-			},
-			{ passive: true },
-		);
-	});
-
-	window.addEventListener(
-		"keydown",
-		(e) => {
-			if (["ArrowUp", "ArrowDown", "Space"].includes(e.code)) {
-				e.preventDefault();
-			}
-		},
-		{ passive: false },
-	);
-</script>
-
 <style>
+	#tech-stack {
+		width: 100%;
+	}
+
+	.section-content {
+		width: 100%;
+		border-radius: 8px;
+		padding: 2rem;
+	}
 	.slice {
 		height: 100vh;
 	}
@@ -216,6 +225,7 @@ import Carousel from "../components/Carousel.astro";
 		height: 100%;
 		overflow-y: auto;
 		scroll-behavior: smooth;
+		overflow: hidden;
 	}
 
 	body,
@@ -300,3 +310,77 @@ import Carousel from "../components/Carousel.astro";
 		}
 	}
 </style>
+
+<script is:inline>
+	document.addEventListener("DOMContentLoaded", () => {
+		document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+			anchor.addEventListener("click", function (e) {
+				e.preventDefault();
+				const targetId = this.getAttribute("href");
+				const targetElement = document.querySelector(targetId);
+				if (targetElement) {
+					targetElement.scrollIntoView({
+						behavior: "instant",
+						block: "start",
+					});
+				}
+			});
+		});
+
+		let isScrolling = false;
+
+		window.addEventListener(
+			"wheel",
+			(e) => {
+				e.preventDefault();
+				if (isScrolling) return;
+				isScrolling = true;
+
+				setTimeout(() => {
+					isScrolling = false;
+				}, 300);
+				const sections = document.querySelectorAll(".slice");
+				if (sections.length === 0) {
+					console.warn(
+						"No se encontraron elementos con la clase .section",
+					);
+					return;
+				}
+
+				let currentSection = 0;
+
+				sections.forEach((section, index) => {
+					const rect = section.getBoundingClientRect();
+					if (
+						rect.top <= window.innerHeight / 2 &&
+						rect.bottom >= window.innerHeight / 2
+					) {
+						currentSection = index;
+					}
+				});
+
+				if (e.deltaY > 0) {
+					currentSection = Math.min(
+						currentSection + 1,
+						sections.length - 1,
+					);
+				} else {
+					currentSection = Math.max(currentSection - 1, 0);
+				}
+
+				sections[currentSection].scrollIntoView({ behavior: "smooth" });
+			},
+			{ passive: false },
+		);
+	});
+
+	window.addEventListener(
+		"keydown",
+		(e) => {
+			if (["ArrowUp", "ArrowDown", "Space"].includes(e.code)) {
+				e.preventDefault();
+			}
+		},
+		{ passive: false },
+	);
+</script>

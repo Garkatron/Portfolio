@@ -31,117 +31,114 @@ import SkillProgress from "../components/SkillProgress.astro";
 	<body>
 		<img
 			src="https://images.unsplash.com/photo-1581299327801-faeb40ea459e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9uZG9zJTIwYXp1bGVzfGVufDB8fDB8fHww"
-			alt="Background effect"
+			alt=""
 			id="effect"
 		/>
-
 		<!-- Section 1: Presentation -->
 		<main id="section1" class="slice">
+			<Photo src={facephoto} />
+
 			<div class="section-content">
 				<div
 					style="display: flex; width: 100%; justify-content: center;"
 				>
 					<PresentationCard />
 				</div>
-				<div class="section-content">
-					<h2>Featured Projects</h2>
-					<ProjectGrid>
-						<ProjectCard
-							title="3D Rasterizer in Rust"
-							link="https://github.com/Garkatron/ScrapRenderer"
-							description="A 2D rendering engine written in Rust, built to experiment with graphics and optimization."
-							image="/images/renderer3d.png"
+				<section id="tech-stack">
+					<h2 style="text-align: center;">Tech Stack</h2>
+					<TechGrid title="Languages">
+						<SkillProgress
+							src="/icons/java-svgrepo-com.svg"
+							progress="75"
+							title="Java"
 						/>
-						<ProjectCard
-							title="Rlox lang"
-							description="A programming language based on jlox from Crafting Interpreters"
-							link="https://github.com/Garkatron/Rust-Lox-Interpreter"
-							image="https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png"
+						<SkillProgress
+							src="/icons/js-svgrepo-com.svg"
+							progress="70"
+							title="JavaScript"
 						/>
-						<ProjectCard
-							title="Rust-Coded LRU"
-							description="Rust LRU Cache"
-							link="https://github.com/Garkatron/LRU-Cache-Rust"
-							image="https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg"
+						<SkillProgress
+							src="/icons/kotlin-svgrepo-com.svg"
+							progress="50"
+							title="Kotlin"
 						/>
-					</ProjectGrid>
-				</div>
+						<SkillProgress
+							src="/icons/rust-svgrepo-com.svg"
+							progress="35"
+							title="Rust"
+							loading={true}
+						/>
+						<SkillProgress
+							src="/icons/python-svgrepo-com.svg"
+							progress="30"
+							title="Python"
+							loading={true}
+						/>
+					</TechGrid>
+					<TechGrid title="Frameworks & Libraries">
+						<SkillProgress
+							src="/icons/bootstrap-4-logo-svgrepo-com.svg"
+							progress="100"
+							title="Bootstrap"
+						/>
+					</TechGrid>
+					<TechGrid title="Tools">
+						<SkillProgress
+							src="/icons/git-svgrepo-com.svg"
+							progress="100"
+							title="Git"
+						/>
+						<SkillProgress
+							src="/icons/postman-icon-svgrepo-com.svg"
+							progress="100"
+							title="Postman"
+						/>
+					</TechGrid>
+					<TechGrid title="Other">
+						<SkillProgress
+							src="/icons/linux-svgrepo-com.svg"
+							progress="65"
+							title="Linux"
+						/>
+						<SkillProgress
+							src="/icons/android-svgrepo-com.svg"
+							progress="100"
+							title="Android"
+						/>
+						<SkillProgress
+							src="/icons/sql-database-generic-svgrepo-com.svg"
+							progress="100"
+							title="SQL Database"
+						/>
+					</TechGrid>
+				</section>
 			</div>
 		</main>
 
 		<!-- Section 2: Featured Projects -->
 		<div id="section2" class="slice">
-			<section id="tech-stack">
-				<h2 style="text-align: center;">Tech Stack</h2>
-				<TechGrid title="Languages">
-					<SkillProgress
-						src="/icons/java-svgrepo-com.svg"
-						progress="70"
-						title="Java"
-					/>
-					<SkillProgress
-						src="/icons/rust-svgrepo-com.svg"
-						progress="35"
-						title="Rust"
-					/>
-					<SkillProgress
-						src="/icons/js-svgrepo-com.svg"
-						progress="80"
-						title="JavaScript"
-					/>
-					<SkillProgress
-						src="/icons/python-svgrepo-com.svg"
-						progress="30"
-						title="Python"
-					/>
-					<SkillProgress
-						src="/icons/kotlin-svgrepo-com.svg"
-						progress="50"
-						title="Kotlin"
-					/>
-				</TechGrid>
-				<TechGrid title="Frameworks & Libraries">
-					<SkillProgress
-						src="/icons/bootstrap-4-logo-svgrepo-com.svg"
-						progress="100"
-						title="Bootstrap"
-					/>
-				</TechGrid>
-				<TechGrid title="Tools">
-					<SkillProgress
-						src="/icons/git-svgrepo-com.svg"
-						progress="100"
-						title="Git"
-					/>
-					<SkillProgress
-						src="/icons/postman-icon-svgrepo-com.svg"
-						progress="100"
-						title="Postman"
-					/>
-				</TechGrid>
-				<TechGrid title="Other">
-					<SkillProgress
-						src="/icons/linux-svgrepo-com.svg"
-						progress="65"
-						title="Linux"
-					/>
-					<SkillProgress
-						src="/icons/android-svgrepo-com.svg"
-						progress="100"
-						title="Android"
-					/>
-					<SkillProgress
-						src="/icons/sql-database-generic-svgrepo-com.svg"
-						progress="100"
-						title="SQL Database"
-					/>
-				</TechGrid>
-			</section>
-		</div>
-
-		<!-- Section 3: Other Projects and Knowledge -->
-		<div id="section3" class="slice">
 			<div class="section-content">
+				<h2>Featured Projects</h2>
+				<ProjectGrid>
+					<ProjectCard
+						title="3D Rasterizer in Rust"
+						link="https://github.com/Garkatron/ScrapRenderer"
+						description="A 2D rendering engine written in Rust, built to experiment with graphics and optimization."
+						image="/images/renderer3d.png"
+					/>
+					<ProjectCard
+						title="Rlox lang"
+						description="A programming language based on jlox from Crafting Interpreters"
+						link="https://github.com/Garkatron/Rust-Lox-Interpreter"
+						image="https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png"
+					/>
+					<ProjectCard
+						title="Rust-Coded LRU"
+						description="Rust LRU Cache"
+						link="https://github.com/Garkatron/LRU-Cache-Rust"
+						image="https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg"
+					/>
+				</ProjectGrid>
 				<section>
 					<h2>Other Projects</h2>
 					<Carousel>
@@ -175,6 +172,12 @@ import SkillProgress from "../components/SkillProgress.astro";
 						</CarouselItem>
 					</Carousel>
 				</section>
+			</div>
+		</div>
+
+		<!-- Section 3: Other Projects and Knowledge -->
+		<div id="section3" class="slice">
+			<div class="section-content">
 				<section>
 					<h2>Knowledge</h2>
 					<h5>Resources and topics I've explored</h5>
@@ -216,25 +219,19 @@ import SkillProgress from "../components/SkillProgress.astro";
 		width: 100%;
 		border-radius: 8px;
 		padding: 2rem;
+		background: transparent;
 	}
 	.slice {
 		height: 100vh;
 	}
-	html,
-	body {
-		height: 100%;
-		overflow-y: auto;
-		scroll-behavior: smooth;
-		overflow: hidden;
+	html {
+		background-color: transparent;
 	}
 
-	body,
 	main {
+		background: transparent;
 		margin: 0;
 		padding: 0;
-	}
-
-	main {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
@@ -250,7 +247,7 @@ import SkillProgress from "../components/SkillProgress.astro";
 		z-index: -1;
 		opacity: 25%;
 
-		filter: contrast(150%) brightness(50%) blur(2px) sepia();
+		filter: contrast(150%) brightness(80%) blur(2px) sepia();
 	}
 
 	.left-info {

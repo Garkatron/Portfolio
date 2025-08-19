@@ -1,12 +1,20 @@
 ---
 import Icon from "./Icon.astro";
 
-const { src, progress = 0, title = "Title" } = Astro.props;
+const { src, progress = 0, title = "Title", loading = false } = Astro.props;
 ---
 
 <div>
     <Icon src={src} type="dev" title={title} />
-    <progress id="file" max="100" value={progress}>70%</progress>
+    {
+        loading ? (
+            <progress id="progress-bar" />
+        ) : (
+            <>
+                <progress id="file" max="100" value={progress}>
+                    {progress}%
+                </progress>
+            </>
+        )
+    }
 </div>
-
-<style></style>

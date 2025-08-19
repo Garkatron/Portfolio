@@ -1,12 +1,10 @@
 ---
 import Icon from "./Icon.astro";
-import Photo from "./Photo.astro";
-import facephoto from "../assets/photo.jpg";
+
 import TechGrid from "./TechGrid.astro";
 ---
 
 <section class="profile-section">
-    <Photo src={facephoto} />
     <div>
         <div class="presentation">
             <h1>
@@ -54,6 +52,10 @@ import TechGrid from "./TechGrid.astro";
     <div class="description">
         <section>
             <p>
+                Web developer & Minecraft modder. Passionate about Rust,
+                compilers and creative coding
+            </p>
+            <p>
                 Proficient in <strong class="keyword">Java</strong>, currently
                 learning
                 <strong class="keyword">Rust</strong> and <strong
@@ -91,12 +93,10 @@ import TechGrid from "./TechGrid.astro";
 </script>
 <style>
     .profile-section {
-        justify-content: center;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         gap: 2rem;
-        width: 60%;
         margin: 10px;
         padding: 10px;
     }

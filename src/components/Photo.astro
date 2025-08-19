@@ -1,13 +1,41 @@
 ---
 import { Image } from "astro:assets";
 
-const { src } = Astro.props;
+const { src, style = "circle" } = Astro.props;
 ---
 
-<Image src={src} alt="A bird sitting on a nest of eggs." />
+<Image class="square" src={src} alt="A bird sitting on a nest of eggs." />
 
 <style>
-    img {
+    .square {
+        height: 100%;
+        flex: 0 0 250px;
+        padding: 20px;
+        border-radius: 50px;
+        object-fit: cover;
+
+        -webkit-mask-image: linear-gradient(
+            to left,
+            rgba(0, 0, 0, 1) 10%,
+            rgba(0, 0, 0, 0) 70%
+        );
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: cover;
+
+        mask-image: linear-gradient(
+            to left,
+            rgba(0, 0, 0, 1) 10%,
+            rgba(0, 0, 0, 0) 70%
+        );
+
+        transform: scaleX(-1);
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: cover;
+    }
+
+    .circle {
         flex: 0 0 250px;
         width: 250px;
         height: 250px;

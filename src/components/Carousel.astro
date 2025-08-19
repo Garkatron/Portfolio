@@ -1,43 +1,59 @@
-<div class="carousel" mask>
+---
+const {
+    gradient = true,
+    reverse = false,
+    duration = "50s",
+    items = 5,
+} = Astro.props;
+---
+
+<div
+    class="carousel"
+    style={`--items: ${items}; --carousel-duration: ${duration};`}
+    data-gradient={gradient ? "true" : "false"}
+    data-reverse={reverse ? "true" : "false"}
+>
     <slot />
 </div>
 
 <style>
     .carousel {
-        --items: 5;
-        --carousel-duration: 50s;
-
-        @media (width > 600px) {
-            --carousel-duration: 30s;
-        }
-
         --carousel-item-width: 380px;
         --carousel-item-height: 380px;
         --carousel-item-gap: 2rem;
 
         --clr-cta: rgb(0, 132, 209);
 
-        /* Layout */
         position: relative;
         width: 100%;
         height: var(--carousel-item-height);
-        overflow: clip;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
     }
 
-    .carousel[mask] {
+    .carousel[data-gradient="true"] {
         mask-image: linear-gradient(
             to right,
             transparent,
-            black 10% 90%,
+            black 10%,
+            black 90%,
+            transparent
+        );
+        -webkit-mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 10%,
+            black 90%,
             transparent
         );
     }
-
     .carousel > * {
         animation: marquee var(--carousel-duration) linear infinite;
+        margin-right: var(--carousel-item-gap);
     }
 
-    .carousel[reverse] > * {
+    .carousel[data-reverse="true"] > * {
         animation-direction: reverse;
     }
 
@@ -49,13 +65,9 @@
         100% {
             transform: translateX(
                 calc(
-                    (
-                            var(--items) *
-                                (
-                                    var(--carousel-item-width) +
-                                        var(--carousel-item-gap)
-                                )
-                        ) * -1
+                    var(--items) *
+                        (var(--carousel-item-width) + var(--carousel-item-gap)) *
+                        -1
                 )
             );
         }

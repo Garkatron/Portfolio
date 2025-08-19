@@ -40,9 +40,35 @@ import Carousel from "../components/Carousel.astro";
 			</div>
 			<div class="right-info">
 				<section>
+					<h2>Projects</h2>
+					<h5>Top 3</h5>
+					<div class="project-section">
+						<ProjectGrid>
+							<ProjectCard
+								title="3D Rasterizer in Rust"
+								link="https://github.com/Garkatron/ScrapRenderer"
+								description="A 2D rendering engine written in Rust, built to experiment with graphics and optimization."
+								image="/images/renderer3d.png"
+							/>
+							<ProjectCard
+								title="Rlox lang"
+								description="A programming language based on jlox from Crafting Interpreters"
+								link="https://github.com/Garkatron/Rust-Lox-Interpreter"
+								image="https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png"
+							/>
+							<ProjectCard
+								title="Rust-Coded LRU"
+								description="Rust LRU Cache"
+								link="https://github.com/Garkatron/LRU-Cache-Rust"
+								image="https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg"
+							/>
+						</ProjectGrid>
+					</div>
+				</section>
+				<section>
 					<h2>Knowelge</h2>
 					<h5>Things I researched or learned and their links</h5>
-					<Carousel>
+					<Carousel reverse="true">
 						<CarouselItem
 							title="How work Async"
 							href="https://www.youtube.com/watch?v=eiC58R16hb8"
@@ -66,24 +92,7 @@ import Carousel from "../components/Carousel.astro";
 						</CarouselItem>
 					</Carousel>
 				</section>
-				<section>
-					<h2>Projects</h2>
-					<h5>Top 3</h5>
-					<div class="project-section">
-						<ProjectGrid>
-							<ProjectCard
-								title="Rlox lang"
-								description="A programming language based on jlox from Crafting Interpreters"
-								link="https://github.com/Garkatron/Rust-Lox-Interpreter"
-							/>
-							<ProjectCard
-								title="Rust-Coded LRU"
-								description="Rust LRU Cache"
-								link="https://github.com/Garkatron/LRU-Cache-Rust"
-							/>
-						</ProjectGrid>
-					</div>
-				</section>
+
 				<section>
 					<h5>More projects</h5>
 
@@ -107,7 +116,8 @@ import Carousel from "../components/Carousel.astro";
 							,
 							image="/images/pokeapi.png"
 						>
-							Web application using PokeAPI
+							An interactive web app for exploring Pokémon data
+							using the PokéAPI.
 						</CarouselItem>
 						<CarouselItem
 							title="Von Neumann Simulator"
@@ -151,14 +161,21 @@ import Carousel from "../components/Carousel.astro";
 		z-index: -1;
 		opacity: 25%;
 
-		filter: contrast(150%) brightness(50%) blur(1px) sepia();
+		filter: contrast(150%) brightness(50%) blur(2px) sepia();
 	}
 
 	.left-info {
 		width: 30%;
 		flex-shrink: 0;
 	}
-
+	.right-info section h2 {
+		color: #fff;
+		margin-bottom: 0.5rem;
+	}
+	.right-info section h5 {
+		color: #ccc;
+		margin-bottom: 1rem;
+	}
 	.right-info {
 		flex: 1;
 		display: flex;
@@ -167,6 +184,7 @@ import Carousel from "../components/Carousel.astro";
 		box-sizing: border-box;
 		align-items: center;
 		border-left: 2px solid white;
+		background-color: rgba(1, 4, 8, 0.379);
 	}
 
 	.right-info > section {
@@ -188,5 +206,18 @@ import Carousel from "../components/Carousel.astro";
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
+	}
+
+	@media (max-width: 900px) {
+		main {
+			flex-direction: column;
+		}
+		.left-info {
+			width: 100%;
+		}
+		.right-info {
+			width: 100%;
+			border-left: none;
+		}
 	}
 </style>

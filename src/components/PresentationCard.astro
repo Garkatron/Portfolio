@@ -10,9 +10,9 @@ import TechGrid from "./TechGrid.astro";
     <div class="presentation">
         <h1>
             Hi, I'm <span class="highlight">Matias</span>, <br />a <span
-                class="highlight">web developer</span
+                class="highlight">Web Developer</span
             >
-            <br />and <span class="highlight">Minecraft Modder</span>
+            <br />
         </h1>
         <div class="profile-links">
             <a
@@ -26,6 +26,15 @@ import TechGrid from "./TechGrid.astro";
                 />
                 Download CV
             </a>
+
+            <a id="copyemail" href="#">
+                <Icon
+                    src="/icons/mail-plus-svgrepo-com.svg"
+                    type="icon"
+                    title="Mail"
+                />
+                masitacarg@gmail.com
+            </a>
             <a
                 href="https://github.com/Garkatron"
                 target="_blank"
@@ -38,41 +47,31 @@ import TechGrid from "./TechGrid.astro";
                 />
                 GitHub
             </a>
-            <a id="copyemail" href="#">
-                <Icon
-                    src="/icons/mail-plus-svgrepo-com.svg"
-                    type="icon"
-                    title="Mail"
-                />
-                masitacarg@gmail.com
-            </a>
         </div>
     </div>
     <div class="description">
-        <p>
-            I'm proficient in <strong class="keyword">Java</strong>, currently
-            learning <strong class="keyword">Rust</strong>
-            and language
-            <strong class="keyword">VM development</strong>. Passionate, quick
-            learner, great at researching, and experienced in working with
-            existing codebases, whether libraries or forks.
-        </p>
-        <h4>About use of AI</h4>
-        <p>
-            I use AI to support research and find learning resources. I also
-            rely on it as a complement when I need to clarify an explanation
-            that I haven’t fully understood on my own. In addition, I use it for
-            small code refactorings and optimization queries (with careful
-            judgment). Overall, it helps me save time on minor or repetitive
-            tasks that would otherwise take a few extra minutes.
-        </p>
-        <h4>What don’t I use it for?</h4>
-        <p>
-            I avoid using AI for large-scale refactorings, complex
-            optimizations, project structuring, or as my primary source of
-            learning.
-        </p>
+        <section>
+            <p>
+                Proficient in <strong class="keyword">Java</strong>, currently
+                learning
+                <strong class="keyword">Rust</strong> and <strong
+                    class="keyword">VM development</strong
+                >. Passionate, fast learner, and experienced in working with
+                existing codebases.
+            </p>
+        </section>
+
+        <section>
+            <h4>Use of AI</h4>
+            <p>
+                I use AI to research, clarify concepts, and handle small
+                refactorings or optimizations. It helps me save time on
+                repetitive tasks, but I avoid relying on it for large-scale
+                refactors, complex optimizations, or as my main learning source.
+            </p>
+        </section>
     </div>
+
     <section id="tech-stack">
         <h2 style="text-align: center;">Tech Stack</h2>
         <TechGrid title="Languages">

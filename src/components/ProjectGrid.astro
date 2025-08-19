@@ -1,0 +1,20 @@
+<section id="t3-projects-section">
+    <h2>Projects</h2>
+    <div class="card-grid">
+        <slot />
+    </div>
+</section>
+
+<style>
+    #t3-projects-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 10%;
+    }
+    .card-grid {
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+    }
+</style>

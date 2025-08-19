@@ -37,7 +37,7 @@ import facephoto from "../assets/photo.jpg";
                 />
                 GitHub
             </a>
-            <a href="#" onclick="copyEmail()">
+            <a id="copyemail" href="#">
                 <Icon
                     src="/icons/mail-plus-svgrepo-com.svg"
                     type="icon"
@@ -58,7 +58,21 @@ import facephoto from "../assets/photo.jpg";
         </p>
     </div>
 </section>
-
+<script>
+    function copyEmail() {
+        const email = "masitacarg@gmail.com";
+        navigator.clipboard
+            .writeText(email)
+            .then(() => {
+                alert("Email copied to clipboard: " + email);
+            })
+            .catch((err) => {
+                console.error("Failed to copy email: ", err);
+                alert("Failed to copy email. Please try again.");
+            });
+    }
+    document.getElementById("copyemail")?.addEventListener("click", copyEmail);
+</script>
 <style>
     .profile-section {
         display: flex;

@@ -1,0 +1,60 @@
+<div class="carousel">
+    <slot />
+</div>
+
+<style>
+    .carousel {
+        --items: 6;
+        --carousel-duration: 40s;
+
+        @media (width > 600px) {
+            --carousel-duration: 30s;
+        }
+
+        --carousel-width: min(80vw, 1200px);
+        --carousel-item-width: 380px;
+        --carousel-item-height: 380px;
+        --carousel-item-gap: 2rem;
+
+        --clr-cta: rgb(0, 132, 209);
+
+        position: relative;
+        width: var(--carousel-width);
+        height: var(--carousel-item-height);
+        overflow: clip;
+
+        &[mask] {
+            mask-image: linear-gradient(
+                to right,
+                transparent,
+                black 10% 90%,
+                transparent
+            );
+        }
+
+        &[reverse] > article {
+            animation-direction: reverse;
+        }
+
+        &:hover > article {
+            animation-play-state: paused;
+        }
+    }
+
+    /* 👇 importante: animación global */
+    :global(@keyframes marquee) {
+        100% {
+            transform: translateX(
+                calc(
+                    (
+                            var(--items) *
+                                (
+                                    var(--carousel-item-width) +
+                                        var(--carousel-item-gap)
+                                )
+                        ) * -1
+                )
+            );
+        }
+    }
+</style>

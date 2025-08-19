@@ -5,6 +5,8 @@ import facephoto from "../assets/photo.jpg";
 import TechGrid from "../components/TechGrid.astro";
 import PresentationCard from "../components/PresentationCard.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import CarouselItem from "../components/CarouselItem.astro";
 import Carousel from "../components/Carousel.astro";
 ---
 
@@ -23,9 +25,14 @@ import Carousel from "../components/Carousel.astro";
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
 		/>
-		<title>Astro Basics</title>
+		<title>Matias</title>
 	</head>
 	<body>
+		<img
+			src="https://images.unsplash.com/photo-1581299327801-faeb40ea459e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9uZG9zJTIwYXp1bGVzfGVufDB8fDB8fHww"
+			alt=""
+			id="effect"
+		/>
 		<main id="ex1-layer" class="container">
 			<div class="paper-effect">
 				<PresentationCard />
@@ -102,9 +109,8 @@ import Carousel from "../components/Carousel.astro";
 
 				<hr />
 
-				<section id="t3-projects-section">
-					<h2>Projects</h2>
-					<div class="card-grid">
+				<section class="project-section">
+					<ProjectGrid>
 						<ProjectCard
 							title="Rlox lang"
 							description="A programming language based on jlox from Crafting Interpreters"
@@ -115,64 +121,38 @@ import Carousel from "../components/Carousel.astro";
 							description="Rust LRU Cache"
 							link="https://github.com/Garkatron/LRU-Cache-Rust"
 						/>
-						<ProjectCard
-							title="PC Pokémon Web"
-							description="Web application using PokeAPI"
-							link="https://garkatron.github.io/PC-PokeApi/"
-						/>
-						<ProjectCard
-							title="TerraX69"
-							description="JavaScript game built with Tauri"
-							link="https://github.com/Garkatron/TerraX69-JS"
-						/>
-						<ProjectCard
-							title="CHIP-8 Emulator"
-							description="CHIP-8 Emulator implemented in Python"
-							link="https://github.com/Garkatron/Von-Neumann-Simulator"
-						/>
-						<ProjectCard
-							title="Von Neumann Simulator"
-							description="Von Neumann architecture simulator in Python"
-							link="https://github.com/Garkatron/Von-Neumann-Simulator"
-						/>
-					</div>
-				</section>
+					</ProjectGrid>
 
-				<section style="pointer-events: none;">
-					<div class="fish">
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-					</div>
-					<div class="fish">
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-						<div class="koiCoil"></div>
-					</div>
+					<Carousel>
+						<CarouselItem
+							title="CHIP-8 Emulator"
+							href="https://github.com/Garkatron/Von-Neumann-Simulator"
+							image="/images/chip8image.png"
+						>
+							CHIP-8 Emulator implemented in Python
+						</CarouselItem>
+						<CarouselItem
+							title="TerraX69"
+							href="https://github.com/Garkatron/TerraX69-JS"
+						>
+							JavaScript game built with Tauri
+						</CarouselItem>
+						<CarouselItem
+							title="PC Pokémon Web"
+							href="https://garkatron.github.io/PC-PokeApi/"
+							,
+							image="/images/pokeapi.png"
+						>
+							Web application using PokeAPI
+						</CarouselItem>
+						<CarouselItem
+							title="Von Neumann Simulator"
+							href="https://github.com/Garkatron/Von-Neumann-Simulator"
+							image="/images/vonneuman.png"
+						>
+							Von Neumann architecture simulator in Python
+						</CarouselItem>
+					</Carousel>
 				</section>
 			</div>
 		</main>
@@ -183,6 +163,18 @@ import Carousel from "../components/Carousel.astro";
 	html {
 		height: 100%;
 		overflow-y: auto;
+	}
+
+	#effect {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+		opacity: 25%;
+
+		filter: contrast(150%) brightness(50%) blur(1px) sepia();
 	}
 
 	body {
@@ -203,12 +195,6 @@ import Carousel from "../components/Carousel.astro";
 		background: transparent;
 	}
 
-	.paper-footer {
-		transform: perspective(600px) rotateX(-40deg) scale(0.8)
-			translateZ(20px);
-		border-radius: 4px;
-	}
-
 	a {
 		display: inline-block;
 		outline: 0;
@@ -219,27 +205,19 @@ import Carousel from "../components/Carousel.astro";
 		color: rgb(255, 255, 255);
 	}
 
-	#t3-projects-section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		margin: 0 10%;
-	}
-
-	.card-grid {
-		justify-content: center;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 364px));
-		gap: 1.5rem;
-		margin-bottom: 20px;
-	}
-
 	.tech-categories {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		gap: 2.5rem;
 		margin-bottom: 0.5rem;
+	}
+
+	.project-section {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 
 	@media (max-width: 600px) {

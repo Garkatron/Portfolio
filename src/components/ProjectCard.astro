@@ -3,17 +3,23 @@ const {
     title = "ProjectName",
     description = "Some info here...",
     link = "#",
+    image = "https://images.pexels.com/photos/635699/pexels-photo-635699.jpeg",
 } = Astro.props;
 ---
 
 <div class="card">
+    <img src={image} alt="carousel element" />
+
     <strong>{title}</strong><br />
-    {description}<br />
+    {description}
     <a href={link} target="_blank" rel="noopener noreferrer">See more</a>
 </div>
 
 <style>
     .card {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        flex-direction: column;
         border: 1px solid #ddd;
         padding: 1rem;
         border-radius: 0.5rem;
@@ -30,5 +36,26 @@ const {
         backdrop-filter: blur(4.2px);
         -webkit-backdrop-filter: blur(2.2px);
         border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    img {
+        border-radius: 10px;
+    }
+
+    a {
+        text-decoration: none;
+        text-transform: lowercase;
+        border: 1px solid var(--clr-cta);
+        color: light-dark(var(--clr-cta), white);
+        border-radius: 3px;
+        padding: 0.25rem 0.5rem;
+        place-self: start;
+        transition: 150ms ease-in-out;
+    }
+
+    a:hover,
+    a:focus-visible {
+        background-color: var(--clr-cta);
+        color: white;
+        outline: none;
     }
 </style>

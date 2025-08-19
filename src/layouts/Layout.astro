@@ -1,0 +1,260 @@
+---
+import Photo from "../components/Photo.astro";
+import Icon from "../components/Icon.astro";
+import facephoto from "../assets/photo.jpg";
+import TechGrid from "../components/TechGrid.astro";
+import PresentationCard from "../components/PresentationCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import Carousel from "../components/Carousel.astro";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+		/>
+		<title>Astro Basics</title>
+	</head>
+	<body>
+		<main id="ex1-layer" class="container">
+			<div class="paper-effect">
+				<PresentationCard />
+				<section>
+					<h2 style="text-align: center;">Tech Stack</h2>
+					<div class="tech-categories">
+						<TechGrid title="Languages">
+							<Icon
+								src="/icons/java-svgrepo-com.svg"
+								type="dev"
+								title="Java"
+							/>
+							<Icon
+								src="/icons/rust-svgrepo-com.svg"
+								type="dev"
+								title="Rust"
+							/>
+							<Icon
+								src="/icons/js-svgrepo-com.svg"
+								type="dev"
+								title="JavaScript"
+							/>
+							<Icon
+								src="/icons/python-svgrepo-com.svg"
+								type="dev"
+								title="Python"
+							/>
+							<Icon
+								src="/icons/kotlin-svgrepo-com.svg"
+								type="dev"
+								title="Kotlin"
+							/>
+						</TechGrid>
+						<TechGrid title="Frameworks & Libraries">
+							<Icon
+								src="/icons/bootstrap-4-logo-svgrepo-com.svg"
+								type="dev"
+								title="Bootstrap"
+							/>
+						</TechGrid>
+
+						<TechGrid title="Tools">
+							<Icon
+								src="/icons/git-svgrepo-com.svg"
+								type="dev"
+								title="Git"
+							/>
+							<Icon
+								src="/icons/postman-icon-svgrepo-com.svg"
+								type="dev"
+								title="Postman"
+							/>
+						</TechGrid>
+
+						<TechGrid title="Other">
+							<Icon
+								src="/icons/linux-svgrepo-com.svg"
+								type="dev"
+								title="Linux"
+							/>
+							<Icon
+								src="/icons/android-svgrepo-com.svg"
+								type="dev"
+								title="Android"
+							/>
+							<Icon
+								src="/icons/sql-database-generic-svgrepo-com.svg"
+								type="dev"
+								title="SQL Database"
+							/>
+						</TechGrid>
+					</div>
+				</section>
+
+				<hr />
+
+				<section id="t3-projects-section">
+					<h2>Projects</h2>
+					<div class="card-grid">
+						<ProjectCard
+							title="Rlox lang"
+							description="A programming language based on jlox from Crafting Interpreters"
+							link="https://github.com/Garkatron/Rust-Lox-Interpreter"
+						/>
+						<ProjectCard
+							title="Rust-Coded LRU"
+							description="Rust LRU Cache"
+							link="https://github.com/Garkatron/LRU-Cache-Rust"
+						/>
+						<ProjectCard
+							title="PC Pokémon Web"
+							description="Web application using PokeAPI"
+							link="https://garkatron.github.io/PC-PokeApi/"
+						/>
+						<ProjectCard
+							title="TerraX69"
+							description="JavaScript game built with Tauri"
+							link="https://github.com/Garkatron/TerraX69-JS"
+						/>
+						<ProjectCard
+							title="CHIP-8 Emulator"
+							description="CHIP-8 Emulator implemented in Python"
+							link="https://github.com/Garkatron/Von-Neumann-Simulator"
+						/>
+						<ProjectCard
+							title="Von Neumann Simulator"
+							description="Von Neumann architecture simulator in Python"
+							link="https://github.com/Garkatron/Von-Neumann-Simulator"
+						/>
+					</div>
+				</section>
+
+				<section style="pointer-events: none;">
+					<div class="fish">
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+					</div>
+					<div class="fish">
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+						<div class="koiCoil"></div>
+					</div>
+				</section>
+			</div>
+		</main>
+	</body>
+</html>
+
+<style>
+	html {
+		height: 100%;
+		overflow-y: auto;
+	}
+
+	body {
+		min-height: 100%;
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.paper-effect {
+		all: unset;
+		display: flex;
+		flex-direction: column;
+		padding: 1rem;
+		background: transparent;
+	}
+
+	.paper-footer {
+		transform: perspective(600px) rotateX(-40deg) scale(0.8)
+			translateZ(20px);
+		border-radius: 4px;
+	}
+
+	a {
+		display: inline-block;
+		outline: 0;
+		text-align: center;
+		cursor: pointer;
+		min-width: 80px;
+		height: 32px;
+		color: rgb(255, 255, 255);
+	}
+
+	#t3-projects-section {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		margin: 0 10%;
+	}
+
+	.card-grid {
+		justify-content: center;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 364px));
+		gap: 1.5rem;
+		margin-bottom: 20px;
+	}
+
+	.tech-categories {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		gap: 2.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	@media (max-width: 600px) {
+		.profile-section {
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+		}
+
+		.description {
+			flex: unset;
+		}
+
+		.tech-categories {
+			flex-direction: column;
+		}
+	}
+</style>

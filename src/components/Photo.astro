@@ -1,0 +1,17 @@
+---
+import { Image } from "astro:assets";
+
+const { src } = Astro.props;
+---
+
+<Image src={src} alt="A bird sitting on a nest of eggs." />
+
+<style>
+    img {
+        flex: 0 0 250px;
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>

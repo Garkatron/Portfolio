@@ -1,0 +1,112 @@
+---
+import Icon from "./Icon.astro";
+import Photo from "./Photo.astro";
+import facephoto from "../assets/photo.jpg";
+---
+
+<section class="profile-section">
+    <Photo src={facephoto} />
+    <div class="presentation">
+        <h1>
+            Hi, I'm <span class="highlight">Matias</span>, <br />a <span
+                class="highlight">web developer</span
+            >
+            <br />and <span class="highlight">Minecraft Modder</span>
+        </h1>
+        <div class="profile-links">
+            <a
+                href="./other/MatiasGuliasCarrascalCV.pdf"
+                download="MatiasGuliasCarrascalCV.pdf"
+            >
+                <Icon
+                    src="/icons/cv-file-interface-symbol-svgrepo-com.svg"
+                    type="icon"
+                    title="CV"
+                />
+                Download CV
+            </a>
+            <a
+                href="https://github.com/Garkatron"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <Icon
+                    src="/icons/github-svgrepo-com.svg"
+                    type="icon"
+                    title="GitHub"
+                />
+                GitHub
+            </a>
+            <a href="#" onclick="copyEmail()">
+                <Icon
+                    src="/icons/mail-plus-svgrepo-com.svg"
+                    type="icon"
+                    title="Mail"
+                />
+                masitacarg@gmail.com
+            </a>
+        </div>
+    </div>
+    <div class="description">
+        <p>
+            I'm proficient in <strong class="keyword">Java</strong>, currently
+            learning <strong class="keyword">Rust</strong>
+            and language
+            <strong class="keyword">VM development</strong>. Passionate, quick
+            learner, great at researching, and experienced in working with
+            existing codebases, whether libraries or forks.
+        </p>
+    </div>
+</section>
+
+<style>
+    .profile-section {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 2rem;
+        max-width: 950px;
+        margin-top: 2.5%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .presentation {
+        flex: 1;
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    .presentation h1,
+    .presentation h3 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .highlight {
+        color: #b4937d;
+    }
+
+    .keyword {
+        color: #b4937d;
+    }
+
+    .description {
+        text-align: center;
+        font-size: 1.1rem;
+    }
+
+    .profile-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .profile-links a {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+</style>

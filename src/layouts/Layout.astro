@@ -42,7 +42,7 @@ import RepoLangs from "../components/RepoLangs.astro";
 				</div>
 
 				<section id="tech-stack">
-					<TechGrid title="Languages">
+					<TechGrid title="Programming Languages">
 						<SkillProgress
 							src="/icons/java-svgrepo-com.svg"
 							progress="85"
@@ -69,7 +69,7 @@ import RepoLangs from "../components/RepoLangs.astro";
 							title="Python"
 						/>
 					</TechGrid>
-					<TechGrid title="Frameworks & Libraries">
+					<TechGrid title="Frontend Development">
 						<SkillProgress
 							src="/icons/bootstrap-4-logo-svgrepo-com.svg"
 							progress="100"
@@ -81,14 +81,8 @@ import RepoLangs from "../components/RepoLangs.astro";
 							title="Astro"
 							loading={true}
 						/>
-						<SkillProgress
-							src="/icons/reactjs-svgrepo-com.svg"
-							progress="40"
-							title="React"
-							loading={true}
-						/>
 					</TechGrid>
-					<TechGrid title="Tools">
+					<TechGrid title="Version Control & API Tools">
 						<SkillProgress
 							src="/icons/git-svgrepo-com.svg"
 							progress="100"
@@ -100,7 +94,7 @@ import RepoLangs from "../components/RepoLangs.astro";
 							title="Postman"
 						/>
 					</TechGrid>
-					<TechGrid title="Other">
+					<TechGrid title="System & Database">
 						<SkillProgress
 							src="/icons/linux-svgrepo-com.svg"
 							progress="65"
@@ -250,11 +244,6 @@ import RepoLangs from "../components/RepoLangs.astro";
 					</section>
 				</section>
 			</div>
-			<footer class="footer">
-				<div class="section-content">
-					<p>&copy; 2025 Matias. All rights reserved.</p>
-				</div>
-			</footer>
 		</div>
 
 		<style>
@@ -369,22 +358,6 @@ import RepoLangs from "../components/RepoLangs.astro";
 				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-			}
-
-			.footer {
-				width: 100%;
-				text-align: center;
-				padding: 1rem 0;
-				background-color: rgba(1, 4, 8, 0.379);
-				color: #fff;
-				position: relative;
-				z-index: 2;
-				bottom: 0;
-			}
-
-			.footer p {
-				margin: 0;
-				font-size: 0.9rem;
 			}
 
 			@media (max-width: 900px) {

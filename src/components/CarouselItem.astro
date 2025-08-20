@@ -1,13 +1,13 @@
 ---
-const {
-    title = "Title",
-    image = "https://images.pexels.com/photos/635699/pexels-photo-635699.jpeg",
-    href,
-} = Astro.props;
+const { title = "Title", image, href } = Astro.props;
 ---
 
 <article>
-    <img src={image} alt="carousel element" />
+    <img
+        src={image || ""}
+        alt="carousel element"
+        style={{ visibility: image ? "visible" : "collapse" }}
+    />
     <h2>{title}</h2>
     <div>
         <slot />

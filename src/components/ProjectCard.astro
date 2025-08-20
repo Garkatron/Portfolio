@@ -7,15 +7,14 @@ const {
 } = Astro.props;
 ---
 
-<div class="card">
+<a class="card" href={link} target="_blank" rel="noopener noreferrer">
     <img src={image} alt="carousel element" />
 
     <div class="card-content">
         <strong>{title}</strong>
         <p>{description}</p>
-        <a href={link} target="_blank" rel="noopener noreferrer">See more</a>
     </div>
-</div>
+</a>
 
 <style>
     .card {
@@ -93,7 +92,6 @@ const {
         border: 1px solid var(--clr-cta);
         color: light-dark(var(--clr-cta), white);
         border-radius: 3px;
-        padding: 0.25rem 0.5rem;
         transition: 150ms ease-in-out;
         z-index: 1;
     }

@@ -79,12 +79,6 @@ import SkillProgress from "../components/SkillProgress.astro";
 							title="Astro"
 							loading={true}
 						/>
-						<SkillProgress
-							src="/icons/reactjs-svgrepo-com.svg"
-							progress="40"
-							title="React"
-							loading={true}
-						/>
 					</TechGrid>
 					<TechGrid title="Tools">
 						<SkillProgress
@@ -148,7 +142,7 @@ import SkillProgress from "../components/SkillProgress.astro";
 				<section>
 					<section>
 						<h2>Other Projects</h2>
-						<Carousel>
+						<Carousel items="7">
 							<CarouselItem
 								title="CHIP-8 Emulator"
 								href="https://github.com/Garkatron/Von-Neumann-Simulator"
@@ -203,7 +197,7 @@ import SkillProgress from "../components/SkillProgress.astro";
 
 					<section>
 						<h2>Minecraft mods</h2>
-						<Carousel>
+						<Carousel items="5">
 							<CarouselItem
 								title="BTA PainScale"
 								href="https://github.com/Garkatron/BTA-PainScale"
@@ -248,11 +242,6 @@ import SkillProgress from "../components/SkillProgress.astro";
 					</section>
 				</section>
 			</div>
-			<footer class="footer">
-				<div class="section-content">
-					<p>&copy; 2025 Matias. All rights reserved.</p>
-				</div>
-			</footer>
 		</div>
 
 		<style>

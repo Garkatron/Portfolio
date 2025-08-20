@@ -1,0 +1,21 @@
+---
+import { getLanguages } from "../js/utils.js";
+
+type Langs = Record<string, number>;
+const langs: Langs = await getLanguages("Garkatron");
+const sortedLangs = Object.entries(langs).sort((a, b) => b[1] - a[1]);
+---
+
+<div>
+    <ul>
+        {
+            sortedLangs.map(([lang, bytes]) => (
+                <li>
+                    {lang}: {bytes} bytes
+                </li>
+            ))
+        }
+    </ul>
+</div>
+
+<style></style>

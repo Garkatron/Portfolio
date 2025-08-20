@@ -1,1 +1,19 @@
-<svg id="visual" viewBox="0 0 900 675" width="900" height="675" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"><rect x="0" y="0" width="900" height="675" fill="#191919"></rect><defs><linearGradient id="grad1_0" x1="25%" y1="0%" x2="100%" y2="100%"><stop offset="23.333333333333336%" stop-color="#004e70" stop-opacity="1"></stop><stop offset="76.66666666666666%" stop-color="#004e70" stop-opacity="1"></stop></linearGradient></defs><defs><linearGradient id="grad1_1" x1="25%" y1="0%" x2="100%" y2="100%"><stop offset="23.333333333333336%" stop-color="#004e70" stop-opacity="1"></stop><stop offset="76.66666666666666%" stop-color="#191919" stop-opacity="1"></stop></linearGradient></defs><defs><linearGradient id="grad2_0" x1="0%" y1="0%" x2="75%" y2="100%"><stop offset="23.333333333333336%" stop-color="#004e70" stop-opacity="1"></stop><stop offset="76.66666666666666%" stop-color="#004e70" stop-opacity="1"></stop></linearGradient></defs><defs><linearGradient id="grad2_1" x1="0%" y1="0%" x2="75%" y2="100%"><stop offset="23.333333333333336%" stop-color="#191919" stop-opacity="1"></stop><stop offset="76.66666666666666%" stop-color="#004e70" stop-opacity="1"></stop></linearGradient></defs><g transform="translate(900, 0)"><path d="M0 562.5C-103.3 550.6 -206.5 538.7 -281.2 487.1C-356 435.6 -402.2 344.3 -444.3 256.5C-486.4 168.7 -524.4 84.3 -562.5 0L0 0Z" fill="#1c3242"></path><path d="M0 281.3C-51.6 275.3 -103.3 269.4 -140.6 243.6C-178 217.8 -201.1 172.2 -222.1 128.3C-243.2 84.3 -262.2 42.2 -281.2 0L0 0Z" fill="#004e70"></path></g><g transform="translate(0, 675)"><path d="M0 -562.5C99.3 -548.3 198.7 -534.2 281.2 -487.1C363.8 -440.1 429.6 -360.2 473.7 -273.5C517.8 -186.8 540.1 -93.4 562.5 0L0 0Z" fill="#1c3242"></path><path d="M0 -281.2C49.7 -274.2 99.3 -267.1 140.6 -243.6C181.9 -220 214.8 -180.1 236.9 -136.8C258.9 -93.4 270.1 -46.7 281.3 0L0 0Z" fill="#004e70"></path></g></svg>
+<?xml version="1.0"?>
+<svg width="900" height="675" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1">
+
+
+
+
+ <g class="layer">
+  <title>Layer 1</title>
+  <rect fill="#191919" fill-opacity="0.01" height="675" id="svg_1" width="900" x="0" y="0"/>
+  <g id="svg_2" transform="translate(900, 0)">
+   <path d="m0,562.5c-103.3,-11.9 -206.5,-23.8 -281.2,-75.4c-74.8,-51.5 -121,-142.8 -163.1,-230.6c-42.1,-87.8 -80.1,-172.2 -118.2,-256.5l562.5,0l0,562.5z" fill="#1c3242" id="svg_3"/>
+   <path d="m0,281.3c-51.6,-6 -103.3,-11.9 -140.6,-37.7c-37.4,-25.8 -60.5,-71.4 -81.5,-115.3c-21.1,-44 -40.1,-86.1 -59.1,-128.3l281.2,0l0,281.3z" fill="#004e70" id="svg_4"/>
+  </g>
+  <g id="svg_5" transform="translate(0, 675)">
+   <path d="m0,-562.5c99.3,14.2 198.7,28.3 281.2,75.4c82.6,47 148.4,126.9 192.5,213.6c44.1,86.7 66.4,180.1 88.8,273.5l-562.5,0l0,-562.5z" fill="#1c3242" id="svg_6"/>
+   <path d="m0,-281.2c49.7,7 99.3,14.1 140.6,37.6c41.3,23.6 74.2,63.5 96.3,106.8c22,43.4 33.2,90.1 44.4,136.8l-281.3,0l0,-281.2z" fill="#004e70" id="svg_7"/>
+  </g>
+ </g>
+</svg>

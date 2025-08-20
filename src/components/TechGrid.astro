@@ -13,7 +13,6 @@ const { title = "CategoryName" } = Astro.props;
     .tech-categories {
         display: flex;
         flex-direction: row;
-        justify-content: center;
         gap: 2.5rem;
         margin-bottom: 0.5rem;
     }
@@ -28,11 +27,12 @@ const { title = "CategoryName" } = Astro.props;
         margin-bottom: 0.3rem;
         font-weight: 600;
         font-size: 0.9rem;
-        text-align: center;
+        text-align: end;
     }
 
     .tech-grid {
         display: flex;
+        justify-content: end;
         gap: 0.5rem;
     }
 

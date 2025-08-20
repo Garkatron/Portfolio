@@ -11,7 +11,9 @@ import TechGrid from "./TechGrid.astro";
                 Hi, I'm <span class="highlight">Matias</span>, <br /><span
                     class="highlight">Web Developer</span
                 > && <span class="highlight">Minecraft Modder</span>
+
                 <br />
+                <span class="highlight">Minecraft Modder</span>
             </h1>
         </div>
         <div class="profile-links">
@@ -49,47 +51,13 @@ import TechGrid from "./TechGrid.astro";
             </a>
         </div>
     </div>
-    <div class="description">
-        <section>
-            <p>
-                Proficient in <strong class="keyword">Java</strong>, currently
-                learning
-                <strong class="keyword">Rust</strong> and <strong
-                    class="keyword">VM development</strong
-                >. Passionate, fast learner, and experienced in working with
-                existing codebases.
-            </p>
-        </section>
-
-        <section>
-            <h4>Use of AI</h4>
-            <p>
-                I use AI to research, clarify concepts, and handle small
-                refactorings or optimizations. It helps me save time on
-                repetitive tasks, but I avoid relying on it for large-scale
-                refactors, complex optimizations, or as my main learning source.
-            </p>
-        </section>
-    </div>
 </section>
-<script>
-    function copyEmail() {
-        const email = "masitacarg@gmail.com";
-        navigator.clipboard
-            .writeText(email)
-            .then(() => {
-                alert("Email copied to clipboard: " + email);
-            })
-            .catch((err) => {
-                console.error("Failed to copy email: ", err);
-                alert("Failed to copy email. Please try again.");
-            });
-    }
-    document.getElementById("copyemail")?.addEventListener("click", copyEmail);
-</script>
+
 <style>
     .profile-section {
         display: flex;
+        width: 100%;
+        justify-content: center;
         flex-wrap: wrap;
         align-items: center;
         gap: 2rem;
@@ -137,3 +105,18 @@ import TechGrid from "./TechGrid.astro";
         text-decoration: none;
     }
 </style>
+<script>
+    function copyEmail() {
+        const email = "masitacarg@gmail.com";
+        navigator.clipboard
+            .writeText(email)
+            .then(() => {
+                alert("Email copied to clipboard: " + email);
+            })
+            .catch((err) => {
+                console.error("Failed to copy email: ", err);
+                alert("Failed to copy email. Please try again.");
+            });
+    }
+    document.getElementById("copyemail")?.addEventListener("click", copyEmail);
+</script>

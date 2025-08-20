@@ -7,15 +7,14 @@ const {
 } = Astro.props;
 ---
 
-<div class="card">
+<a href={link} target="_blank" rel="noopener noreferrer" class="card">
     <img src={image} alt="carousel element" />
 
     <div class="card-content">
         <strong>{title}</strong>
         <p>{description}</p>
-        <a href={link} target="_blank" rel="noopener noreferrer">See more</a>
     </div>
-</div>
+</a>
 
 <style>
     .card {
@@ -34,6 +33,7 @@ const {
             box-shadow 0.3s ease,
             border-radius 0.3s ease,
             filter 0.3s ease;
+        text-decoration: none;
     }
 
     .card:hover {
@@ -46,6 +46,15 @@ const {
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
         filter: none;
+        color: white;
+    }
+    .card,
+    .card:link,
+    .card:visited,
+    .card:hover,
+    .card:active {
+        color: white;
+        text-decoration: none;
     }
 
     .card img {
@@ -84,24 +93,6 @@ const {
     strong,
     p {
         margin-bottom: 1rem;
-        text-align: center;
-    }
-
-    a {
-        text-decoration: none;
-        text-transform: lowercase;
-        border: 1px solid var(--clr-cta);
-        color: light-dark(var(--clr-cta), white);
-        border-radius: 3px;
-        padding: 0.25rem 0.5rem;
-        transition: 150ms ease-in-out;
-        z-index: 1;
-    }
-
-    a:hover,
-    a:focus-visible {
-        background-color: var(--clr-cta);
-        color: white;
-        outline: none;
+        text-align: justify;
     }
 </style>

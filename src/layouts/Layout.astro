@@ -32,15 +32,36 @@ import RepoLangs from "../components/RepoLangs.astro";
 	<body>
 		<!-- Section 1: Presentation -->
 		<main id="section1" class="slice">
+			<PresentationCard />
+		</main>
+
+		<div id="about" class="slice">
 			<Photo src={facephoto} />
-
-			<div class="section-content">
-				<div
-					style="display: flex; width: 100%; justify-content: center;"
-				>
-					<PresentationCard />
-				</div>
-
+			<div>
+				<section>
+					<p>
+						Web developer & Minecraft modder. Passionate about Rust,
+						compilers and creative coding
+					</p>
+					<p>
+						Proficient in <strong class="keyword">Java</strong>,
+						currently learning
+						<strong class="keyword">Rust</strong> and <strong
+							class="keyword">VM development</strong
+						>. Passionate, fast learner, and experienced in working
+						with existing codebases.
+					</p>
+				</section>
+				<section>
+					<h4>Use of AI</h4>
+					<p>
+						I use AI to research, clarify concepts, and handle small
+						refactorings or optimizations. It helps me save time on
+						repetitive tasks, but I avoid relying on it for
+						large-scale refactors, complex optimizations, or as my
+						main learning source.
+					</p>
+				</section>
 				<section id="tech-stack">
 					<TechGrid title="Languages">
 						<SkillProgress
@@ -81,12 +102,6 @@ import RepoLangs from "../components/RepoLangs.astro";
 							title="Astro"
 							loading={true}
 						/>
-						<SkillProgress
-							src="/icons/reactjs-svgrepo-com.svg"
-							progress="40"
-							title="React"
-							loading={true}
-						/>
 					</TechGrid>
 					<TechGrid title="Tools">
 						<SkillProgress
@@ -114,8 +129,7 @@ import RepoLangs from "../components/RepoLangs.astro";
 					</TechGrid>
 				</section>
 			</div>
-		</main>
-
+		</div>
 		<!-- Section 2: Featured Projects -->
 		<div id="section2" class="slice">
 			<div class="section-content">
@@ -127,7 +141,6 @@ import RepoLangs from "../components/RepoLangs.astro";
 						link="https://github.com/Garkatron/Rust-Lox-Interpreter"
 						image="https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png"
 					/>
-
 					<ProjectCard
 						title="3D Rasterizer in Rust"
 						link="https://github.com/Garkatron/ScrapRenderer"
@@ -143,7 +156,6 @@ import RepoLangs from "../components/RepoLangs.astro";
 				</ProjectGrid>
 			</div>
 		</div>
-
 		<!-- Section 3: Other Projects and Knowledge -->
 		<div id="section3" class="slice">
 			<div class="section-content">
@@ -202,7 +214,6 @@ import RepoLangs from "../components/RepoLangs.astro";
 							</CarouselItem>
 						</Carousel>
 					</section>
-
 					<section>
 						<h2>Minecraft mods</h2>
 						<Carousel items="5">
@@ -277,9 +288,11 @@ import RepoLangs from "../components/RepoLangs.astro";
 				z-index: 2;
 			}
 
+			#about {
+				display: flex;
+			}
 			body {
 				background-color: #1b1b1b;
-				background-image: url("/bg/topography.svg");
 				background-repeat: repeat;
 				position: relative;
 			}
@@ -299,18 +312,11 @@ import RepoLangs from "../components/RepoLangs.astro";
 				pointer-events: none;
 			}
 
-			/*body::before {
-				
-				
-				pointer-events: none;
-			}*/
-
 			html {
 				background-color: transparent;
 			}
 
 			main {
-				background: transparent;
 				margin: 0;
 				padding: 0;
 				display: flex;
@@ -321,54 +327,17 @@ import RepoLangs from "../components/RepoLangs.astro";
 				position: relative;
 				z-index: 2;
 			}
-
-			.left-info {
-				width: 30%;
-				flex-shrink: 0;
-			}
-
-			.right-info section h2 {
-				color: #fff;
-				margin-bottom: 0.5rem;
-			}
-
-			.right-info section h5 {
-				color: #ccc;
-				margin-bottom: 1rem;
-			}
-
-			.right-info {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
-				padding: 2rem;
-				box-sizing: border-box;
-				align-items: center;
-				border-left: 2px solid white;
-				background-color: rgba(1, 4, 8, 0.379);
-				position: relative;
-				z-index: 2;
-			}
-
-			.right-info > section {
-				width: 99%;
-			}
-
-			a {
-				display: inline-block;
-				outline: 0;
-				text-align: center;
-				cursor: pointer;
-				min-width: 80px;
-				height: 32px;
-				color: rgb(255, 255, 255);
-			}
-
-			.project-section {
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
+			main::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				filter: blur(5px) brightness(50%);
+				background: url("/bg/ligero.jpg") center center/cover no-repeat;
+				pointer-events: none;
+				z-index: -1;
 			}
 
 			.footer {
@@ -391,12 +360,9 @@ import RepoLangs from "../components/RepoLangs.astro";
 				main {
 					flex-direction: column;
 				}
-				.left-info {
-					width: 100%;
-				}
-				.right-info {
-					width: 100%;
-					border-left: none;
+				.row {
+					flex-direction: column;
+					align-items: center;
 				}
 			}
 		</style>

@@ -43,30 +43,28 @@ import SkillProgress from "../components/SkillProgress.astro";
 					<TechGrid title="Languages">
 						<SkillProgress
 							src="/icons/java-svgrepo-com.svg"
-							progress="75"
+							progress="85"
 							title="Java"
 						/>
 						<SkillProgress
 							src="/icons/js-svgrepo-com.svg"
-							progress="70"
+							progress="75"
 							title="JavaScript"
 						/>
 						<SkillProgress
 							src="/icons/kotlin-svgrepo-com.svg"
-							progress="50"
+							progress="80"
 							title="Kotlin"
 						/>
 						<SkillProgress
 							src="/icons/rust-svgrepo-com.svg"
-							progress="35"
+							progress="60"
 							title="Rust"
-							loading={true}
 						/>
 						<SkillProgress
 							src="/icons/python-svgrepo-com.svg"
-							progress="30"
+							progress="45"
 							title="Python"
-							loading={true}
 						/>
 					</TechGrid>
 					<TechGrid title="Frameworks & Libraries">
@@ -74,6 +72,18 @@ import SkillProgress from "../components/SkillProgress.astro";
 							src="/icons/bootstrap-4-logo-svgrepo-com.svg"
 							progress="100"
 							title="Bootstrap"
+						/>
+						<SkillProgress
+							src="/icons/astro-svgrepo-com.svg"
+							progress="55"
+							title="Astro"
+							loading={true}
+						/>
+						<SkillProgress
+							src="/icons/reactjs-svgrepo-com.svg"
+							progress="40"
+							title="React"
+							loading={true}
 						/>
 					</TechGrid>
 					<TechGrid title="Tools">
@@ -95,11 +105,6 @@ import SkillProgress from "../components/SkillProgress.astro";
 							title="Linux"
 						/>
 						<SkillProgress
-							src="/icons/android-svgrepo-com.svg"
-							progress="100"
-							title="Android"
-						/>
-						<SkillProgress
 							src="/icons/sql-database-generic-svgrepo-com.svg"
 							progress="100"
 							title="SQL Database"
@@ -115,57 +120,25 @@ import SkillProgress from "../components/SkillProgress.astro";
 				<h2>Featured Projects</h2>
 				<ProjectGrid>
 					<ProjectCard
-						title="3D Rasterizer in Rust"
-						link="https://github.com/Garkatron/ScrapRenderer"
-						description="A 2D rendering engine written in Rust, built to experiment with graphics and optimization."
-						image="/images/renderer3d.png"
-					/>
-					<ProjectCard
 						title="Rlox lang"
-						description="A programming language based on jlox from Crafting Interpreters"
+						description="I developed a programming language interpreter based on jlox from Crafting Interpreters, using Rust to challenge myself and deepen my understanding of language design. Through this project, I learned the inner workings of interpreters, including lexers, parsers, and the evaluation process, while also strengthening my Rust skills, particularly in managing references and ownership. Choosing Rust, a language quite different from the Java-based approach in the book, pushed me to thoroughly grasp the concepts to adapt them effectively. I implemented a lexer to tokenize input, a parser to build an abstract syntax tree (AST), and an interpreter to execute the resulting code, gaining insight into how programming languages process and execute scripts. Additionally, I explored error handling and memory management in Rust, which enhanced my ability to write robust and efficient code. This project not only solidified my understanding of interpreters but also sparked my interest in compiler design and low-level systems programming."
 						link="https://github.com/Garkatron/Rust-Lox-Interpreter"
 						image="https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png"
 					/>
+
+					<ProjectCard
+						title="3D Rasterizer in Rust"
+						link="https://github.com/Garkatron/ScrapRenderer"
+						description="I developed a 3D rendering engine in Rust to experiment with graphics and optimization, choosing Rust for its pointer safety, which prevented common memory management errors. I relied on a series of C++ video tutorials on graphics, adapting the concepts to Rust. I implemented a basic rendering pipeline, learning the essentials of geometric transformations and 3D-to-2D projection, though I didn’t dive deeply into the math. I also figured out how to optimize rendering by skipping objects behind the camera (culling) and handling triangles within the view frustum. This project helped me grasp the basics of computer graphics and motivated me to keep exploring real-time rendering."
+						image="/images/renderer3d.png"
+					/>
 					<ProjectCard
 						title="Rust-Coded LRU"
-						description="Rust LRU Cache"
+						description="I implemented an LRU (Least Recently Used) Cache in Rust, inspired by a tutorial that helped me understand the inner workings of this data structure. Through this project, I learned how LRU caches efficiently manage data by prioritizing recently accessed items and evicting the least recently used ones when the cache reaches its capacity"
 						link="https://github.com/Garkatron/LRU-Cache-Rust"
 						image="https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg"
 					/>
 				</ProjectGrid>
-				<section>
-					<h2>Other Projects</h2>
-					<Carousel>
-						<CarouselItem
-							title="CHIP-8 Emulator"
-							href="https://github.com/Garkatron/Von-Neumann-Simulator"
-							image="/images/chip8image.png"
-						>
-							CHIP-8 Emulator implemented in Python
-						</CarouselItem>
-						<CarouselItem
-							title="TerraX69"
-							href="https://github.com/Garkatron/TerraX69-JS"
-						>
-							JavaScript game built with Tauri
-						</CarouselItem>
-						<CarouselItem
-							title="PC Pokémon Web"
-							href="https://garkatron.github.io/PC-PokeApi/"
-							image="/images/pokeapi.png"
-						>
-							An interactive web app for exploring Pokémon data
-							using the PokéAPI.
-						</CarouselItem>
-						<CarouselItem
-							title="Von Neumann Simulator"
-							href="https://github.com/Garkatron/Von-Neumann-Simulator"
-							image="/images/vonneuman.png"
-						>
-							Von Neumann architecture simulator in Python
-						</CarouselItem>
-					</Carousel>
-				</section>
 			</div>
 		</div>
 
@@ -173,231 +146,329 @@ import SkillProgress from "../components/SkillProgress.astro";
 		<div id="section3" class="slice">
 			<div class="section-content">
 				<section>
-					<h2>Knowledge</h2>
-					<h5>Resources and topics I've explored</h5>
-					<Carousel reverse="true">
-						<CarouselItem
-							title="How Async Works"
-							href="https://www.youtube.com/watch?v=eiC58R16hb8"
-							image="/images/jsloop.gif"
-						>
-							Null
-						</CarouselItem>
-						<CarouselItem
-							title="Crafting Interpreters"
-							href="https://craftinginterpreters.com/"
-							image="/images/craftinginterpreters.png"
-						>
-							Null
-						</CarouselItem>
-						<CarouselItem
-							title="Million Dollar Error"
-							href="https://medium.com/%40dilhan9g/the-billion-dollar-mistake-the-invention-of-null-1767465ee9e1"
-							image="/images/nullptr.jpg"
-						>
-							Null
-						</CarouselItem>
-					</Carousel>
+					<section>
+						<h2>Other Projects</h2>
+						<Carousel>
+							<CarouselItem
+								title="CHIP-8 Emulator"
+								href="https://github.com/Garkatron/Von-Neumann-Simulator"
+								image="/images/chip8image.png"
+							>
+								CHIP-8 Emulator implemented in Python
+							</CarouselItem>
+							<CarouselItem
+								title="TerraX69"
+								href="https://github.com/Garkatron/TerraX69-JS"
+							>
+								JavaScript game built with Tauri
+							</CarouselItem>
+							<CarouselItem
+								title="PC Pokémon Web"
+								href="https://garkatron.github.io/PC-PokeApi/"
+								image="/images/pokeapi.png"
+							>
+								An interactive web app for exploring Pokémon
+								data using the PokéAPI
+							</CarouselItem>
+							<CarouselItem
+								title="Von Neumann Simulator"
+								href="https://github.com/Garkatron/Von-Neumann-Simulator"
+								image="/images/vonneuman.png"
+							>
+								Von Neumann architecture simulator in Python
+							</CarouselItem>
+							<CarouselItem
+								title="IWantToLearnX"
+								href="https://github.com/Garkatron/IWantToLearnX"
+							>
+								A personal "Build Your Own X" project to explore
+								and learn various programming concepts
+							</CarouselItem>
+							<CarouselItem
+								title="FactBoard NEM"
+								href="https://github.com/Garkatron/FactBoard_NEM"
+							>
+								A Node.js and MongoDB-based app for managing and
+								sharing publications
+							</CarouselItem>
+							<CarouselItem
+								title="FactBoard"
+								href="https://github.com/Garkatron/FactBoard"
+							>
+								A PHP and MySQL-based app for managing and
+								sharing publications
+							</CarouselItem>
+						</Carousel>
+					</section>
+
+					<section>
+						<h2>Minecraft mods</h2>
+						<Carousel>
+							<CarouselItem
+								title="BTA PainScale"
+								href="https://github.com/Garkatron/BTA-PainScale"
+							>
+								A Minecraft mod with a dynamic difficulty
+								system, enhanced health mechanics, and tougher
+								enemies
+							</CarouselItem>
+							<CarouselItem
+								title="BTA Guidebook"
+								href="https://github.com/Garkatron/BTA-Guidebook.md"
+								image="/images/guidebook.png"
+							>
+								A Markdown-based guidebook library for BTA
+								modders with in-game editing and export features
+							</CarouselItem>
+							<CarouselItem
+								title="StanleyTemperature"
+								href="https://github.com/Garkatron/StanleyTemperature"
+								image="/images/stanley.png"
+							>
+								A temperature mod and skill system library for
+								RPG-style gameplay in Minecraft
+							</CarouselItem>
+							<CarouselItem
+								title="BTA Paperwork"
+								href="https://github.com/Garkatron/BTA-Paperwork"
+								image="/images/paperwork.png"
+							>
+								A Minecraft mod adding decorative blocks, items,
+								and paper-based entities like cardboard boxes
+							</CarouselItem>
+							<CarouselItem
+								title="BTA POVERH"
+								href="https://github.com/Garkatron/BTA-POVERH"
+								image="/images/parkour.png"
+							>
+								A Minecraft mod introducing stamina and parkour
+								mechanics for enhanced movement
+							</CarouselItem>
+						</Carousel>
+					</section>
 				</section>
 			</div>
+			<footer class="footer">
+				<div class="section-content">
+					<p>&copy; 2025 Matias. All rights reserved.</p>
+				</div>
+			</footer>
 		</div>
-	</body>
-</html>
 
-<style>
-	#tech-stack {
-		width: 100%;
-	}
+		<style>
+			#tech-stack {
+				width: 100%;
+			}
 
-	.section-content {
-		width: 100%;
-		border-radius: 8px;
-		padding: 2rem;
-		background: transparent;
-		position: relative;
-		z-index: 2;
-	}
+			.section-content {
+				width: 100%;
+				border-radius: 8px;
+				padding: 2rem;
+				background: transparent;
+				position: relative;
+				z-index: 2;
+			}
 
-	.slice {
-		height: 100vh;
-		position: relative; /* Ensure slice is in a positioning context */
-		z-index: 2; /* Above both background layers */
-	}
+			.slice {
+				height: 100vh;
+				position: relative;
+				z-index: 2;
+			}
 
-	body {
-		background-color: #1b1b1b;
-		background-image: url("/bg/olas4-2.svg");
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: center;
-		position: relative;
-	}
+			body {
+				background-color: #1b1b1b;
+				background-image: url("/bg/olas10.svg");
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+				position: relative;
+			}
 
-	body::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-image: url("/bg/topography.svg");
-		background-repeat: repeat;
-		background-size: 1000px;
-		opacity: 0.25;
-		z-index: -1;
-		pointer-events: none;
-	}
+			body::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-image: url("/bg/topography.svg");
+				background-repeat: repeat;
+				background-size: 1000px;
+				opacity: 0.25;
+				z-index: -1;
+				pointer-events: none;
+			}
 
-	html {
-		background-color: transparent;
-	}
+			html {
+				background-color: transparent;
+			}
 
-	main {
-		background: transparent;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		width: 100%;
-		min-height: 100vh;
-		position: relative;
-		z-index: 2;
-	}
+			main {
+				background: transparent;
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				width: 100%;
+				min-height: 100vh;
+				position: relative;
+				z-index: 2;
+			}
 
-	.left-info {
-		width: 30%;
-		flex-shrink: 0;
-	}
+			.left-info {
+				width: 30%;
+				flex-shrink: 0;
+			}
 
-	.right-info section h2 {
-		color: #fff;
-		margin-bottom: 0.5rem;
-	}
+			.right-info section h2 {
+				color: #fff;
+				margin-bottom: 0.5rem;
+			}
 
-	.right-info section h5 {
-		color: #ccc;
-		margin-bottom: 1rem;
-	}
+			.right-info section h5 {
+				color: #ccc;
+				margin-bottom: 1rem;
+			}
 
-	.right-info {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 2rem;
-		box-sizing: border-box;
-		align-items: center;
-		border-left: 2px solid white;
-		background-color: rgba(1, 4, 8, 0.379);
-		position: relative;
-		z-index: 2;
-	}
+			.right-info {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				padding: 2rem;
+				box-sizing: border-box;
+				align-items: center;
+				border-left: 2px solid white;
+				background-color: rgba(1, 4, 8, 0.379);
+				position: relative;
+				z-index: 2;
+			}
 
-	.right-info > section {
-		width: 99%;
-	}
+			.right-info > section {
+				width: 99%;
+			}
 
-	a {
-		display: inline-block;
-		outline: 0;
-		text-align: center;
-		cursor: pointer;
-		min-width: 80px;
-		height: 32px;
-		color: rgb(255, 255, 255);
-	}
+			a {
+				display: inline-block;
+				outline: 0;
+				text-align: center;
+				cursor: pointer;
+				min-width: 80px;
+				height: 32px;
+				color: rgb(255, 255, 255);
+			}
 
-	.project-section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
+			.project-section {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
 
-	@media (max-width: 900px) {
-		main {
-			flex-direction: column;
-		}
-		.left-info {
-			width: 100%;
-		}
-		.right-info {
-			width: 100%;
-			border-left: none;
-		}
-	}
-</style>
+			.footer {
+				width: 100%;
+				text-align: center;
+				padding: 1rem 0;
+				background-color: rgba(1, 4, 8, 0.379);
+				color: #fff;
+				position: relative;
+				z-index: 2;
+				bottom: 0;
+			}
 
-<script is:inline>
-	document.addEventListener("DOMContentLoaded", () => {
-		document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-			anchor.addEventListener("click", function (e) {
-				e.preventDefault();
-				const targetId = this.getAttribute("href");
-				const targetElement = document.querySelector(targetId);
-				if (targetElement) {
-					targetElement.scrollIntoView({
-						behavior: "instant",
-						block: "start",
+			.footer p {
+				margin: 0;
+				font-size: 0.9rem;
+			}
+
+			@media (max-width: 900px) {
+				main {
+					flex-direction: column;
+				}
+				.left-info {
+					width: 100%;
+				}
+				.right-info {
+					width: 100%;
+					border-left: none;
+				}
+			}
+		</style>
+
+		<script is:inline>
+			document.addEventListener("DOMContentLoaded", () => {
+				document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+					anchor.addEventListener("click", function (e) {
+						e.preventDefault();
+						const targetId = this.getAttribute("href");
+						const targetElement = document.querySelector(targetId);
+						if (targetElement) {
+							targetElement.scrollIntoView({
+								behavior: "instant",
+								block: "start",
+							});
+						}
 					});
-				}
-			});
-		});
-
-		let isScrolling = false;
-
-		window.addEventListener(
-			"wheel",
-			(e) => {
-				e.preventDefault();
-				if (isScrolling) return;
-				isScrolling = true;
-
-				setTimeout(() => {
-					isScrolling = false;
-				}, 300);
-				const sections = document.querySelectorAll(".slice");
-				if (sections.length === 0) {
-					console.warn(
-						"No se encontraron elementos con la clase .section",
-					);
-					return;
-				}
-
-				let currentSection = 0;
-
-				sections.forEach((section, index) => {
-					const rect = section.getBoundingClientRect();
-					if (
-						rect.top <= window.innerHeight / 2 &&
-						rect.bottom >= window.innerHeight / 2
-					) {
-						currentSection = index;
-					}
 				});
 
-				if (e.deltaY > 0) {
-					currentSection = Math.min(
-						currentSection + 1,
-						sections.length - 1,
-					);
-				} else {
-					currentSection = Math.max(currentSection - 1, 0);
-				}
+				let isScrolling = false;
 
-				sections[currentSection].scrollIntoView({ behavior: "smooth" });
-			},
-			{ passive: false },
-		);
-	});
+				window.addEventListener(
+					"wheel",
+					(e) => {
+						e.preventDefault();
+						if (isScrolling) return;
+						isScrolling = true;
 
-	window.addEventListener(
-		"keydown",
-		(e) => {
-			if (["ArrowUp", "ArrowDown", "Space"].includes(e.code)) {
-				e.preventDefault();
-			}
-		},
-		{ passive: false },
-	);
-</script>
+						setTimeout(() => {
+							isScrolling = false;
+						}, 300);
+						const sections = document.querySelectorAll(".slice");
+						if (sections.length === 0) {
+							console.warn(
+								"No se encontraron elementos con la clase .section",
+							);
+							return;
+						}
+
+						let currentSection = 0;
+
+						sections.forEach((section, index) => {
+							const rect = section.getBoundingClientRect();
+							if (
+								rect.top <= window.innerHeight / 2 &&
+								rect.bottom >= window.innerHeight / 2
+							) {
+								currentSection = index;
+							}
+						});
+
+						if (e.deltaY > 0) {
+							currentSection = Math.min(
+								currentSection + 1,
+								sections.length - 1,
+							);
+						} else {
+							currentSection = Math.max(currentSection - 1, 0);
+						}
+
+						sections[currentSection].scrollIntoView({
+							behavior: "smooth",
+						});
+					},
+					{ passive: false },
+				);
+			});
+
+			window.addEventListener(
+				"keydown",
+				(e) => {
+					if (["ArrowUp", "ArrowDown", "Space"].includes(e.code)) {
+						e.preventDefault();
+					}
+				},
+				{ passive: false },
+			);
+		</script>
+	</body>
+</html>

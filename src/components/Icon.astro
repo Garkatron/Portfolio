@@ -1,0 +1,60 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+    src: string;
+    type?: "dev" | "icon";
+    title: string;
+}
+
+const { src, type = "dev", title } = Astro.props;
+
+const dimensions = {
+    dev: { width: 42, height: 42 },
+    icon: { width: 20, height: 20 },
+};
+---
+
+<Image
+    src={src}
+    alt={title}
+    class={type}
+    title={title}
+    loading="lazy"
+    decoding="async"
+    width={dimensions[type].width}
+    height={dimensions[type].height}
+/>
+
+<style>
+    .dev {
+        width: 3.625rem;
+        height: 3.625rem;
+        margin: 0.5rem;
+        opacity: 0.9;
+        transition:
+            transform 0.2s ease,
+            opacity 0.2s ease;
+    }
+
+    .dev:hover {
+        z-index: 10;
+        transform: scale(1.15);
+        opacity: 1;
+    }
+
+    .icon {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .dev[aria-hidden="true"],
+    .icon[aria-hidden="true"] {
+        pointer-events: none;
+    }
+
+    img {
+        display: block;
+        object-fit: contain;
+    }
+</style>

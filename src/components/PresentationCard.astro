@@ -1,0 +1,143 @@
+---
+import Icon from "./Icon.astro";
+
+import TechGrid from "./TechGrid.astro";
+---
+
+<section class="profile-section">
+    <div>
+        <div class="presentation">
+            <h1>
+                Hi, I'm <span class="highlight">Matias</span>, <br /><span
+                    class="highlight">Web Developer</span
+                >
+                <br />
+            </h1>
+        </div>
+        <div class="profile-links">
+            <a
+                href="./other/MatiasGuliasCarrascalCV.pdf"
+                download="MatiasGuliasCarrascalCV.pdf"
+            >
+                <Icon
+                    src="/icons/cv-file-interface-symbol-svgrepo-com.svg"
+                    type="icon"
+                    title="CV"
+                />
+                Download CV
+            </a>
+
+            <a id="copyemail" href="#">
+                <Icon
+                    src="/icons/mail-plus-svgrepo-com.svg"
+                    type="icon"
+                    title="Mail"
+                />
+                masitacarg@gmail.com
+            </a>
+            <a
+                href="https://github.com/Garkatron"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <Icon
+                    src="/icons/github-svgrepo-com.svg"
+                    type="icon"
+                    title="GitHub"
+                />
+                GitHub
+            </a>
+        </div>
+    </div>
+    <div class="description">
+        <section>
+            <p>
+                Web developer & Minecraft modder. Passionate about Rust,
+                compilers and creative coding
+            </p>
+            <p>
+                Proficient in <strong class="keyword">Java</strong>, currently
+                learning
+                <strong class="keyword">Rust</strong> and <strong
+                    class="keyword">VM development</strong
+                >. Passionate, fast learner, and experienced in working with
+                existing codebases.
+            </p>
+        </section>
+
+        <section>
+            <h4>Use of AI</h4>
+            <p>
+                I use AI to research, clarify concepts, and handle small
+                refactorings or optimizations. It helps me save time on
+                repetitive tasks, but I avoid relying on it for large-scale
+                refactors, complex optimizations, or as my main learning source.
+            </p>
+        </section>
+    </div>
+</section>
+<script>
+    function copyEmail() {
+        const email = "masitacarg@gmail.com";
+        navigator.clipboard
+            .writeText(email)
+            .then(() => {
+                alert("Email copied to clipboard: " + email);
+            })
+            .catch((err) => {
+                console.error("Failed to copy email: ", err);
+                alert("Failed to copy email. Please try again.");
+            });
+    }
+    document.getElementById("copyemail")?.addEventListener("click", copyEmail);
+</script>
+<style>
+    .profile-section {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 2rem;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .presentation {
+        flex: 1;
+        font-size: 1.8rem;
+        line-height: 1.5;
+    }
+
+    .presentation h1,
+    .presentation h3 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .highlight {
+        color: #b4937d;
+    }
+
+    .keyword {
+        color: #b4937d;
+    }
+
+    .description {
+        text-align: left;
+        font-size: 1.4rem;
+    }
+
+    .profile-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .profile-links a {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+</style>

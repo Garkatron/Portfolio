@@ -9,14 +9,18 @@ import ProjectGrid from "../components/ProjectGrid.astro";
 import CarouselItem from "../components/CarouselItem.astro";
 import Carousel from "../components/Carousel.astro";
 import SkillProgress from "../components/SkillProgress.astro";
+const BASE_PATH = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
+		<base href={import.meta.env.BASE_URL} />
+
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href={`/favicon.svg`} />
+
 		<meta name="generator" content={Astro.generator} />
 		<link
 			rel="stylesheet"
@@ -40,70 +44,83 @@ import SkillProgress from "../components/SkillProgress.astro";
 					<PresentationCard />
 				</div>
 				<section id="tech-stack">
-					<TechGrid title="Languages">
-						<SkillProgress
-							src="/icons/java-svgrepo-com.svg"
-							progress="85"
-							title="Java"
-						/>
-						<SkillProgress
-							src="/icons/js-svgrepo-com.svg"
-							progress="75"
-							title="JavaScript"
-						/>
-						<SkillProgress
-							src="/icons/kotlin-svgrepo-com.svg"
-							progress="80"
-							title="Kotlin"
-						/>
-						<SkillProgress
-							src="/icons/rust-svgrepo-com.svg"
-							progress="60"
-							title="Rust"
-						/>
-						<SkillProgress
-							src="/icons/python-svgrepo-com.svg"
-							progress="45"
-							title="Python"
-						/>
-					</TechGrid>
-					<TechGrid title="Frameworks & Libraries">
-						<SkillProgress
-							src="/icons/bootstrap-4-logo-svgrepo-com.svg"
-							progress="100"
-							title="Bootstrap"
-						/>
-						<SkillProgress
-							src="/icons/astro-svgrepo-com.svg"
-							progress="55"
-							title="Astro"
-							loading={true}
-						/>
-					</TechGrid>
-					<TechGrid title="Tools">
-						<SkillProgress
-							src="/icons/git-svgrepo-com.svg"
-							progress="100"
-							title="Git"
-						/>
-						<SkillProgress
-							src="/icons/postman-icon-svgrepo-com.svg"
-							progress="100"
-							title="Postman"
-						/>
-					</TechGrid>
-					<TechGrid title="Other">
-						<SkillProgress
-							src="/icons/linux-svgrepo-com.svg"
-							progress="65"
-							title="Linux"
-						/>
-						<SkillProgress
-							src="/icons/sql-database-generic-svgrepo-com.svg"
-							progress="100"
-							title="SQL Database"
-						/>
-					</TechGrid>
+					<TechGrid
+						title="Languages"
+						skills={[
+							{
+								icon: `${BASE_PATH}icons/java-svgrepo-com.svg`,
+								progress: 70,
+								title: "Java",
+							},
+							{
+								icon: `${BASE_PATH}icons/js-svgrepo-com.svg`,
+								progress: 70,
+								title: "Javascript",
+							},
+							{
+								icon: `${BASE_PATH}icons/kotlin-svgrepo-com.svg`,
+								progress: 70,
+								title: "Kotlin",
+							},
+							{
+								icon: `${BASE_PATH}icons/rust-svgrepo-com.svg`,
+								progress: 55,
+								title: "Rust",
+							},
+							{
+								icon: `${BASE_PATH}icons/python-svgrepo-com.svg`,
+								progress: 50,
+								title: "Python",
+							},
+						]}
+					/>
+					<TechGrid
+						title="Frameworks & Libraries"
+						skills={[
+							{
+								icon: `${BASE_PATH}icons/bootstrap-4-logo-svgrepo-com.svg`,
+								progress: 100,
+								title: "Bootstrap",
+							},
+							{
+								icon: `${BASE_PATH}icons/astro-svgrepo-com.svg`,
+								progress: 55,
+								title: "Astro",
+							},
+						]}
+					/>
+
+					<TechGrid
+						title="Tools"
+						skills={[
+							{
+								icon: `${BASE_PATH}icons/git-svgrepo-com.svg`,
+								progress: 100,
+								title: "Git",
+							},
+							{
+								icon: `${BASE_PATH}icons/postman-icon-svgrepo-com.svg`,
+								progress: 100,
+								title: "Postman",
+							},
+						]}
+					/>
+
+					<TechGrid
+						title="Other"
+						skills={[
+							{
+								icon: `${BASE_PATH}icons/linux-svgrepo-com.svg`,
+								progress: 65,
+								title: "Linux",
+							},
+							{
+								icon: `${BASE_PATH}icons/sql-database-generic-svgrepo-com.svg`,
+								progress: 100,
+								title: "SQL Database",
+							},
+						]}
+					/>
 				</section>
 			</div>
 		</main>
@@ -112,27 +129,30 @@ import SkillProgress from "../components/SkillProgress.astro";
 		<div id="section2" class="slice">
 			<div class="section-content">
 				<h2>Featured Projects</h2>
-				<ProjectGrid>
-					<ProjectCard
-						title="Rlox lang"
-						description="I developed a programming language interpreter based on jlox from Crafting Interpreters, using Rust to challenge myself and deepen my understanding of language design. Through this project, I learned the inner workings of interpreters, including lexers, parsers, and the evaluation process, while also strengthening my Rust skills, particularly in managing references and ownership. Choosing Rust, a language quite different from the Java-based approach in the book, pushed me to thoroughly grasp the concepts to adapt them effectively. I implemented a lexer to tokenize input, a parser to build an abstract syntax tree (AST), and an interpreter to execute the resulting code, gaining insight into how programming languages process and execute scripts. Additionally, I explored error handling and memory management in Rust, which enhanced my ability to write robust and efficient code. This project not only solidified my understanding of interpreters but also sparked my interest in compiler design and low-level systems programming."
-						link="https://github.com/Garkatron/Rust-Lox-Interpreter"
-						image="https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png"
-					/>
-
-					<ProjectCard
-						title="3D Rasterizer in Rust"
-						link="https://github.com/Garkatron/ScrapRenderer"
-						description="I developed a 3D rendering engine in Rust to experiment with graphics and optimization, choosing Rust for its pointer safety, which prevented common memory management errors. I relied on a series of C++ video tutorials on graphics, adapting the concepts to Rust. I implemented a basic rendering pipeline, learning the essentials of geometric transformations and 3D-to-2D projection, though I didn’t dive deeply into the math. I also figured out how to optimize rendering by skipping objects behind the camera (culling) and handling triangles within the view frustum. This project helped me grasp the basics of computer graphics and motivated me to keep exploring real-time rendering."
-						image="/images/renderer3d.png"
-					/>
-					<ProjectCard
-						title="Rust-Coded LRU"
-						description="I implemented an LRU (Least Recently Used) Cache in Rust, inspired by a tutorial that helped me understand the inner workings of this data structure. Through this project, I learned how LRU caches efficiently manage data by prioritizing recently accessed items and evicting the least recently used ones when the cache reaches its capacity"
-						link="https://github.com/Garkatron/LRU-Cache-Rust"
-						image="https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg"
-					/>
-				</ProjectGrid>
+				<ProjectGrid
+					projects={[
+						{
+							title: "Rlox lang",
+							description:
+								"I developed a programming language...",
+							link: "https://github.com/Garkatron/Rust-Lox-Interpreter",
+							image: "https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png",
+						},
+						{
+							title: "3D Rasterizer in Rust",
+							description: "I developed a 3D rendering engine...",
+							link: "https://github.com/Garkatron/ScrapRenderer",
+							image: `${import.meta.env.BASE_URL}images/renderer3d.png`,
+						},
+						{
+							title: "Rust-Coded LRU",
+							description:
+								"I implemented an LRU Cache in Rust...",
+							link: "https://github.com/Garkatron/LRU-Cache-Rust",
+							image: "https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg",
+						},
+					]}
+				/>
 			</div>
 		</div>
 
@@ -142,103 +162,97 @@ import SkillProgress from "../components/SkillProgress.astro";
 				<section>
 					<section>
 						<h2>Other Projects</h2>
-						<Carousel items="7">
-							<CarouselItem
-								title="CHIP-8 Emulator"
-								href="https://github.com/Garkatron/Von-Neumann-Simulator"
-								image="/images/chip8image.png"
-							>
-								CHIP-8 Emulator implemented in Python
-							</CarouselItem>
-							<CarouselItem
-								title="TerraX69"
-								href="https://github.com/Garkatron/TerraX69-JS"
-							>
-								JavaScript game built with Tauri
-							</CarouselItem>
-							<CarouselItem
-								title="PC Pokémon Web"
-								href="https://garkatron.github.io/PC-PokeApi/"
-								image="/images/pokeapi.png"
-							>
-								An interactive web app for exploring Pokémon
-								data using the PokéAPI
-							</CarouselItem>
-							<CarouselItem
-								title="Von Neumann Simulator"
-								href="https://github.com/Garkatron/Von-Neumann-Simulator"
-								image="/images/vonneuman.png"
-							>
-								Von Neumann architecture simulator in Python
-							</CarouselItem>
-							<CarouselItem
-								title="IWantToLearnX"
-								href="https://github.com/Garkatron/IWantToLearnX"
-							>
-								A personal "Build Your Own X" project to explore
-								and learn various programming concepts
-							</CarouselItem>
-							<CarouselItem
-								title="FactBoard NEM"
-								href="https://github.com/Garkatron/FactBoard_NEM"
-							>
-								A Node.js and MongoDB-based app for managing and
-								sharing publications
-							</CarouselItem>
-							<CarouselItem
-								title="FactBoard"
-								href="https://github.com/Garkatron/FactBoard"
-							>
-								A PHP and MySQL-based app for managing and
-								sharing publications
-							</CarouselItem>
-						</Carousel>
+						<Carousel
+							items={[
+								{
+									title: "CHIP-8 Emulator",
+									href: "https://github.com/Garkatron/Von-Neumann-Simulator",
+									image: `${BASE_PATH}/images/chip8image.png`,
+									description:
+										"CHIP-8 Emulator implemented in Python",
+								},
+								{
+									title: "TerraX69",
+									href: "https://github.com/Garkatron/TerraX69-JS",
+									description:
+										"JavaScript game built with Tauri",
+								},
+								{
+									title: "PC Pokémon Web",
+									href: "https://garkatron.github.io/PC-PokeApi/",
+									image: `${BASE_PATH}/images/pokeapi.png`,
+									description:
+										"An interactive web app for exploring Pokémon data using the PokéAPI",
+								},
+								{
+									title: "Von Neumann Simulator",
+									href: "https://github.com/Garkatron/Von-Neumann-Simulator",
+									image: `${BASE_PATH}/images/vonneuman.png`,
+									description:
+										"Von Neumann architecture simulator in Python",
+								},
+								{
+									title: "IWantToLearnX",
+									href: "https://github.com/Garkatron/IWantToLearnX",
+									description:
+										"A personal 'Build Your Own X' project to explore and learn various programming concepts",
+								},
+								{
+									title: "FactBoard NEM",
+									href: "https://github.com/Garkatron/FactBoard_NEM",
+									description:
+										"A Node.js and MongoDB-based app for managing and sharing publications",
+								},
+								{
+									title: "FactBoard",
+									href: "https://github.com/Garkatron/FactBoard",
+									description:
+										"A PHP and MySQL-based app for managing and sharing publications",
+								},
+							]}
+						/>
 					</section>
 
 					<section>
 						<h2>Minecraft mods</h2>
-						<Carousel items="5">
-							<CarouselItem
-								title="BTA PainScale"
-								href="https://github.com/Garkatron/BTA-PainScale"
-							>
-								A Minecraft mod with a dynamic difficulty
-								system, enhanced health mechanics, and tougher
-								enemies
-							</CarouselItem>
-							<CarouselItem
-								title="BTA Guidebook"
-								href="https://github.com/Garkatron/BTA-Guidebook.md"
-								image="/images/guidebook.png"
-							>
-								A Markdown-based guidebook library for BTA
-								modders with in-game editing and export features
-							</CarouselItem>
-							<CarouselItem
-								title="StanleyTemperature"
-								href="https://github.com/Garkatron/StanleyTemperature"
-								image="/images/stanley.png"
-							>
-								A temperature mod and skill system library for
-								RPG-style gameplay in Minecraft
-							</CarouselItem>
-							<CarouselItem
-								title="BTA Paperwork"
-								href="https://github.com/Garkatron/BTA-Paperwork"
-								image="/images/paperwork.png"
-							>
-								A Minecraft mod adding decorative blocks, items,
-								and paper-based entities like cardboard boxes
-							</CarouselItem>
-							<CarouselItem
-								title="BTA POVERH"
-								href="https://github.com/Garkatron/BTA-POVERH"
-								image="/images/parkour.png"
-							>
-								A Minecraft mod introducing stamina and parkour
-								mechanics for enhanced movement
-							</CarouselItem>
-						</Carousel>
+						<Carousel
+							items={[
+								{
+									title: "BTA PainScale",
+									href: "https://github.com/Garkatron/BTA-PainScale",
+									description:
+										"A Minecraft mod with a dynamic difficulty system, enhanced health mechanics, and tougher enemies",
+								},
+								{
+									title: "BTA Guidebook",
+									href: "https://github.com/Garkatron/BTA-Guidebook.md",
+									image: `${BASE_PATH}/images/guidebook.png`,
+									description:
+										"A Markdown-based guidebook library for BTA modders with in-game editing and export features",
+								},
+								{
+									title: "StanleyTemperature",
+									href: "https://github.com/Garkatron/StanleyTemperature",
+									image: `${BASE_PATH}/images/stanley.png`,
+									description:
+										"A temperature mod and skill system library for RPG-style gameplay in Minecraft",
+								},
+								{
+									title: "BTA Paperwork",
+									href: "https://github.com/Garkatron/BTA-Paperwork",
+									image: `${BASE_PATH}/images/paperwork.png`,
+									description:
+										"A Minecraft mod adding decorative blocks, items, and paper-based entities like cardboard boxes",
+								},
+								{
+									title: "BTA POVERH",
+									href: "https://github.com/Garkatron/BTA-POVERH",
+									image: `${BASE_PATH}/images/parkour.png`,
+									description:
+										"A Minecraft mod introducing stamina and parkour mechanics for enhanced movement",
+								},
+							]}
+						/>
 					</section>
 				</section>
 			</div>
@@ -266,7 +280,7 @@ import SkillProgress from "../components/SkillProgress.astro";
 
 			body {
 				background-color: #1b1b1b;
-				background-image: url("/bg/olas10.svg");
+				background-image: url("/Portfolio/bg/olas10.svg");
 				background-size: cover;
 				background-repeat: no-repeat;
 				background-position: center;
@@ -280,7 +294,7 @@ import SkillProgress from "../components/SkillProgress.astro";
 				left: 0;
 				width: 100%;
 				height: 100%;
-				background-image: url("/bg/topography.svg");
+				background-image: url("/Portfolio/bg/topography.svg");
 				background-repeat: repeat;
 				background-size: 1000px;
 				opacity: 0.25;

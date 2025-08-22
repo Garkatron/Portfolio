@@ -1,0 +1,407 @@
+---
+import Default from "../layout/Default.astro";
+import TechGrid from "../components/TechGrid.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import Carousel from "../components/Carousel.astro";
+
+import * as Icons from "../components/icons.js";
+import * as Images from "../components/images.js";
+import { Image } from "astro:assets";
+---
+
+<Default>
+	<body>
+		<img
+			src="https://images.unsplash.com/photo-1581299327801-faeb40ea459e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9uZG9zJTIwYXp1bGVzfGVufDB8fDB8fHww"
+			alt=""
+			id="effect"
+		/>
+
+		<main class="container">
+			<div id="profile-container">
+				<Image
+					src={Images.ProfilePhoto}
+					alt="Foto de Matias"
+					class="profile-img"
+				/>
+				<section>
+					<div class="profile-content">
+						<h1>
+							Hi, I'm <span class="highlight">Matias</span>
+						</h1>
+						<h2>
+							Web Developer & <span class="highlight"
+								>Minecraft Modder</span
+							>
+						</h2>
+						<p class="profile-intro">
+							<strong
+								>Passionate about Rust, compilers, creative
+								coding, and building fun projects. Always
+								learning and exploring new technologies.</strong
+							>
+						</p>
+						<div class="profile-description">
+							<section>
+								<p>
+									I began my programming journey during the
+									pandemic, starting with Java and exploring
+									other languages. Since then, I’ve been
+									building projects, learning new concepts,
+									and recently completed a vocational training
+									program (GM FP) in Microinformatic Systems
+									and Communications. I am currently studying
+									DAW (Web Development).
+								</p>
+							</section>
+
+							<section>
+								<h4>Use of AI</h4>
+								<p>
+									I use AI to research, clarify concepts, and
+									handle small refactorings or optimizations.
+									It saves time on repetitive tasks, but I
+									avoid relying on it for major refactors or
+									as my main learning source.
+								</p>
+							</section>
+						</div>
+
+						<div class="profile-links">
+							<a
+								href="./other/MatiasGuliasCarrascalCV.pdf"
+								download
+								class="btn"
+							>
+								<Icons.CvIcon class="icon" /> Download CV
+							</a>
+							<a
+								href="https://github.com/Garkatron"
+								target="_blank"
+								rel="noopener noreferrer"
+								class="btn"
+							>
+								<Icons.GithubIcon class="icon" /> GitHub
+							</a>
+							<a href="#" onclick="copyEmail()">
+								<Icons.MailIcon class="icon" /> masitacarg@gmail.com
+							</a>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<section class="grid">
+				<TechGrid
+					title="Languages"
+					skills={[
+						{
+							icon: Icons.JavaIcon,
+							progress: "",
+							title: "Java",
+						},
+						{
+							icon: Icons.JsIcon,
+							progress: "",
+							title: "JavaScript",
+						},
+						{
+							icon: Icons.KotlinIcon,
+							progress: "",
+							title: "Kotlin",
+						},
+						{ icon: Icons.RustIcon, progress: 55, title: "Rust" },
+						{
+							icon: Icons.PythonIcon,
+							progress: "",
+							title: "Python",
+						},
+					]}
+				/>
+
+				<TechGrid
+					title="Frameworks & Libraries"
+					skills={[
+						{
+							icon: Icons.BootstrapIcon,
+							progress: 100,
+							title: "Bootstrap",
+						},
+						{ icon: Icons.AstroIcon, progress: 55, title: "Astro" },
+					]}
+				/>
+
+				<TechGrid
+					title="Tools"
+					skills={[
+						{ icon: Icons.GitIcon, progress: 100, title: "Git" },
+						{
+							icon: Icons.PostmanIcon,
+							progress: 100,
+							title: "Postman",
+						},
+					]}
+				/>
+
+				<TechGrid
+					title="Other"
+					skills={[
+						{ icon: Icons.LinuxIcon, progress: 65, title: "Linux" },
+						{
+							icon: Icons.SqlIcon,
+							progress: 100,
+							title: "SQL Database",
+						},
+					]}
+				/>
+			</section>
+		</main>
+		<div>
+			<section class="content-section">
+				<h2 class="highlight">Featured Projects</h2>
+
+				<ProjectGrid
+					projects={[
+						{
+							title: "Rlox lang",
+							description:
+								"I developed a programming language...",
+							link: "https://github.com/Garkatron/Rust-Lox-Interpreter",
+							image: Images.Rloxlang,
+						},
+						{
+							title: "3D Rasterizer in Rust",
+							description: "I developed a 3D rendering engine...",
+							link: "https://github.com/Garkatron/ScrapRenderer",
+							image: Images.Renderer3D,
+						},
+						{
+							title: "Rust-Coded LRU",
+							description:
+								"I implemented an LRU Cache in Rust...",
+							link: "https://github.com/Garkatron/LRU-Cache-Rust",
+							image: Images.Lrucache,
+						},
+					]}
+				/>
+			</section>
+			<section class="content-section">
+				<h2 class="highlight">Other Projects</h2>
+				<Carousel
+					items={[
+						{
+							title: "CHIP-8 Emulator",
+							href: "https://github.com/Garkatron/Von-Neumann-Simulator",
+							image: Images.Chip8,
+							description:
+								"CHIP-8 Emulator implemented in Python",
+						},
+						{
+							title: "TerraX69",
+							href: "https://github.com/Garkatron/TerraX69-JS",
+							description: "JavaScript game built with Tauri",
+						},
+						{
+							title: "PC Pokémon Web",
+							href: "https://garkatron.github.io/PC-PokeApi/",
+							image: Images.PokeApi,
+							description:
+								"An interactive web app for exploring Pokémon data using the PokéAPI",
+						},
+						{
+							title: "Von Neumann Simulator",
+							href: "https://github.com/Garkatron/Von-Neumann-Simulator",
+							image: Images.VonNeumann,
+							description:
+								"Von Neumann architecture simulator in Python",
+						},
+						{
+							title: "IWantToLearnX",
+							href: "https://github.com/Garkatron/IWantToLearnX",
+							description:
+								"A personal 'Build Your Own X' project to explore and learn various programming concepts",
+						},
+						{
+							title: "FactBoard NEM",
+							href: "https://github.com/Garkatron/FactBoard_NEM",
+							description:
+								"A Node.js and MongoDB-based app for managing and sharing publications",
+						},
+						{
+							title: "FactBoard",
+							href: "https://github.com/Garkatron/FactBoard",
+							description:
+								"A PHP and MySQL-based app for managing and sharing publications",
+						},
+					]}
+				/>
+			</section>
+
+			<section class="content-section">
+				<h2 class="highlight">Minecraft mods</h2>
+				<Carousel
+					items={[
+						{
+							title: "BTA PainScale",
+							href: "https://github.com/Garkatron/BTA-PainScale",
+							description:
+								"A Minecraft mod with a dynamic difficulty system, enhanced health mechanics, and tougher enemies",
+						},
+						{
+							title: "BTA Guidebook",
+							href: "https://github.com/Garkatron/BTA-Guidebook.md",
+							image: Images.Guidebook,
+							description:
+								"A Markdown-based guidebook library for BTA modders with in-game editing and export features",
+						},
+						{
+							title: "StanleyTemperature",
+							href: "https://github.com/Garkatron/StanleyTemperature",
+							image: Images.Stanley,
+							description:
+								"A temperature mod and skill system library for RPG-style gameplay in Minecraft",
+						},
+						{
+							title: "BTA Paperwork",
+							href: "https://github.com/Garkatron/BTA-Paperwork",
+							image: Images.Paperwork,
+							description:
+								"A Minecraft mod adding decorative blocks, items, and paper-based entities like cardboard boxes",
+						},
+						{
+							title: "BTA POVERH",
+							href: "https://github.com/Garkatron/BTA-POVERH",
+							image: Images.Parkour,
+							description:
+								"A Minecraft mod introducing stamina and parkour mechanics for enhanced movement",
+						},
+					]}
+				/>
+			</section>
+		</div>
+	</body>
+
+	<style>
+		.content-section {
+			padding: 40px;
+		}
+
+		#profile-container {
+			display: flex;
+		}
+
+		.profile-img {
+			height: 600px;
+			width: 300px;
+
+			padding: 10px;
+			border-radius: 50px;
+			object-fit: cover;
+
+			-webkit-mask-image: linear-gradient(
+				to left,
+				rgba(0, 0, 0, 1) 20%,
+				rgba(0, 0, 0, 0) 70%
+			);
+			-webkit-mask-repeat: no-repeat;
+			-webkit-mask-position: center;
+			-webkit-mask-size: cover;
+
+			mask-image: linear-gradient(
+				to left,
+				rgba(0, 0, 0, 1) 40%,
+				rgba(0, 0, 0, 0) 70%
+			);
+
+			mask-repeat: no-repeat;
+			mask-position: center;
+			mask-size: cover;
+		}
+
+		@media (max-width: 765px) {
+			#profile-container {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.profile-img {
+				width: 100%;
+			}
+		}
+
+		#effect {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+			opacity: 25%;
+			filter: contrast(150%) brightness(60%) blur(1px) grayscale();
+		}
+
+		.profile-content {
+			padding: 1rem;
+		}
+		.presentation h1,
+		.presentation h3 {
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+		}
+		.highlight {
+			color: #ffb25f;
+		}
+		.keyword {
+			color: #b4937d;
+		}
+		.description {
+			text-align: justify;
+			font-size: 1.1rem;
+		}
+		.profile-links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1rem;
+			margin-top: 1rem;
+		}
+		.profile-links a {
+			display: flex;
+			align-items: center;
+			gap: 0.3rem;
+			font-weight: 600;
+			text-decoration: none;
+		}
+		.icon {
+			width: 20px;
+			height: 20px;
+		}
+		a {
+			display: inline-block;
+			outline: 0;
+			text-align: center;
+			cursor: pointer;
+			min-width: 80px;
+			height: 32px;
+			color: rgb(255, 255, 255);
+		}
+
+		.tech-grid {
+			display: flex;
+			gap: 0.5rem;
+		}
+	</style>
+	<script>
+		function copyEmail() {
+			const email = "masitacarg@gmail.com";
+			navigator.clipboard
+				.writeText(email)
+				.then(() => {
+					alert("Email copied to clipboard: " + email);
+				})
+				.catch((err) => {
+					console.error("Failed to copy email: ", err);
+					alert("Failed to copy email. Please try again.");
+				});
+		}
+	</script>
+</Default>

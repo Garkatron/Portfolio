@@ -1,0 +1,43 @@
+---
+import SkillProgress from "./SkillProgress.astro";
+
+interface Skill {
+    icon: string;
+    progress: number;
+    title: string;
+}
+
+const { title = "CategoryName", skills = [] } = Astro.props as {
+    title?: string;
+    skills: Skill[];
+};
+---
+
+<div id="t">
+    <h6>{title}</h6>
+    <div class="grid">
+        {
+            skills.map((skill) => (
+                <SkillProgress
+                    icon={skill.icon}
+                    progress={skill.progress}
+                    title={skill.title}
+                />
+            ))
+        }
+    </div>
+</div>
+<style>
+    #t {
+        text-align: center;
+    }
+
+    @media (max-width: 765px) {
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-items: center;
+        }
+    }
+</style>

@@ -1,0 +1,18 @@
+---
+import Icon from "./Icon.astro";
+
+const { icon, progress = "", title = "Title" } = Astro.props;
+---
+
+<div>
+    <Icon src={icon} type="dev" title={title} />
+
+    <style>
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</div>

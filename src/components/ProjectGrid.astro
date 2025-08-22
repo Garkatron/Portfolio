@@ -1,0 +1,27 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+
+interface Card {
+    title: string;
+    description: string;
+    image: string;
+    link: string;
+}
+
+const { projects = [] } = Astro.props as {
+    projects: Card[];
+};
+---
+
+<div class="grid">
+    {
+        projects.map((card) => (
+            <ProjectCard
+                title={card.title}
+                description={card.description}
+                link={card.link}
+                image={card.image}
+            />
+        ))
+    }
+</div>

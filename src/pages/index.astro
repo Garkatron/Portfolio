@@ -34,94 +34,114 @@ import stanleyImage from "../assets/images/stanley.png";
 import paperworkImage from "../assets/images/paperwork.png";
 import parkourImage from "../assets/images/parkour.png";
 
-//
 import renderer3dImage from "../assets/images/renderer3d.png";
 ---
 
 <Layout>
-    <!-- Section 1: Presentation -->
-    <main id="section1" class="slice">
-        <Photo src={facephoto} />
+    <body
+        class="bg-[#1b1b1b] bg-[url('/Portfolio/bg/olas10.svg')] bg-cover bg-no-repeat bg-center relative"
+    >
+        <div
+            class="absolute inset-0 bg-[url('/Portfolio/bg/topography.svg')] bg-repeat bg-[length:1000px] opacity-25 pointer-events-none"
+        >
+        </div>
 
-        <div class="section-content">
-            <div style="display: flex; width: 100%; justify-content: center;">
-                <PresentationCard />
+        <main
+            id="section1"
+            class="flex flex-col md:flex-row justify-between w-full min-h-screen relative z-20 p-4 md:p-8"
+        >
+            <Photo src={facephoto} />
+
+            <div class="w-full relative z-20 p-8 bg-transparent rounded-lg">
+                <div class="flex w-full justify-center">
+                    <PresentationCard />
+                </div>
+                <section id="tech-stack" class="w-full">
+                    <TechGrid
+                        title="Languages"
+                        skills={[
+                            { icon: javaIcon, progress: 70, title: "Java" },
+                            { icon: jsIcon, progress: 70, title: "Javascript" },
+                            { icon: kotlinIcon, progress: 70, title: "Kotlin" },
+                            { icon: rustIcon, progress: 55, title: "Rust" },
+                            { icon: pythonIcon, progress: 50, title: "Python" },
+                        ]}
+                    />
+                    <TechGrid
+                        title="Frameworks & Libraries"
+                        skills={[
+                            {
+                                icon: bootstrapIcon,
+                                progress: 100,
+                                title: "Bootstrap",
+                            },
+                            { icon: astroIcon, progress: 55, title: "Astro" },
+                        ]}
+                    />
+                    <TechGrid
+                        title="Tools"
+                        skills={[
+                            { icon: gitIcon, progress: 100, title: "Git" },
+                            {
+                                icon: postmanIcon,
+                                progress: 100,
+                                title: "Postman",
+                            },
+                        ]}
+                    />
+                    <TechGrid
+                        title="Other"
+                        skills={[
+                            { icon: linuxIcon, progress: 65, title: "Linux" },
+                            {
+                                icon: sqlIcon,
+                                progress: 100,
+                                title: "SQL Database",
+                            },
+                        ]}
+                    />
+                </section>
             </div>
-            <section id="tech-stack">
-                <TechGrid
-                    title="Languages"
-                    skills={[
-                        { icon: javaIcon, progress: 70, title: "Java" },
-                        { icon: jsIcon, progress: 70, title: "Javascript" },
-                        { icon: kotlinIcon, progress: 70, title: "Kotlin" },
-                        { icon: rustIcon, progress: 55, title: "Rust" },
-                        { icon: pythonIcon, progress: 50, title: "Python" },
-                    ]}
-                />
-                <TechGrid
-                    title="Frameworks & Libraries"
-                    skills={[
+        </main>
+
+        <!-- Section 2: Featured Projects -->
+        <div id="section2" class="min-h-screen relative z-20 flex p-4 md:p-8">
+            <div class="w-full rounded-lg p-8 bg-transparent relative z-20">
+                <h2 class="text-white text-2xl font-bold mb-4">
+                    Featured Projects
+                </h2>
+                <ProjectGrid
+                    projects={[
                         {
-                            icon: bootstrapIcon,
-                            progress: 100,
-                            title: "Bootstrap",
+                            title: "Rlox lang",
+                            description:
+                                "I developed a programming language...",
+                            link: "https://github.com/Garkatron/Rust-Lox-Interpreter",
                         },
-                        { icon: astroIcon, progress: 55, title: "Astro" },
+                        {
+                            title: "3D Rasterizer in Rust",
+                            description: "I developed a 3D rendering engine...",
+                            link: "https://github.com/Garkatron/ScrapRenderer",
+                            image: renderer3dImage,
+                        },
+                        {
+                            title: "Rust-Coded LRU",
+                            description:
+                                "I implemented an LRU Cache in Rust...",
+                            link: "https://github.com/Garkatron/LRU-Cache-Rust",
+                        },
                     ]}
                 />
-                <TechGrid
-                    title="Tools"
-                    skills={[
-                        { icon: gitIcon, progress: 100, title: "Git" },
-                        { icon: postmanIcon, progress: 100, title: "Postman" },
-                    ]}
-                />
-                <TechGrid
-                    title="Other"
-                    skills={[
-                        { icon: linuxIcon, progress: 65, title: "Linux" },
-                        { icon: sqlIcon, progress: 100, title: "SQL Database" },
-                    ]}
-                />
-            </section>
+            </div>
         </div>
-    </main>
 
-    <!-- Section 2: Featured Projects -->
-    <div id="section2" class="slice">
-        <div class="section-content">
-            <h2>Featured Projects</h2>
-            <ProjectGrid
-                projects={[
-                    {
-                        title: "Rlox lang",
-                        description: "I developed a programming language...",
-                        link: "https://github.com/Garkatron/Rust-Lox-Interpreter",
-                        //image: "https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png",
-                    },
-                    {
-                        title: "3D Rasterizer in Rust",
-                        description: "I developed a 3D rendering engine...",
-                        link: "https://github.com/Garkatron/ScrapRenderer",
-                        image: renderer3dImage,
-                    },
-                    {
-                        title: "Rust-Coded LRU",
-                        description: "I implemented an LRU Cache in Rust...",
-                        link: "https://github.com/Garkatron/LRU-Cache-Rust",
-                        /// image: "https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg",
-                    },
-                ]}
-            />
-        </div>
-    </div>
-
-    <!-- Section 3: Other Projects and Knowledge -->
-    <div id="section3" class="slice">
-        <div class="section-content">
-            <section>
+        <!-- Section 3: Other Projects and Knowledge -->
+        <div id="section3" class="min-h-screen relative z-20 flex p-4 md:p-8">
+            <div class="w-full rounded-lg p-8 bg-transparent relative z-20">
                 <section>
-                    <h2>Other Projects</h2>
+                    <h2 class="text-white text-2xl font-bold mb-4">
+                        Other Projects
+                    </h2>
                     <Carousel
                         items={[
                             {
@@ -154,7 +174,7 @@ import renderer3dImage from "../assets/images/renderer3d.png";
                                 title: "IWantToLearnX",
                                 href: "https://github.com/Garkatron/IWantToLearnX",
                                 description:
-                                    "A personal 'Build Your Own X' project to explore and learn various programming concepts",
+                                    "A personal 'Build Your Own X' project",
                             },
                             {
                                 title: "FactBoard NEM",
@@ -172,22 +192,24 @@ import renderer3dImage from "../assets/images/renderer3d.png";
                     />
                 </section>
 
-                <section>
-                    <h2>Minecraft Mods</h2>
+                <section class="mt-8">
+                    <h2 class="text-white text-2xl font-bold mb-4">
+                        Minecraft Mods
+                    </h2>
                     <Carousel
                         items={[
                             {
                                 title: "BTA PainScale",
                                 href: "https://github.com/Garkatron/BTA-PainScale",
                                 description:
-                                    "A Minecraft mod with a dynamic difficulty system, enhanced health mechanics, and tougher enemies",
+                                    "A Minecraft mod with a dynamic difficulty system",
                             },
                             {
                                 title: "BTA Guidebook",
                                 href: "https://github.com/Garkatron/BTA-Guidebook.md",
                                 image: guidebookImage,
                                 description:
-                                    "A Markdown-based guidebook library for BTA modders with in-game editing and export features",
+                                    "A Markdown-based guidebook library for BTA modders",
                             },
                             {
                                 title: "StanleyTemperature",
@@ -201,288 +223,26 @@ import renderer3dImage from "../assets/images/renderer3d.png";
                                 href: "https://github.com/Garkatron/BTA-Paperwork",
                                 image: paperworkImage,
                                 description:
-                                    "A Minecraft mod adding decorative blocks, items, and paper-based entities like cardboard boxes",
+                                    "A Minecraft mod adding decorative blocks and items",
                             },
                             {
                                 title: "BTA POVERH",
                                 href: "https://github.com/Garkatron/BTA-POVERH",
                                 image: parkourImage,
                                 description:
-                                    "A Minecraft mod introducing stamina and parkour mechanics for enhanced movement",
+                                    "A Minecraft mod introducing stamina and parkour mechanics",
                             },
                         ]}
                     />
                 </section>
-            </section>
+            </div>
         </div>
-    </div>
 
-    <style>
-        #tech-stack {
-            width: 100%;
-        }
-
-        .section-content {
-            width: 100%;
-            border-radius: 8px;
-            padding: 2rem;
-            background: transparent;
-            position: relative;
-            z-index: 2;
-        }
-
-        .slice {
-            min-height: 100vh;
-            position: relative;
-            z-index: 2;
-            display: flex;
-        }
-
-        @media (max-width: 768px) {
-            .slice {
-                padding: 1rem 0;
-                min-height: auto;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .slice {
-                padding: 0.5rem 0;
-            }
-        }
-
-        body {
-            background-color: #1b1b1b;
-            background-image: url("/Portfolio/bg/olas10.svg");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            position: relative;
-        }
-
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("/Portfolio/bg/topography.svg");
-            background-repeat: repeat;
-            background-size: 1000px;
-            opacity: 0.25;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        html {
-            background-color: transparent;
-        }
-
-        main {
-            background: transparent;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            width: 100%;
-            min-height: 100vh;
-            position: relative;
-            z-index: 2;
-        }
-
-        .left-info {
-            width: 30%;
-            flex-shrink: 0;
-        }
-
-        .right-info section h2 {
-            color: #fff;
-            margin-bottom: 0.5rem;
-        }
-
-        .right-info section h5 {
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-
-        .right-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 2rem;
-            box-sizing: border-box;
-            align-items: center;
-            border-left: 2px solid white;
-            background-color: rgba(1, 4, 8, 0.379);
-            position: relative;
-            z-index: 2;
-        }
-
-        .right-info > section {
-            width: 99%;
-        }
-
-        a {
-            display: inline-block;
-            outline: 0;
-            text-align: center;
-            cursor: pointer;
-            min-width: 80px;
-            height: 32px;
-            color: rgb(255, 255, 255);
-        }
-
-        .project-section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .footer {
-            width: 100%;
-            text-align: center;
-            padding: 1rem 0;
-            background-color: rgba(1, 4, 8, 0.379);
-            color: #fff;
-            position: relative;
-            z-index: 2;
-            bottom: 0;
-        }
-
-        .footer p {
-            margin: 0;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 900px) {
-            main {
-                flex-direction: column;
-            }
-            .left-info {
-                width: 100%;
-            }
-            .right-info {
-                width: 100%;
-                border-left: none;
-            }
-        }
-    </style>
-
-    <script is:inline>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Handle anchor link clicks
-            document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-                anchor.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute("href");
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                        });
-                    }
-                });
-            });
-
-            let isScrolling = false;
-
-            // Handle mouse wheel scrolling
-            window.addEventListener(
-                "wheel",
-                (e) => {
-                    e.preventDefault();
-                    if (isScrolling) return;
-                    isScrolling = true;
-
-                    // Reset scrolling lock after a delay
-                    setTimeout(() => {
-                        isScrolling = false;
-                    }, 500); // Increased to 500ms for smoother transitions
-
-                    const sections = document.querySelectorAll(".slice");
-                    if (sections.length === 0) {
-                        console.warn("No elements found with class .slice");
-                        return;
-                    }
-
-                    // Find the current section based on visibility
-                    let currentSection = 0;
-                    let minDistance = Infinity;
-
-                    sections.forEach((section, index) => {
-                        const rect = section.getBoundingClientRect();
-                        const distance = Math.abs(rect.top); // Distance from top of viewport
-                        if (distance < minDistance) {
-                            minDistance = distance;
-                            currentSection = index;
-                        }
-                    });
-
-                    // Determine next or previous section based on scroll direction
-                    if (e.deltaY > 0) {
-                        // Scroll down
-                        currentSection = Math.min(
-                            currentSection + 1,
-                            sections.length - 1,
-                        );
-                    } else {
-                        // Scroll up
-                        currentSection = Math.max(currentSection - 1, 0);
-                    }
-
-                    sections[currentSection].scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                    });
-                },
-                { passive: false },
-            );
-
-            // Handle keyboard navigation
-            window.addEventListener(
-                "keydown",
-                (e) => {
-                    const sections = document.querySelectorAll(".slice");
-                    if (sections.length === 0) return;
-
-                    let currentSection = 0;
-                    let minDistance = Infinity;
-
-                    sections.forEach((section, index) => {
-                        const rect = section.getBoundingClientRect();
-                        const distance = Math.abs(rect.top);
-                        if (distance < minDistance) {
-                            minDistance = distance;
-                            currentSection = index;
-                        }
-                    });
-
-                    let targetSection = currentSection;
-
-                    if (e.code === "ArrowDown" || e.code === "Space") {
-                        e.preventDefault();
-                        targetSection = Math.min(
-                            currentSection + 1,
-                            sections.length - 1,
-                        );
-                    } else if (e.code === "ArrowUp") {
-                        e.preventDefault();
-                        targetSection = Math.max(currentSection - 1, 0);
-                    }
-
-                    if (targetSection !== currentSection) {
-                        sections[targetSection].scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                        });
-                    }
-                },
-                { passive: false },
-            );
-        });
-    </script>
+        <!-- Footer -->
+        <footer
+            class="w-full text-center py-4 bg-black/40 text-white relative z-20"
+        >
+            <p class="text-sm">© 2025 Mi Portafolio</p>
+        </footer>
+    </body>
 </Layout>

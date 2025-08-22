@@ -18,96 +18,102 @@ import { Image } from "astro:assets";
 		/>
 
 		<main class="container">
-			<section class="profile-section">
-				<div class="profile-image-wrapper">
-					<Image
-						src={Images.ProfilePhoto}
-						alt="Foto de Matias"
-						class="profile-img"
-					/>
-				</div>
+			<div id="profile-container">
+				<Image
+					src={Images.ProfilePhoto}
+					alt="Foto de Matias"
+					class="profile-img"
+				/>
+				<section>
+					<div class="profile-content">
+						<h1>
+							Hi, I'm <span class="highlight">Matias</span>
+						</h1>
+						<h2>
+							Web Developer & <span class="highlight"
+								>Minecraft Modder</span
+							>
+						</h2>
+						<p class="profile-intro">
+							<strong
+								>Passionate about Rust, compilers, creative
+								coding, and building fun projects. Always
+								learning and exploring new technologies.</strong
+							>
+						</p>
+						<div class="profile-description">
+							<section>
+								<p>
+									I began my programming journey during the
+									pandemic, starting with Java and exploring
+									other languages. Since then, I’ve been
+									building projects, learning new concepts,
+									and recently completed a vocational training
+									program (GM FP) in Microinformatic Systems
+									and Communications. I am currently studying
+									DAW (Web Development).
+								</p>
+							</section>
 
-				<div class="profile-content">
-					<h1>
-						Hi, I'm <span class="highlight">Matias</span>
-					</h1>
-					<h2>
-						Web Developer & <span class="highlight"
-							>Minecraft Modder</span
-						>
-					</h2>
-					<p class="profile-intro">
-						Passionate about Rust, compilers, creative coding, and
-						building fun projects. Always learning and exploring new
-						technologies.
-					</p>
+							<section>
+								<h4>Use of AI</h4>
+								<p>
+									I use AI to research, clarify concepts, and
+									handle small refactorings or optimizations.
+									It saves time on repetitive tasks, but I
+									avoid relying on it for major refactors or
+									as my main learning source.
+								</p>
+							</section>
+						</div>
 
-					<div class="profile-links">
-						<a
-							href="./other/MatiasGuliasCarrascalCV.pdf"
-							download
-							class="btn"
-						>
-							<Icons.CvIcon class="icon" /> Download CV
-						</a>
-						<a
-							href="https://github.com/Garkatron"
-							target="_blank"
-							rel="noopener noreferrer"
-							class="btn"
-						>
-							<Icons.GithubIcon class="icon" /> GitHub
-						</a>
-						<a href="#" onclick="copyEmail()">
-							<Icons.MailIcon class="icon" /> masitacarg@gmail.com
-						</a>
+						<div class="profile-links">
+							<a
+								href="./other/MatiasGuliasCarrascalCV.pdf"
+								download
+								class="btn"
+							>
+								<Icons.CvIcon class="icon" /> Download CV
+							</a>
+							<a
+								href="https://github.com/Garkatron"
+								target="_blank"
+								rel="noopener noreferrer"
+								class="btn"
+							>
+								<Icons.GithubIcon class="icon" /> GitHub
+							</a>
+							<a href="#" onclick="copyEmail()">
+								<Icons.MailIcon class="icon" /> masitacarg@gmail.com
+							</a>
+						</div>
 					</div>
+				</section>
+			</div>
 
-					<div class="profile-description">
-						<section>
-							<p>
-								I started my programming journey during the
-								pandemic, learning Java and exploring other
-								languages. Since then, I have been building
-								projects, learning new concepts, and recently
-								completed GM FP in Microinformatic Systems and
-								Communications. Currently, I am studying DAW
-								(Web Development).
-							</p>
-						</section>
-
-						<section>
-							<h4>Use of AI</h4>
-							<p>
-								I use AI to research, clarify concepts, and
-								handle small refactorings or optimizations. It
-								saves time on repetitive tasks, but I avoid
-								relying on it for major refactors or as my main
-								learning source.
-							</p>
-						</section>
-					</div>
-				</div>
-			</section>
 			<section class="grid">
 				<TechGrid
 					title="Languages"
 					skills={[
-						{ icon: Icons.JavaIcon, progress: 70, title: "Java" },
+						{
+							icon: Icons.JavaIcon,
+							progress: "",
+							title: "Java",
+						},
 						{
 							icon: Icons.JsIcon,
-							progress: 70,
+							progress: "",
 							title: "JavaScript",
 						},
 						{
 							icon: Icons.KotlinIcon,
-							progress: 70,
+							progress: "",
 							title: "Kotlin",
 						},
 						{ icon: Icons.RustIcon, progress: 55, title: "Rust" },
 						{
 							icon: Icons.PythonIcon,
-							progress: 50,
+							progress: "",
 							title: "Python",
 						},
 					]}
@@ -151,7 +157,9 @@ import { Image } from "astro:assets";
 			</section>
 		</main>
 		<div>
-			<section>
+			<section class="content-section">
+				<h2 class="highlight">Featured Projects</h2>
+
 				<ProjectGrid
 					projects={[
 						{
@@ -159,7 +167,7 @@ import { Image } from "astro:assets";
 							description:
 								"I developed a programming language...",
 							link: "https://github.com/Garkatron/Rust-Lox-Interpreter",
-							image: "https://db0dce98.delivery.rocketcdn.me/es/files/2024/08/Programacion_Procedural_DataScientest-1024x601.png",
+							image: Images.Rloxlang,
 						},
 						{
 							title: "3D Rasterizer in Rust",
@@ -172,13 +180,13 @@ import { Image } from "astro:assets";
 							description:
 								"I implemented an LRU Cache in Rust...",
 							link: "https://github.com/Garkatron/LRU-Cache-Rust",
-							image: "https://blog.orange.es/wp-content/uploads/sites/4/2023/04/memoria-cache-07.jpg",
+							image: Images.Lrucache,
 						},
 					]}
 				/>
 			</section>
-			<section>
-				<h2>Other Projects</h2>
+			<section class="content-section">
+				<h2 class="highlight">Other Projects</h2>
 				<Carousel
 					items={[
 						{
@@ -229,8 +237,8 @@ import { Image } from "astro:assets";
 				/>
 			</section>
 
-			<section>
-				<h2>Minecraft mods</h2>
+			<section class="content-section">
+				<h2 class="highlight">Minecraft mods</h2>
 				<Carousel
 					items={[
 						{
@@ -274,6 +282,53 @@ import { Image } from "astro:assets";
 	</body>
 
 	<style>
+		.content-section {
+			padding: 40px;
+		}
+
+		#profile-container {
+			display: flex;
+		}
+
+		.profile-img {
+			height: 600px;
+			width: 300px;
+
+			padding: 10px;
+			border-radius: 50px;
+			object-fit: cover;
+
+			-webkit-mask-image: linear-gradient(
+				to left,
+				rgba(0, 0, 0, 1) 20%,
+				rgba(0, 0, 0, 0) 70%
+			);
+			-webkit-mask-repeat: no-repeat;
+			-webkit-mask-position: center;
+			-webkit-mask-size: cover;
+
+			mask-image: linear-gradient(
+				to left,
+				rgba(0, 0, 0, 1) 40%,
+				rgba(0, 0, 0, 0) 70%
+			);
+
+			mask-repeat: no-repeat;
+			mask-position: center;
+			mask-size: cover;
+		}
+
+		@media (max-width: 765px) {
+			#profile-container {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.profile-img {
+				width: 100%;
+			}
+		}
+
 		#effect {
 			position: fixed;
 			top: 0;
@@ -282,29 +337,11 @@ import { Image } from "astro:assets";
 			height: 100%;
 			z-index: -1;
 			opacity: 25%;
-			filter: contrast(150%) brightness(50%) blur(1px) sepia();
+			filter: contrast(150%) brightness(60%) blur(1px) grayscale();
 		}
-		.profile-section {
-			display: flex;
-			flex-wrap: wrap;
-			align-items: center;
-			gap: 2rem;
-			max-width: 950px;
-			min-height: 800px;
-			margin-right: auto;
-			margin-left: auto;
-		}
-		.profile-img {
-			flex: 0 0 250px;
-			width: 250px;
-			height: 250px;
-			object-fit: cover;
-			border-radius: 50%;
-		}
-		.presentation {
-			flex: 1;
-			font-size: 1.1rem;
-			line-height: 1.5;
+
+		.profile-content {
+			padding: 1rem;
 		}
 		.presentation h1,
 		.presentation h3 {
@@ -312,7 +349,7 @@ import { Image } from "astro:assets";
 			margin-bottom: 0.5rem;
 		}
 		.highlight {
-			color: #b4937d;
+			color: #ffb25f;
 		}
 		.keyword {
 			color: #b4937d;
@@ -351,20 +388,6 @@ import { Image } from "astro:assets";
 		.tech-grid {
 			display: flex;
 			gap: 0.5rem;
-		}
-
-		@media (max-width: 600px) {
-			.profile-section {
-				flex-direction: column;
-				align-items: center;
-				text-align: center;
-			}
-			.description {
-				flex: unset;
-			}
-			.tech-categories {
-				flex-direction: column;
-			}
 		}
 	</style>
 	<script>

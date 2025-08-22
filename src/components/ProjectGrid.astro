@@ -25,3 +25,16 @@ const { projects = [] } = Astro.props as {
         ))
     }
 </div>
+
+<style>
+    .grid {
+        display: flex;
+        justify-content: center;
+    }
+
+    @media (max-width: 765px) {
+        .grid {
+            display: block;
+        }
+    }
+</style>

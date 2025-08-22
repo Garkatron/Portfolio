@@ -1,32 +1,18 @@
 ---
 import Icon from "./Icon.astro";
 
-const { icon, progress = 0, title = "Title", loading = false } = Astro.props;
+const { icon, progress = "", title = "Title" } = Astro.props;
 ---
 
 <div>
     <Icon src={icon} type="dev" title={title} />
-    {
-        loading ? (
-            <progress id="progress-bar" />
-        ) : (
-            <>
-                <progress id="file" max="100" value={progress}>
-                    {progress}%
-                </progress>
-            </>
-        )
-    }
-</div>
 
-<style>
-    div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    progress {
-        width: 140px;
-    }
-</style>
+    <style>
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</div>

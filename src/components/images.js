@@ -7,6 +7,8 @@ import Guidebook from '../assets/images/guidebook.png';
 import Stanley from '../assets/images/stanley.png';
 import Paperwork from '../assets/images/paperwork.png';
 import Parkour from '../assets/images/parkour.png';
+import Rloxlang from '../assets/images/rloxlang.png';
+import Lrucache from '../assets/images/lrucache.jpg';
 
 export {
     ProfilePhoto,
@@ -17,5 +19,7 @@ export {
     Guidebook,
     Stanley,
     Paperwork,
-    Parkour
+    Parkour,
+    Rloxlang,
+    Lrucache
 };

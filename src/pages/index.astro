@@ -69,7 +69,7 @@ import { Image } from "astro:assets";
 
 						<div class="profile-links">
 							<a
-								href="./other/MatiasGuliasCarrascalCV.pdf"
+								href="/Portfolio/MatiasGuliasCarrascalCV.pdf"
 								download
 								class="btn"
 							>
@@ -83,7 +83,7 @@ import { Image } from "astro:assets";
 							>
 								<Icons.GithubIcon class="icon" /> GitHub
 							</a>
-							<a href="#" onclick="copyEmail()">
+							<a id="email-button" href="#">
 								<Icons.MailIcon class="icon" /> masitacarg@gmail.com
 							</a>
 						</div>
@@ -391,17 +391,19 @@ import { Image } from "astro:assets";
 		}
 	</style>
 	<script>
-		function copyEmail() {
-			const email = "masitacarg@gmail.com";
-			navigator.clipboard
-				.writeText(email)
-				.then(() => {
-					alert("Email copied to clipboard: " + email);
-				})
-				.catch((err) => {
-					console.error("Failed to copy email: ", err);
-					alert("Failed to copy email. Please try again.");
-				});
-		}
+		document
+			.getElementById("email-button")
+			?.addEventListener("click", (e) => {
+				const email = "masitacarg@gmail.com";
+				navigator.clipboard
+					.writeText(email)
+					.then(() => {
+						alert("Email copied to clipboard: " + email);
+					})
+					.catch((err) => {
+						console.error("Failed to copy email: ", err);
+						alert("Failed to copy email. Please try again.");
+					});
+			});
 	</script>
 </Default>

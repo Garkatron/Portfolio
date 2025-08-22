@@ -1,21 +1,31 @@
 ---
+import { Image } from "astro:assets";
+
 const {
     title = "ProjectName",
     description = "Some info here...",
     link = "#",
-    image = "https://images.pexels.com/photos/635699/pexels-photo-635699.jpeg",
+    image = "",
 } = Astro.props;
 ---
 
 <a href={link} target="_blank" rel="noopener noreferrer" class="card">
-    <img src={image} alt="carousel element" />
-
+    {
+        image && (
+            <Image
+                src={image}
+                alt={title}
+                width={300}
+                height={200}
+                style={{ objectFit: "cover" }}
+            />
+        )
+    }
     <div class="card-content">
         <strong>{title}</strong>
         <p>{description}</p>
     </div>
 </a>
-
 <style>
     .card {
         display: flex;

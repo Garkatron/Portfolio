@@ -13,24 +13,35 @@ const { projects = [] } = Astro.props as {
 };
 ---
 
-<div class="card-grid">
-    {
-        projects.map((card) => (
-            <ProjectCard
-                title={card.title}
-                description={card.description}
-                link={card.link}
-                image={card.image}
-            />
-        ))
-    }
+<div class="container">
+    <div class="grid">
+        {
+            projects.map((card) => (
+                <ProjectCard
+                    title={card.title}
+                    description={card.description}
+                    link={card.link}
+                    image={card.image}
+                />
+            ))
+        }
+    </div>
 </div>
 
 <style>
-    .card-grid {
+    .container {
+        padding: 1rem;
+    }
+
+    .grid {
         display: grid;
-        grid-template-columns: auto auto auto;
         gap: 1rem;
-        width: 100%;
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+        .grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 </style>

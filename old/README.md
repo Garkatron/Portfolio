@@ -1,1 +1,0 @@
-KOI ANIMATION: https://codepen.io/Adir-SL/pen/LYEPzxW

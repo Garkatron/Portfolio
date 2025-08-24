@@ -15,7 +15,7 @@ const { title = "CategoryName", skills = [] } = Astro.props as {
 
 <div id="t">
     <h6>{title}</h6>
-    <div class="grid">
+    <div class="skill-grid">
         {
             skills.map((skill) => (
                 <SkillProgress
@@ -28,6 +28,11 @@ const { title = "CategoryName", skills = [] } = Astro.props as {
     </div>
 </div>
 <style>
+    .skill-grid {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
     #t {
         text-align: center;
     }

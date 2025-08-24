@@ -2,49 +2,92 @@
 import { Image } from "astro:assets";
 import Icon from "./Icon.astro";
 
-const { title = "Title", image, href, icons } = Astro.props;
+const {
+    title = "Title",
+    description,
+    image,
+    href,
+    icons,
+} = Astro.props as {
+    title: string;
+    description: string;
+    image: ImageMetadata;
+    href: string;
+    icons: ImageMetadata[];
+};
 ---
 
 <article>
-    {image && <Image src={image} width={0} height={0} alt="carousel element" />}
-
-    <h2>{title}</h2>
+    <header>
+        <a href={href}>
+            {
+                image && (
+                    <Image
+                        src={image}
+                        width={0}
+                        height={0}
+                        alt="carousel element"
+                    />
+                )
+            }
+        </a>
+        <h2>{title}</h2>
+    </header>
     <div>
-        <slot />
-        <a href={href}>Read more</a>
+        <p>{description}</p>
     </div>
-    {
-        icons && (
-            <div class="grid">
-                {icons &&
-                    icons.map((i: ImageMetadata) => (
-                        <div>
-                            <Icon type="icon" title="project_icon" src={i} />
-                        </div>
-                    ))}
-            </div>
-        )
-    }
+    <footer>
+        {
+            icons && (
+                <div class="icon-grid">
+                    {icons &&
+                        icons.map((i: ImageMetadata) => (
+                            <div>
+                                <Icon
+                                    type="icon"
+                                    title="project_icon"
+                                    src={i}
+                                />
+                            </div>
+                        ))}
+                </div>
+            )
+        }
+    </footer>
 </article>
 
 <style>
+    .icon-grid {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 100%;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 300;
+    }
+
     article {
-        position: absolute;
-        top: 0;
-
-        left: calc(100% + var(--carousel-item-gap));
-        width: var(--carousel-item-width);
-        height: var(--carousel-item-height);
         display: grid;
-        grid-template-rows: 200px auto 1fr auto;
-        gap: 0.25rem;
+        grid-template-rows: 60% 20% 20%;
 
-        padding-block-end: 1rem;
-        border-radius: 10px;
-        background: light-dark(white, rgba(255 255 255 / 0.05));
+        position: absolute;
+
+        top: 0;
+        left: calc(100% + var(--carousel-item-gap));
+
+        width: var(--carousel-item-width);
+        height: var(--height);
+
         color: light-dark(rgb(49, 65, 88), white);
 
+        border-radius: 10px;
+
         will-change: transform;
+
         animation-name: marquee;
         animation-duration: var(--carousel-duration);
         animation-timing-function: linear;
@@ -85,45 +128,5 @@ const { title = "Title", image, href, icons } = Astro.props;
         height: 100%;
         object-fit: cover;
         border-radius: 10px 10px 0 0;
-    }
-
-    article > *:not(img) {
-        padding: 0 1rem;
-    }
-
-    article > div {
-        grid-row: span 2;
-        display: grid;
-        grid-template-rows: subgrid;
-        font-size: 0.8rem;
-    }
-
-    h2 {
-        font-size: 1.2rem;
-        font-weight: 300;
-        padding-block: 0.75rem 0.25rem;
-        margin: 0;
-    }
-
-    p {
-        margin: 0;
-    }
-
-    a {
-        text-decoration: none;
-        text-transform: lowercase;
-        border: 1px solid var(--clr-cta);
-        color: light-dark(var(--clr-cta), white);
-        border-radius: 3px;
-        padding: 0.25rem 0.5rem;
-        place-self: start;
-        transition: 150ms ease-in-out;
-    }
-
-    a:hover,
-    a:focus-visible {
-        background-color: var(--clr-cta);
-        color: white;
-        outline: none;
     }
 </style>

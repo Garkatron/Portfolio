@@ -3,6 +3,7 @@ import CarouselItem from "./CarouselItem.astro";
 
 interface Item {
     title: string;
+    description: string;
     href: string;
     image: string;
     icons: ImageMetadata[];
@@ -12,10 +13,12 @@ const {
     gradient = true,
     reverse = false,
     duration = "50s",
+    height = "400px",
     items = [],
 } = Astro.props as {
     gradient?: boolean;
     reverse?: boolean;
+    height: string;
     duration?: string;
     items?: Item[];
 };
@@ -23,7 +26,7 @@ const {
 
 <div
     class="carousel"
-    style={`--items: ${items.length}; --carousel-duration: ${duration};`}
+    style={`--items: ${items.length}; --carousel-duration: ${duration}; --height: ${height}`}
     data-gradient={gradient ? "true" : "false"}
     data-reverse={reverse ? "true" : "false"}
 >
@@ -34,26 +37,25 @@ const {
                 href={item.href}
                 image={item.image}
                 icons={item.icons}
-            >
-                CHIP-8 Emulator implemented in Python
-            </CarouselItem>
+                description={item.description}
+            />
         ))
     }
 </div>
 
 <style>
     .carousel {
-        --carousel-item-width: 480px;
-        --carousel-item-height: 370px;
-        --carousel-item-gap: 2rem;
+        display: flex;
 
-        --clr-cta: rgb(0, 132, 209);
+        height: var(--height);
+
+        align-items: center;
 
         position: relative;
-        height: var(--carousel-item-height);
         overflow: hidden;
-        display: flex;
-        align-items: center;
+
+        --carousel-item-width: 480px;
+        --carousel-item-gap: 2rem;
     }
 
     .carousel[data-gradient="true"] {
@@ -82,7 +84,7 @@ const {
         animation-direction: reverse;
     }
 
-    .carousel *:hover {
+    .carousel > *:hover {
         animation-play-state: paused;
     }
 

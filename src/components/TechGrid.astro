@@ -37,10 +37,9 @@ const { title = "CategoryName", skills = [] } = Astro.props as {
         text-align: center;
     }
 
-    @media (max-width: 765px) {
-        .grid {
+    @media (max-width: 800px) {
+        .skill-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             justify-items: center;
         }

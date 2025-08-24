@@ -1,11 +1,13 @@
 ---
 import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
 
 const {
     title = "ProjectName",
     description = "Some info here...",
     link,
     image,
+    icons,
 } = Astro.props;
 ---
 
@@ -14,6 +16,16 @@ const {
     <div class="card-content">
         <strong>{title}</strong>
         <p>{description}</p>
+        <div class="grid">
+            {
+                icons &&
+                    icons.map((i: ImageMetadata) => (
+                        <div>
+                            <Icon type="icon" title="project_icon" src={i} />
+                        </div>
+                    ))
+            }
+        </div>
     </div>
 </a>
 

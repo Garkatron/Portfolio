@@ -6,6 +6,7 @@ interface Card {
     description: string;
     image: string;
     link: string;
+    icons: ImageMetadata[];
 }
 
 const { projects = [] } = Astro.props as {
@@ -21,6 +22,7 @@ const { projects = [] } = Astro.props as {
                 description={card.description}
                 link={card.link}
                 image={card.image}
+                icons={card.icons}
             />
         ))
     }

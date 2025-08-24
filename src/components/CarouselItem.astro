@@ -1,7 +1,8 @@
 ---
 import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
 
-const { title = "Title", image, href } = Astro.props;
+const { title = "Title", image, href, icons } = Astro.props;
 ---
 
 <article>
@@ -12,6 +13,18 @@ const { title = "Title", image, href } = Astro.props;
         <slot />
         <a href={href}>Read more</a>
     </div>
+    {
+        icons && (
+            <div class="grid">
+                {icons &&
+                    icons.map((i: ImageMetadata) => (
+                        <div>
+                            <Icon type="icon" title="project_icon" src={i} />
+                        </div>
+                    ))}
+            </div>
+        )
+    }
 </article>
 
 <style>

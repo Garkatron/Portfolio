@@ -5,6 +5,7 @@ interface Item {
     title: string;
     href: string;
     image: string;
+    icons: ImageMetadata[];
 }
 
 const {
@@ -32,6 +33,7 @@ const {
                 title={item.title}
                 href={item.href}
                 image={item.image}
+                icons={item.icons}
             >
                 CHIP-8 Emulator implemented in Python
             </CarouselItem>

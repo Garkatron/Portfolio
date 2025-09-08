@@ -9,6 +9,8 @@ import Paperwork from '../assets/images/paperwork.png';
 import Parkour from '../assets/images/parkour.png';
 import Rloxlang from '../assets/images/rloxlang.png';
 import Lrucache from '../assets/images/lrucache.jpg';
+import ComicWeb from '../assets/images/comic-template.png';
+import PS3WEB from '../assets/images/PS3PORTFOLIO.jpg';
 
 export {
     ProfilePhoto,
@@ -21,5 +23,5 @@ export {
     Paperwork,
     Parkour,
     Rloxlang,
-    Lrucache
+    Lrucache, ComicWeb, PS3WEB
 };

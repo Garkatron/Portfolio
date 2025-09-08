@@ -1,4 +1,4 @@
-import ProfilePhoto from '../assets/images/photo.jpg';
+import ProfilePhoto from '../assets/images/noirphoto.png';
 import Renderer3D from '../assets/images/renderer3d.png';
 import Chip8 from '../assets/images/chip8image.png';
 import PokeApi from '../assets/images/pokeapi.png';

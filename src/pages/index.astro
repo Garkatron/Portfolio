@@ -1,310 +1,419 @@
 ---
-import { Image } from "astro:assets";
-import "../styles/global.css";
-import ComicPhoto from "../components/ComicPhoto.astro";
-import ICON_ASTRO from "../assets/icons/orange-astro.svg";
-import ICON_JAVA from "../assets/icons/java.svg";
-import ICON_TS from "../assets/icons/ts.svg";
-import ICON_REACT from "../assets/icons/react.svg";
-import ICON_JS from "../assets/icons/js.svg";
-import ICON_NODE from "../assets/icons/node.svg";
-import ICON_SQL from "../assets/icons/sql.svg";
-import ICON_MONGO from "../assets/icons/mongo.svg";
-import ProjectCard from "../components/ProjectCard.astro";
-import TabPanel from "../components/TabPanel.astro";
+import Default from "../layout/Default.astro";
+import TechGrid from "../components/TechGrid.astro";
+import ProjectGrid from "../components/ProjectGrid.astro";
+import Carousel from "../components/Carousel.astro";
+
 import * as Icons from "../components/icons.js";
 import * as Images from "../components/images.js";
+import { Image } from "astro:assets";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Portfolio</title>
+<Default>
+	<body class="container-fluid">
+		<!--
+		<img
+			src="https://images.unsplash.com/photo-1581299327801-faeb40ea459e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9uZG9zJTIwYXp1bGVzfGVufDB8fDB8fHww"
+			alt=""
+			id="effect"
+		/>
+		-->
 
-		<style>
-			.box {
-				position: relative;
-				margin: 10px;
-				overflow: visible;
-			}
-
-			.box > * {
-				position: relative;
-				z-index: 1;
-			}
-
-			.projects-grid {
-				display: grid;
-				width: 100%;
-				height: 100%;
-			}
-			.featured-project {
-				flex: 1;
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				border: 2px solid white;
-			}
-			.feature-projects {
-				display: flex;
-				gap: 10px;
-				flex: 1;
-			}
-
-			#f1 {
-				flex: 4;
-				flex-direction: column;
-				clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
-				padding: 50px;
-				background-image: url("/Portfolio/circuit-board.svg");
-			}
-			#f2 {
-				flex: 2;
-				flex-direction: row;
-				gap: 10px;
-				flex-wrap: wrap;
-				padding: 50px;
-				background-image: url("/Portfolio/circuit-board.svg");
-
-				clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%);
-			}
-
-			#f3 {
-				flex: 3;
-				padding: 50px;
-				background-image: url("/Portfolio/circuit-board.svg");
-
-				clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 100%);
-			}
-
-			#about {
-				font-size: clamp(1rem, 1.8vw, 2.3rem);
-			}
-			.project-grid {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				gap: 20px;
-			}
-			.profile-links {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 1rem;
-				margin-top: 1rem;
-			}
-			.profile-links a {
-				display: flex;
-				align-items: center;
-				gap: 0.3rem;
-				font-weight: 600;
-				text-decoration: none;
-			}
-			.icon {
-				width: 40px;
-				height: 40px;
-			}
-
-			.project-image {
-				width: 200px;
-				height: 200px;
-				object-fit: cover;
-				border-radius: 8px;
-				transition: transform 0.3s;
-			}
-
-			.project-image:hover {
-				transform: scale(1.05);
-			}
-		</style>
-	</head>
-	<body class="container">
-		<div style="background-color: whitesmoke; padding: 20px;">
-			<div
-				id="f1"
-				class="box has-comic-border-simple is-flex is-justify-content-center is-align-items-center"
-			>
-				<h1 class="title is-1">Hi! I'm Matias</h1>
-				<ComicPhoto />
-				<div class="profile-links">
-					<a
-						href="/Portfolio/MatiasGuliasCarrascalCV.pdf"
-						download
-						class="btn"
-					>
-						<Icons.CvIcon class="icon" /> Download CV
-					</a>
-					<a
-						href="https://github.com/Garkatron"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="btn"
-					>
-						<Icons.GithubIcon class="icon" /> GitHub
-					</a>
-					<a id="email-button" href="#">
-						<Icons.MailIcon class="icon" /> masitacarg@gmail.com
-					</a>
-				</div>
-				<TabPanel
-					initialTab="about"
-					,
-					tabs={[
-						{
-							id: "default",
-							label: "About",
-							content:
-								"I began my programming journey during the pandemic, starting with Java and exploring other languages. Since then, I’ve been building projects, learning new concepts, and recently completed a vocational training program (GM FP) in Microinformatic Systems and Communications. I am currently studying DAW (Web Development).",
-						},
-						{
-							id: "ia",
-							label: "AI",
-							content:
-								"I use AI to research, clarify concepts, and handle small refactorings or optimizations. It saves time on repetitive tasks, but I avoid relying on it for major refactors or as my main learning source.",
-						},
-					]}
+		<main class="container debug-border">
+			<div id="profile-container">
+				<Image
+					src={Images.ProfilePhoto}
+					alt="Foto de Matias"
+					class="profile-img"
 				/>
-			</div>
-			<div
-				id="f2"
-				class="box has-comic-border-simple is-flex is-justify-content-center is-align-items-center"
-			>
-				<div class="project-grid">
-					<a
-						href="https://github.com/Garkatron/ScrapRenderer"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<ProjectCard
-							src={Images.Renderer3D}
-							title="3D Renderer in Rust"
-							description=""
-							icons={[{ src: Icons.RustIcon, alt: "Rust" }]}
-						/>
-					</a>
+				<div class="profile-content debug-border">
+					<h1>
+						Hi, I'm <span class="highlight">Matias</span>
+					</h1>
+					<h2>
+						<span class="highlight"> Web Developer</span> & <span
+							class="highlight">Minecraft Modder</span
+						>
+					</h2>
+					<div class="profile-description">
+						<p>
+							I began my programming journey during the pandemic,
+							starting with Java and exploring other languages.
+							Since then, I’ve been building projects, learning
+							new concepts, and recently completed a vocational
+							training program (GM FP) in Microinformatic Systems
+							and Communications. I am currently studying DAW (Web
+							Development).
+						</p>
+						<h4>Use of AI</h4>
+						<p>
+							I use AI to research, clarify concepts, and handle
+							small refactorings or optimizations. It saves time
+							on repetitive tasks, but I avoid relying on it for
+							major refactors or as my main learning source.
+						</p>
+					</div>
 
-					<a href="" target="_blank" rel="noopener noreferrer">
-						<ProjectCard
-							description="A PS3 Xross Media Bar Menu Styled Portfolio"
-							src={Images.PS3WEB}
-							icons={[
-								{ src: Icons.React, alt: "React" },
-								{ src: Icons.TsIcon, alt: "Ts" },
-								{
-									src: Icons.FramerMotion,
-									alt: "FramerMotion",
-								},
-							]}
-						/>
-					</a>
-					<a
-						href="https://github.com/Garkatron/ComicPortfolio"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<ProjectCard
-							description="A Comic Styled Portfolio Template"
-							src={Images.ComicWeb}
-							icons={[
-								{ src: Icons.AstroIcon, alt: "Astro" },
-								{ src: Icons.JsIcon, alt: "Astro" },
-							]}
-						/>
-					</a>
-				</div>
-			</div>
-			<div
-				id="f3"
-				class="box has-comic-border-simple is-flex is-justify-content-center is-align-items-center"
-			>
-				<div class="fixed-grid has-4-cols projects-grid">
-					<h2 class="title is-2">Projects</h2>
-					<div class="grid">
+					<div class="profile-links">
 						<a
-							href="https://github.com/Garkatron/Rust-Lox-Interpreter"
-							target="_blank"
-							rel="noopener noreferrer"
+							href="/Portfolio/MatiasGuliasCarrascalCV.pdf"
+							download
+							class="btn"
 						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Rloxlang}
-								alt="RLoxLang"
-							/>
+							<Icons.CvIcon class="icon" /> Download CV
 						</a>
 						<a
-							href="https://github.com/Garkatron/LRU-Cache-Rust"
+							href="https://github.com/Garkatron"
 							target="_blank"
 							rel="noopener noreferrer"
+							class="btn"
 						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Lrucache}
-								alt="LRucache"
-							/>
+							<Icons.GithubIcon class="icon" /> GitHub
 						</a>
-						<a
-							href="https://garkatron.github.io/PC-PokeApi/"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.PokeApi}
-								alt="PokeApi"
-							/>
-						</a>
-						<a
-							href="https://github.com/Garkatron/Von-Neumann-Simulator"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Chip8}
-								alt="Chip8"
-							/>
-						</a>
-						<a
-							href="BTA Guidebook"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Guidebook}
-								alt="Guidebook"
-							/>
-						</a>
-						<a
-							href="https://github.com/Garkatron/BTA-Paperwork"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Paperwork}
-								alt="Paperwork"
-							/>
+						<a id="email-button" href="#">
+							<Icons.MailIcon class="icon" /> masitacarg@gmail.com
 						</a>
 					</div>
 				</div>
 			</div>
+
+			<section class="tech-grid debug-border">
+				<TechGrid
+					title="Languages"
+					skills={[
+						{
+							icon: Icons.JavaIcon,
+							progress: "",
+							title: "Java",
+						},
+						{
+							icon: Icons.JsIcon,
+							progress: "",
+							title: "JavaScript",
+						},
+						{
+							icon: Icons.KotlinIcon,
+							progress: "",
+							title: "Kotlin",
+						},
+						{ icon: Icons.RustIcon, progress: 55, title: "Rust" },
+						{
+							icon: Icons.PythonIcon,
+							progress: "",
+							title: "Python",
+						},
+					]}
+				/>
+
+				<TechGrid
+					title="Frameworks & Libraries"
+					skills={[
+						{
+							icon: Icons.BootstrapIcon,
+							progress: 100,
+							title: "Bootstrap",
+						},
+						{ icon: Icons.AstroIcon, progress: 55, title: "Astro" },
+					]}
+				/>
+
+				<TechGrid
+					title="Tools"
+					skills={[
+						{ icon: Icons.GitIcon, progress: 100, title: "Git" },
+						{
+							icon: Icons.PostmanIcon,
+							progress: 100,
+							title: "Postman",
+						},
+					]}
+				/>
+
+				<TechGrid
+					title="Other"
+					skills={[
+						{ icon: Icons.LinuxIcon, progress: 65, title: "Linux" },
+						{
+							icon: Icons.SqlIcon,
+							progress: 100,
+							title: "SQL Database",
+						},
+					]}
+				/>
+			</section>
+		</main>
+		<div>
+			<section class="content-section">
+				<h2 class="highlight">Featured Projects</h2>
+
+				<ProjectGrid
+					projects={[
+						{
+							title: "Rlox lang",
+							description:
+								"I developed a programming language...",
+							link: "https://github.com/Garkatron/Rust-Lox-Interpreter",
+							image: Images.Rloxlang,
+							icons: [Icons.RustIcon],
+						},
+						{
+							title: "3D Rasterizer in Rust",
+							description: "I developed a 3D rendering engine...",
+							link: "https://github.com/Garkatron/ScrapRenderer",
+							image: Images.Renderer3D,
+							icons: [Icons.RustIcon],
+						},
+						{
+							title: "Rust-Coded LRU",
+							description:
+								"I implemented an LRU Cache in Rust...",
+							link: "https://github.com/Garkatron/LRU-Cache-Rust",
+							image: Images.Lrucache,
+							icons: [Icons.RustIcon],
+						},
+					]}
+				/>
+			</section>
+			<section class="content-section">
+				<h2 class="highlight">Other Projects</h2>
+				<Carousel
+					items={[
+						{
+							title: "CHIP-8 Emulator",
+							href: "https://github.com/Garkatron/Von-Neumann-Simulator",
+							image: Images.Chip8,
+							description:
+								"CHIP-8 Emulator implemented in Python",
+							icons: [Icons.PythonIcon],
+						},
+						{
+							title: "TerraX69",
+							href: "https://github.com/Garkatron/TerraX69-JS",
+							description: "JavaScript game built with Tauri",
+							icons: [Icons.JsIcon],
+						},
+						{
+							title: "PC Pokémon Web",
+							href: "https://garkatron.github.io/PC-PokeApi/",
+							image: Images.PokeApi,
+							description:
+								"An interactive web app for exploring Pokémon data using the PokéAPI",
+							icons: [Icons.JsIcon],
+						},
+						{
+							title: "Von Neumann Simulator",
+							href: "https://github.com/Garkatron/Von-Neumann-Simulator",
+							image: Images.VonNeumann,
+							description:
+								"Von Neumann architecture simulator in Python",
+							icons: [Icons.PythonIcon],
+						},
+						{
+							title: "IWantToLearnX",
+							href: "https://github.com/Garkatron/IWantToLearnX",
+							description:
+								"A personal 'Build Your Own X' project to explore and learn various programming concepts",
+							icons: [Icons.GithubIcon],
+						},
+						{
+							title: "FactBoard NEM",
+							href: "https://github.com/Garkatron/FactBoard_NEM",
+							description:
+								"A Node.js and MongoDB-based app for managing and sharing publications",
+							icons: [Icons.JsIcon],
+						},
+						{
+							title: "FactBoard",
+							href: "https://github.com/Garkatron/FactBoard",
+							description:
+								"A PHP and MySQL-based app for managing and sharing publications",
+						},
+					]}
+				/>
+			</section>
+
+			<section class="content-section">
+				<h2 class="highlight">Minecraft mods</h2>
+				<Carousel
+					items={[
+						{
+							title: "BTA PainScale",
+							href: "https://github.com/Garkatron/BTA-PainScale",
+							description:
+								"A Minecraft mod with a dynamic difficulty system, enhanced health mechanics, and tougher enemies",
+							icons: [Icons.JavaIcon],
+						},
+						{
+							title: "BTA Guidebook",
+							href: "https://github.com/Garkatron/BTA-Guidebook.md",
+							image: Images.Guidebook,
+							description:
+								"A Markdown-based guidebook library for BTA modders with in-game editing and export features",
+							icons: [Icons.JavaIcon],
+						},
+						{
+							title: "StanleyTemperature",
+							href: "https://github.com/Garkatron/StanleyTemperature",
+							image: Images.Stanley,
+							description:
+								"A temperature mod and skill system library for RPG-style gameplay in Minecraft",
+							icons: [Icons.JavaIcon],
+						},
+						{
+							title: "BTA Paperwork",
+							href: "https://github.com/Garkatron/BTA-Paperwork",
+							image: Images.Paperwork,
+							description:
+								"A Minecraft mod adding decorative blocks, items, and paper-based entities like cardboard boxes",
+							icons: [Icons.JavaIcon],
+						},
+						{
+							title: "BTA POVERH",
+							href: "https://github.com/Garkatron/BTA-POVERH",
+							image: Images.Parkour,
+							description:
+								"A Minecraft mod introducing stamina and parkour mechanics for enhanced movement",
+							icons: [Icons.JavaIcon],
+						},
+					]}
+				/>
+			</section>
 		</div>
 	</body>
+
+	<style>
+		body {
+			position: relative;
+		}
+
+		body::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: url("/Portfolio/circuit-board.svg");
+			background-repeat: repeat;
+			opacity: 0.5;
+			z-index: -1;
+		}
+
+		.debug-border {
+			/*border: white 2px solid; */
+		}
+		.tech-grid {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-evenly;
+			padding: 10px;
+		}
+		.content-section {
+			padding: 40px;
+		}
+
+		#profile-container {
+			display: flex;
+			align-items: center;
+		}
+
+		.profile-img {
+			height: 600px;
+			width: 300px;
+
+			padding: 10px;
+			border-radius: 50px;
+			object-fit: cover;
+
+			-webkit-mask-image: linear-gradient(
+				to left,
+				rgba(0, 0, 0, 1) 20%,
+				rgba(0, 0, 0, 0) 70%
+			);
+			-webkit-mask-repeat: no-repeat;
+			-webkit-mask-position: center;
+			-webkit-mask-size: cover;
+
+			mask-image: linear-gradient(
+				to left,
+				rgba(0, 0, 0, 1) 40%,
+				rgba(0, 0, 0, 0) 70%
+			);
+
+			mask-repeat: no-repeat;
+			mask-position: center;
+			mask-size: cover;
+		}
+
+		@media (max-width: 800px) {
+			#profile-container {
+				display: flex;
+				flex-direction: column;
+			}
+
+			.profile-img {
+				width: 100%;
+			}
+		}
+
+		#effect {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+			opacity: 25%;
+			filter: contrast(150%) brightness(100%) blur(1px) sepia();
+		}
+
+		.profile-content {
+			padding: 1rem;
+			flex: 1;
+		}
+
+		.presentation h1,
+		.presentation h3 {
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+		}
+		.highlight {
+			color: #ffb25f;
+		}
+		.keyword {
+			color: #b4937d;
+		}
+		.description {
+			text-align: justify;
+			font-size: 1.1rem;
+		}
+		.profile-links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1rem;
+			margin-top: 1rem;
+		}
+		.profile-links a {
+			display: flex;
+			align-items: center;
+			gap: 0.3rem;
+			font-weight: 600;
+			text-decoration: none;
+		}
+		.icon {
+			width: 20px;
+			height: 20px;
+		}
+		a {
+			display: inline-block;
+			outline: 0;
+			text-align: center;
+			cursor: pointer;
+			min-width: 80px;
+			height: 32px;
+			color: rgb(255, 255, 255);
+		}
+	</style>
 	<script>
 		document
 			.getElementById("email-button")
@@ -321,4 +430,4 @@ import * as Images from "../components/images.js";
 					});
 			});
 	</script>
-</html>
+</Default>

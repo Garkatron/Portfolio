@@ -1,0 +1,132 @@
+---
+import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
+
+const {
+    title = "Title",
+    description,
+    image,
+    href,
+    icons,
+} = Astro.props as {
+    title: string;
+    description: string;
+    image: ImageMetadata;
+    href: string;
+    icons: ImageMetadata[];
+};
+---
+
+<article>
+    <header>
+        <a href={href}>
+            {
+                image && (
+                    <Image
+                        src={image}
+                        width={0}
+                        height={0}
+                        alt="carousel element"
+                    />
+                )
+            }
+        </a>
+        <h2>{title}</h2>
+    </header>
+    <div>
+        <p>{description}</p>
+    </div>
+    <footer>
+        {
+            icons && (
+                <div class="icon-grid">
+                    {icons &&
+                        icons.map((i: ImageMetadata) => (
+                            <div>
+                                <Icon
+                                    type="icon"
+                                    title="project_icon"
+                                    src={i}
+                                />
+                            </div>
+                        ))}
+                </div>
+            )
+        }
+    </footer>
+</article>
+
+<style>
+    .icon-grid {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 100%;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 300;
+    }
+
+    article {
+        display: grid;
+        grid-template-rows: 60% 20% 20%;
+
+        position: absolute;
+
+        top: 0;
+        left: calc(100% + var(--carousel-item-gap));
+
+        width: var(--carousel-item-width);
+        height: var(--height);
+
+        color: light-dark(rgb(49, 65, 88), white);
+
+        border-radius: 10px;
+
+        will-change: transform;
+
+        animation-name: marquee;
+        animation-duration: var(--carousel-duration);
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-delay: calc(
+            var(--carousel-duration) / var(--items) * 1 * var(--i) * -1
+        );
+    }
+
+    /* indexado */
+    :global(.carousel > article:nth-child(1)) {
+        --i: 0;
+    }
+    :global(.carousel > article:nth-child(2)) {
+        --i: 1;
+    }
+    :global(.carousel > article:nth-child(3)) {
+        --i: 2;
+    }
+    :global(.carousel > article:nth-child(4)) {
+        --i: 3;
+    }
+    :global(.carousel > article:nth-child(5)) {
+        --i: 4;
+    }
+    :global(.carousel > article:nth-child(6)) {
+        --i: 5;
+    }
+    :global(.carousel > article:nth-child(7)) {
+        --i: 6;
+    }
+    :global(.carousel > article:nth-child(8)) {
+        --i: 7;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+    }
+</style>

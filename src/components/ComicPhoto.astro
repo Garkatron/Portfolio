@@ -1,21 +1,23 @@
 ---
 import { Image } from "astro:assets";
-
-import photo from "../assets/images/noirphoto.png";
+import noirmale from "../assets/photo3.png";
 ---
 
 <a href="">
     <Image
-        src={photo}
-        alt="Comic style placeholder"
-        width="600"
-        height="400"
-        class="image has-comic-border-simple"
+        src={noirmale}
+        alt="ProfilePhoto"
+        width={600}
+        height={800}
+        loading="eager"
+        fetchpriority="high"
     />
 </a>
 <style>
-    img {
-        max-height: 400px;
+    a > img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
+        image-rendering: pixelated;
     }
 </style>

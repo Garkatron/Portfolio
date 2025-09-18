@@ -1,324 +1,401 @@
 ---
-import { Image } from "astro:assets";
-import "../styles/global.css";
+import Book from "../components/Book.astro";
 import ComicPhoto from "../components/ComicPhoto.astro";
-import ICON_ASTRO from "../assets/icons/orange-astro.svg";
-import ICON_JAVA from "../assets/icons/java.svg";
-import ICON_TS from "../assets/icons/ts.svg";
-import ICON_REACT from "../assets/icons/react.svg";
-import ICON_JS from "../assets/icons/js.svg";
-import ICON_NODE from "../assets/icons/node.svg";
-import ICON_SQL from "../assets/icons/sql.svg";
-import ICON_MONGO from "../assets/icons/mongo.svg";
+import Page from "../components/Page.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import TabPanel from "../components/TabPanel.astro";
-import * as Icons from "../components/icons.js";
-import * as Images from "../components/images.js";
+import "../styles/global.css";
+import ICON_ASTRO from "../assets/icon/orange-astro.svg";
+import ICON_JAVA from "../assets/icon/java.svg";
+import ICON_TS from "../assets/icon/ts.svg";
+import ICON_REACT from "../assets/icon/react.svg";
+import ICON_JS from "../assets/icon/js.svg";
+import ICON_NODE from "../assets/icon/node.svg";
+import ICON_SQL from "../assets/icon/sql.svg";
+import ICON_MONGO from "../assets/icon/mongo.svg";
+import ICON_RUST from "../assets/icon/rust.svg";
+import { Image } from "astro:assets";
+import photo from "../assets/photo.png";
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<meta name="portfolio" content="Deus portfolio" />
+		<meta name="author" content="myname" />
+		<meta name="creator" content="@Garkatron @Deus" />
+
+		<link
+			rel="preload"
+			as="image"
+			href="/Portfolio/assets/background/paper_texture310_black.jpg"
+			fetchpriority="high"
+		/>
+		<link
+			rel="preload"
+			as="image"
+			href="/Portfolio/assets/background/paper_texture310.jpg"
+			fetchpriority="high"
+		/>
 		<title>Portfolio</title>
-
-		<style>
-			.box {
-				position: relative;
-				margin: 10px;
-				overflow: visible;
-			}
-
-			.box > * {
-				position: relative;
-				z-index: 1;
-			}
-
-			.projects-grid {
-				display: grid;
-				width: 100%;
-				height: 100%;
-			}
-			.featured-project {
-				flex: 1;
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				border: 2px solid white;
-			}
-			.feature-projects {
-				display: flex;
-				gap: 10px;
-				flex: 1;
-			}
-
-			#f1 {
-				flex: 4;
-				flex-direction: column;
-				clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
-				padding: 50px;
-				background-image: url("/Portfolio/circuit-board.svg");
-			}
-			#f2 {
-				flex: 2;
-				flex-direction: row;
-				gap: 10px;
-				flex-wrap: wrap;
-				padding: 50px;
-				background-image: url("/Portfolio/circuit-board.svg");
-
-				clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%);
-			}
-
-			#f3 {
-				flex: 3;
-				padding: 50px;
-				background-image: url("/Portfolio/circuit-board.svg");
-
-				clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 100%);
-			}
-
-			#about {
-				font-size: clamp(1rem, 1.8vw, 2.3rem);
-			}
-			.project-grid {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				gap: 20px;
-			}
-			.profile-links {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 1rem;
-				margin-top: 1rem;
-			}
-			.profile-links a {
-				display: flex;
-				align-items: center;
-				gap: 0.3rem;
-				font-weight: 600;
-				text-decoration: none;
-			}
-			.icon {
-				width: 40px;
-				height: 40px;
-			}
-
-			.project-image {
-				width: 200px;
-				height: 200px;
-				object-fit: cover;
-				border-radius: 8px;
-				transition: transform 0.3s;
-			}
-
-			.project-image:hover {
-				transform: scale(1.05);
-			}
-		</style>
 	</head>
-	<body class="container">
-		<div style="background-color: whitesmoke; padding: 20px;">
-			<div
-				id="f1"
-				class="box has-comic-border-simple is-flex is-justify-content-center is-align-items-center"
-			>
-				<h1 class="title is-1">Hi! I'm Matias</h1>
-				<ComicPhoto />
-				<div class="profile-links">
-					<a
-						href="/Portfolio/MatiasGuliasCarrascalCV.pdf"
-						download
-						class="btn"
-					>
-						<Icons.CvIcon class="icon" /> Download CV
-					</a>
-					<a
-						href="https://github.com/Garkatron"
-						target="_blank"
-						rel="noopener noreferrer"
-						class="btn"
-					>
-						<Icons.GithubIcon class="icon" /> GitHub
-					</a>
-					<a id="email-button" href="#">
-						<Icons.MailIcon class="icon" /> masitacarg@gmail.com
-					</a>
+	<style>
+		.header {
+			min-height: 70px;
+			clip-path: polygon(0 -2%, 100% 0, 100% 83%, 0 100%);
+		}
+	</style>
+	<body class="doodle container mx-auto p-4">
+		<Book>
+			<Page index={1} totalCards={6}>
+				<div slot="front" class="flex flex-col w-full h-full">
+					<Image
+						src={photo}
+						alt="ProfilePhoto"
+						width={600}
+						height={790}
+						loading="eager"
+						fetchpriority="high"
+						style={"height: 100%; object-fit: cover;"}
+					/>
 				</div>
-				<TabPanel
-					initialTab="about"
-					,
-					tabs={[
-						{
-							id: "default",
-							label: "About",
-							content:
-								"I began my programming journey during the pandemic, starting with Java and exploring other languages. Since then, I’ve been building projects, learning new concepts, and recently completed a vocational training program (GM FP) in Microinformatic Systems and Communications. I am currently studying DAW (Web Development).",
-						},
-						{
-							id: "ia",
-							label: "AI",
-							content:
-								"I use AI to research, clarify concepts, and handle small refactorings or optimizations. It saves time on repetitive tasks, but I avoid relying on it for major refactors or as my main learning source.",
-						},
-					]}
-				/>
-			</div>
-			<div
-				id="f2"
-				class="box has-comic-border-simple is-flex is-justify-content-center is-align-items-center"
-			>
-				<div class="project-grid">
-					<a
-						href="https://github.com/Garkatron/ScrapRenderer"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<ProjectCard
-							src={Images.Renderer3D}
-							title="3D Renderer in Rust"
-							description=""
-							icons={[{ src: Icons.RustIcon, alt: "Rust" }]}
-						/>
-					</a>
+				<div slot="back" class="flex flex-col w-full h-full">
+					<div class="flex w-full has-comic-bg">
+						<h2
+							class="text-2xl font-bold mb-2"
+							style="margin-left: 15px;"
+						>
+							Contact Me
+						</h2>
+					</div>
+					<div class="relative p-4 mb-4">
+						<div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+							<form action="#" class="space-y-8">
+								<div>
+									<label
+										for="email"
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+										>Your email</label
+									>
+									<input
+										type="email"
+										id="email"
+										class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+										placeholder="name@flowbite.com"
+										required
+									/>
+								</div>
+								<div>
+									<label
+										for="subject"
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+										>Subject</label
+									>
+									<input
+										type="text"
+										id="subject"
+										class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+										placeholder="Let us know how we can help you"
+										required
+									/>
+								</div>
+								<div class="sm:col-span-2">
+									<label
+										for="message"
+										class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+										>Your message</label
+									>
+									<textarea
+										id="message"
+										rows="6"
+										class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+										placeholder="Leave a comment..."
+									></textarea>
+								</div>
+								<button
+									type="submit"
+									class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+									>Send message</button
+								>
+							</form>
+						</div>
+					</div>
+				</div>
+			</Page>
 
-					<a href="" target="_blank" rel="noopener noreferrer">
-						<ProjectCard
-							description="A PS3 Xross Media Bar Menu Styled Portfolio"
-							src={Images.PS3WEB}
-							icons={[
-								{ src: Icons.React, alt: "React" },
-								{ src: Icons.TsIcon, alt: "Ts" },
+			<Page index={2} totalCards={6}>
+				<div slot="front" class="flex flex-col w-full h-full">
+					<div class="h-2/3 w-full bg-cover bg-center">
+						<ComicPhoto class="object-cover" />
+					</div>
+					<div
+						class="h-1/3 w-full p-6 flex flex-col justify-center items-center"
+					>
+						<h1
+							class="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold"
+						>
+							Hi! I'm [YourName]
+						</h1>
+						<TabPanel
+							initialTab="about"
+							tabs={[
 								{
-									src: Icons.FramerMotion,
-									alt: "FramerMotion",
+									id: "default",
+									label: "About",
+									content: "Lorem ipsum1...",
+								},
+								{
+									id: "other",
+									label: "Other",
+									content: "Lorem ipsum2...",
+								},
+								{
+									id: "other2",
+									label: "Other2",
+									content: "Lorem ipsum3...",
 								},
 							]}
 						/>
-					</a>
-					<a
-						href="https://github.com/Garkatron/ComicPortfolio"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<ProjectCard
-							description="A Comic Styled Portfolio Template"
-							src={Images.ComicWeb}
-							icons={[
-								{ src: Icons.AstroIcon, alt: "Astro" },
-								{ src: Icons.JsIcon, alt: "Astro" },
-							]}
-						/>
-					</a>
-				</div>
-			</div>
-			<div
-				id="f3"
-				class="box has-comic-border-simple is-flex is-justify-content-center is-align-items-center"
-			>
-				<div class="fixed-grid has-4-cols projects-grid">
-					<h2 class="title is-2">Projects</h2>
-					<div class="grid">
-						<a
-							href="https://github.com/Garkatron/Rust-Lox-Interpreter"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Rloxlang}
-								alt="RLoxLang"
-							/>
-						</a>
-						<a
-							href="https://github.com/Garkatron/LRU-Cache-Rust"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Lrucache}
-								alt="LRucache"
-							/>
-						</a>
-						<a
-							href="https://garkatron.github.io/PC-PokeApi/"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.PokeApi}
-								alt="PokeApi"
-							/>
-						</a>
-						<a
-							href="https://github.com/Garkatron/Von-Neumann-Simulator"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Chip8}
-								alt="Chip8"
-							/>
-						</a>
-						<a
-							href="BTA Guidebook"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Guidebook}
-								alt="Guidebook"
-							/>
-						</a>
-						<a
-							href="https://github.com/Garkatron/BTA-Paperwork"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<Image
-								width={200}
-								height={200}
-								class="cell project-image"
-								src={Images.Paperwork}
-								alt="Paperwork"
-							/>
-						</a>
 					</div>
 				</div>
-			</div>
-		</div>
+				<div slot="back" class="flex flex-col w-full h-full">
+					<div class="header has-comic-bg">
+						<h2
+							class="text-2xl font-bold mb-2"
+							style="margin-left: 15px;"
+						>
+							Featured Projects
+						</h2>
+					</div>
+					<div class="w-full grid grid-cols-2 grid-rows-5 gap-4">
+						<ProjectCard
+							src="https://placehold.co/400x400"
+							title="Project1"
+							description="Description."
+							icons={[
+								{ src: ICON_REACT, alt: "React" },
+								{ src: ICON_TS, alt: "TS" },
+							]}
+						/>
+						<ProjectCard
+							src="https://placehold.co/400x400"
+							title="Project2"
+							description="Description."
+							icons={[
+								{ src: ICON_JAVA, alt: "Java" },
+								{ src: ICON_SQL, alt: "SQL" },
+							]}
+						/>
+					</div>
+				</div>
+			</Page>
+
+			<Page index={3} totalCards={6}>
+				<div slot="front" class="flex flex-col w-full h-full">
+					<div class="header has-comic-bg">
+						<h2
+							class="text-2xl font-bold mb-2"
+							style="margin-left: 15px;"
+						>
+							Projects
+						</h2>
+					</div>
+					<div
+						class="grid grid-cols-4 grid-rows-3 gap-2 w-full h-full p-2 bg-gray-900"
+					>
+						<Image
+							width={200}
+							height={100}
+							src="https://placehold.co/200x200"
+							alt="Astro"
+							class="w-16 h-16 object-cover"
+						/>
+						<Image
+							width={200}
+							height={100}
+							src="https://placehold.co/200x200"
+							alt="Astro"
+							class="w-16 h-16 object-cover"
+						/>
+						<Image
+							width={200}
+							height={100}
+							src="https://placehold.co/200x200"
+							alt="Astro"
+							class="w-16 h-16 object-cover"
+						/>
+						<Image
+							width={200}
+							height={100}
+							src="https://placehold.co/200x200"
+							alt="Astro"
+							class="w-16 h-16 object-cover"
+						/>
+					</div>
+				</div>
+				<div slot="back" class="flex flex-col w-full h-full">
+					<div class="header has-comic-bg">
+						<h2 class="text-2xl font-bold mb-2 ml-4">Tech Stack</h2>
+					</div>
+
+					<div
+						class="flex flex-wrap justify-center items-stretch gap-6 p-6"
+					>
+						<div
+							class="flex flex-col flex-1 min-w-[200px] max-w-[300px] min-h-[100px]
+             p-3 border border-gray-200 rounded-2xl shadow-sm bg-white"
+						>
+							<h3
+								class="text-xs
+ font-semibold text-gray-700 self-start"
+							>
+								Frontend
+							</h3>
+							<div class="flex flex-wrap justify-center gap-3">
+								<Image
+									src={ICON_ASTRO}
+									alt="Astro"
+									width={50}
+									height={50}
+									class="w-12 h-12 grayscale hover:grayscale-0 hover:scale-110 transition"
+								/>
+								<Image
+									src={ICON_REACT}
+									alt="React"
+									width={50}
+									height={50}
+									class="w-12 h-12 grayscale hover:grayscale-0 hover:scale-110 transition"
+								/>
+								<Image
+									src={ICON_TS}
+									alt="TypeScript"
+									width={50}
+									height={50}
+									class="w-12 h-12 grayscale hover:grayscale-0 hover:scale-110 transition"
+								/>
+								<Image
+									src={ICON_JS}
+									alt="JavaScript"
+									width={50}
+									height={50}
+									class="w-12 h-12 grayscale hover:grayscale-0 hover:scale-110 transition"
+								/>
+							</div>
+						</div>
+
+						<div
+							class="flex flex-col flex-1 min-w-[200px] max-w-[300px] min-h-[100px]
+             p-3 border border-gray-200 rounded-2xl shadow-sm bg-white"
+						>
+							<h3
+								class="text-xs
+ font-semibold text-gray-700 self-start"
+							>
+								Backend
+							</h3>
+							<div class="flex justify-center">
+								<Image
+									src={ICON_NODE}
+									alt="Node.js"
+									width={50}
+									height={50}
+									class="w-14 h-14 grayscale hover:grayscale-0 hover:scale-110 transition"
+								/>
+							</div>
+						</div>
+
+						<div
+							class="flex flex-col flex-1 min-w-[200px] max-w-[300px] min-h-[100px]
+             p-3 border border-gray-200 rounded-2xl shadow-sm bg-white md:w-1/2"
+						>
+							<h3
+								class="text-lg font-semibold text-gray-700 self-start"
+							>
+								Bases de Datos
+							</h3>
+							<div class="flex flex-wrap justify-center gap-3">
+								<Image
+									src={ICON_SQL}
+									alt="SQL"
+									width={50}
+									height={50}
+									class="w-14 h-14 grayscale hover:grayscale-0 hover:scale-110 transition"
+								/>
+								<Image
+									src={ICON_MONGO}
+									alt="MongoDB"
+									width={50}
+									height={50}
+									class="w-14 h-14 grayscale hover:grayscale-0 hover:scale-110 transition"
+								/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</Page>
+
+			<Page index={4} totalCards={6}>
+				<div slot="front" class="flex flex-col w-full h-full">
+					<div class="header has-comic-bg">
+						<h2
+							class="text-2xl font-bold mb-2"
+							style="margin-left: 15px;"
+						>
+							Formation
+						</h2>
+					</div>
+					<blockquote>
+						<div class="p-6 flex flex-col gap-4">
+							<p>A</p>
+							<p>B</p>
+						</div>
+					</blockquote>
+				</div>
+				<div slot="back" class="flex flex-col w-full h-full">
+					<div class="header has-comic-bg">
+						<h2
+							class="text-2xl font-bold mb-2"
+							style="margin-left: 15px;"
+						>
+							JOB / PRACTICES
+						</h2>
+					</div>
+					<div class="p-6 flex flex-col gap-4">
+						<blockquote>
+							<p>A</p>
+							<p>B</p>
+						</blockquote>
+					</div>
+				</div>
+			</Page>
+
+			<Page index={5} totalCards={6}>
+				<div slot="front" class="flex flex-col w-full h-full">
+					<div class="header has-comic-bg">
+						<h2
+							class="text-xs
+ font-bold mb-2"
+							style="margin-left: 15px;"
+						>
+							Achievements
+						</h2>
+					</div>
+					<ul class="list-disc list-inside">
+						<li>A</li>
+						<li>B</li>
+						<li>C</li>
+					</ul>
+				</div>
+				<div slot="back" class="flex flex-col w-full h-full"></div>
+			</Page>
+
+			<!-- Página 7: Contacto -->
+			<Page index={6} totalCards={6}>
+				<div slot="front" class="flex flex-col w-full h-full"></div>
+				<div slot="back" class="flex flex-col w-full h-full"></div>
+			</Page>
+		</Book>
 	</body>
-	<script>
-		document
-			.getElementById("email-button")
-			?.addEventListener("click", (e) => {
-				const email = "masitacarg@gmail.com";
-				navigator.clipboard
-					.writeText(email)
-					.then(() => {
-						alert("Email copied to clipboard: " + email);
-					})
-					.catch((err) => {
-						console.error("Failed to copy email: ", err);
-						alert("Failed to copy email. Please try again.");
-					});
-			});
-	</script>
 </html>

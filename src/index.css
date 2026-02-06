@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
-@import 'doodle.css/doodle.css';
+@font-face {
+    font-family: BasicComical;
+    src: url("/assets/fonts/BasicComical-Regular-NC.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    font-family: 'BasicComical', sans-serif;
+}
+
 
 .doodle {
     background-color: #111111;
@@ -20,12 +31,6 @@
     box-shadow:
         5px 5px 0 #000,
         8px 8px 0 #555;
-}
-
-@media (max-width: 768px) {
-    h1 {
-        margin-bottom: 0px;
-    }
 }
 
 
@@ -55,19 +60,15 @@
     color: whitesmoke;
     background-color: transparent;
 
-    background-image: url("/ComicPortfolio/assets/background/papel0black.png");
+    background-image: url("/assets/background/papel0black.png");
 }
 
 @font-face {
     font-family: 'BasicComical';
-    src: url('/ComicPortfolio/assets/fonts/BasicComical-Regular-NC.ttf') format('truetype');
+    src: url('/assets/fonts/BasicComical-Regular-NC.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 
 }
 
-
-* {
-    font-family: 'BasicComical', sans-serif;
-}

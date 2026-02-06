@@ -1,0 +1,71 @@
+---
+const { tabs = [], initialTab = tabs[0]?.id } = Astro.props;
+type Content = { id: string; label: string; content: string };
+---
+
+<div class="flex flex-col h-full w-full" style="padding: 20px;">
+    <!-- Nav Tabs -->
+    <nav class="flex gap-x-1" role="tablist" aria-orientation="horizontal">
+        {
+            tabs.map((t: Content, i: number) => (
+                <button
+                    type="button"
+                    id={`tab-${t.id}`}
+                    data-tab={t.id}
+                    class={`py-4 px-4 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap 
+          ${i === 0 ? "font-semibold text-blue-600 border-blue-500" : "text-gray-500 hover:text-blue-600"}`}
+                    role="tab"
+                    aria-controls={t.id}
+                    aria-selected={i === 0 ? "true" : "false"}
+                >
+                    {t.label}
+                </button>
+            ))
+        }
+    </nav>
+
+    <!-- Tab Content -->
+    <div class="flex-1 overflow-auto">
+        {
+            tabs.map((t: Content, i: number) => (
+                <div
+                    id={t.id}
+                    class={`tab-pane ${i === 0 ? "" : "hidden"} text-gray-500 p-4`}
+                    role="tabpanel"
+                    aria-labelledby={`tab-${t.id}`}
+                >
+                    {t.content}
+                </div>
+            ))
+        }
+    </div>
+</div>
+
+<script>
+    function activateTab(tabId) {
+        const panes = document.querySelectorAll(".tab-pane");
+        panes.forEach((pane) =>
+            pane.classList.toggle("hidden", pane.id !== tabId),
+        );
+
+        const buttons = document.querySelectorAll("[role='tab']");
+        buttons.forEach((btn) => {
+            const isActive = btn.dataset.tab === tabId;
+            btn.setAttribute("aria-selected", isActive ? "true" : "false");
+            btn.classList.toggle("font-semibold", isActive);
+            btn.classList.toggle("text-blue-600", isActive);
+            btn.classList.toggle("border-blue-500", isActive);
+            btn.classList.toggle("text-gray-500", !isActive);
+            btn.classList.toggle("border-b-2", isActive);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll("[role='tab']").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                activateTab(btn.dataset.tab);
+            });
+        });
+    });
+</script>

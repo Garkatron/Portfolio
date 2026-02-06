@@ -1,5 +1,5 @@
 {
-  "name": "nasty-nadir",
+  "name": "d",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -9,6 +9,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.13.2"
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.1",
+    "doodle.css": "^0.0.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@astrojs/react": "^4.4.2",
+    "tailwindcss": "^4.1.18"
   }
 }

@@ -1,0 +1,160 @@
+---
+const { currentPage = 1 } = Astro.props;
+---
+
+<div id="body">
+    <button id="prev-btn">PREV</button>
+
+    <div id="book" class="book" data-currentpage={`${currentPage}`}>
+        <slot />
+    </div>
+
+    <button id="next-btn">NEXT</button>
+
+    <script>
+        const fold = new Audio("/ComicPortfolio/assets/sounds/fold.wav");
+        const open = new Audio("/ComicPortfolio/assets/sounds/open.wav");
+        const close = new Audio("/ComicPortfolio/assets/sounds/close.wav");
+        const prevBTN = document.querySelector("#prev-btn");
+        const nextBTN = document.querySelector("#next-btn");
+        const book = document.querySelector("#book");
+
+        const papers = document.querySelectorAll(".paper");
+
+        prevBTN.addEventListener("click", goPrevPage);
+        nextBTN.addEventListener("click", goNextPage);
+
+        // Number(book.dataset.currentpage)
+        let currentLocation = 1;
+
+        const numOfPapers = papers.length;
+        const maxLocation = numOfPapers + 1;
+
+        function openBook() {
+            open.currentTime = 0;
+            open.play();
+            const screenWidth = window.innerWidth;
+
+            if (screenWidth <= 686) {
+                book.style.transform = "translateY(-50%)";
+            } else {
+                book.style.transform = "translateX(50%)";
+            }
+        }
+
+        function closeBook(isAtBeginning) {
+            close.currentTime = 0;
+            close.play();
+            book.style.transform = isAtBeginning
+                ? "translateX(0%)"
+                : "translateX(100%)";
+        }
+
+        function goNextPage() {
+            if (currentLocation < maxLocation) {
+                fold.currentTime = 0;
+                fold.play();
+                const paper = papers[currentLocation - 1];
+                paper.classList.add("flipped");
+                setTimeout(() => {
+                    paper.style.zIndex = currentLocation;
+                }, 70);
+                if (currentLocation === 1) openBook();
+                if (currentLocation === numOfPapers) closeBook(false);
+                currentLocation++;
+            }
+        }
+
+        function goPrevPage() {
+            if (currentLocation > 1) {
+                fold.currentTime = 0;
+
+                fold.play();
+
+                currentLocation--;
+                const paper = papers[currentLocation - 1];
+                paper.classList.remove("flipped");
+                setTimeout(() => {
+                    paper.style.zIndex = numOfPapers - currentLocation + 1;
+                }, 120);
+                if (currentLocation === 1) closeBook(true);
+                if (currentLocation === numOfPapers) openBook();
+            }
+        }
+    </script>
+</div>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    #body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .book {
+        position: relative;
+        max-width: 600px;
+        max-height: 800px;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s;
+    }
+
+    @media (max-width: 1200px) {
+        .book {
+            max-width: 400px;
+            max-height: 600px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .book {
+            max-width: 340px;
+            max-height: 440px;
+        }
+    }
+
+    button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: 20px;
+        z-index: 9999;
+    }
+
+    #prev-btn {
+        left: 10px;
+    }
+
+    #next-btn {
+        right: 10px;
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    i {
+        font-size: 50px;
+        color: gray;
+    }
+
+    .paper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>

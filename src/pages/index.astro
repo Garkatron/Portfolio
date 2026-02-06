@@ -1,433 +1,385 @@
 ---
-import Default from "../layout/Default.astro";
-import TechGrid from "../components/TechGrid.astro";
-import ProjectGrid from "../components/ProjectGrid.astro";
-import Carousel from "../components/Carousel.astro";
-
-import * as Icons from "../components/icons.js";
-import * as Images from "../components/images.js";
+import Book from "../components/Book.astro";
+import ComicPhoto from "../components/ComicPhoto.astro";
+import Page from "../components/Page.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import TabPanel from "../components/TabPanel.astro";
+import "../styles/global.css";
+import ICON_ASTRO from "../assets/icon/orange-astro.svg";
+import ICON_JAVA from "../assets/icon/java.svg";
+import ICON_TS from "../assets/icon/ts.svg";
+import ICON_REACT from "../assets/icon/react.svg";
+import ICON_JS from "../assets/icon/js.svg";
+import ICON_NODE from "../assets/icon/node.svg";
+import ICON_SQL from "../assets/icon/sql.svg";
+import ICON_MONGO from "../assets/icon/mongo.svg";
+import ICON_RUST from "../assets/icon/rust.svg";
 import { Image } from "astro:assets";
+import noirmale2 from "../assets/noirmale2.png";
 ---
 
-<Default>
-	<body class="container-fluid">
-		<!--
-		<img
-			src="https://images.unsplash.com/photo-1581299327801-faeb40ea459e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Zm9uZG9zJTIwYXp1bGVzfGVufDB8fDB8fHww"
-			alt=""
-			id="effect"
-		/>
-		-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<main class="container debug-border">
-			<div id="profile-container">
-				<Image
-					src={Images.ProfilePhoto}
-					alt="Foto de Matias"
-					class="profile-img"
-				/>
-				<div class="profile-content debug-border">
-					<h1>
-						Hi, I'm <span class="highlight">Matias</span>
-					</h1>
-					<h2>
-						<span class="highlight"> Web Developer</span> & <span
-							class="highlight">Minecraft Modder</span
-						>
-					</h2>
-					<div class="profile-description">
-						<p>
-							I began my programming journey during the pandemic,
-							starting with Java and exploring other languages.
-							Since then, I’ve been building projects, learning
-							new concepts, and recently completed a vocational
-							training program (GM FP) in Microinformatic Systems
-							and Communications. I am currently studying DAW (Web
-							Development).
-						</p>
-						<h4>Use of AI</h4>
-						<p>
-							I use AI to research, clarify concepts, and handle
-							small refactorings or optimizations. It saves time
-							on repetitive tasks, but I avoid relying on it for
-							major refactors or as my main learning source.
-						</p>
-					</div>
+    <meta name="portfolio" content="myname portfolio" />
+    <meta name="author" content="myname" />
+    <meta name="creator" content="@Garkatron @Deus" />
 
-					<div class="profile-links">
-						<a
-							href="/Portfolio/MatiasGuliasCarrascal-CV-English.pdf"
-							download
-							class="btn"
-						>
-							<Icons.CvIcon class="icon" /> Download CV
-						</a>
-						<a
-							href="https://github.com/Garkatron"
-							target="_blank"
-							rel="noopener noreferrer"
-							class="btn"
-						>
-							<Icons.GithubIcon class="icon" /> GitHub
-						</a>
-						<a id="email-button" href="#">
-							<Icons.MailIcon class="icon" /> masitacarg@gmail.com
-						</a>
-					</div>
-				</div>
-			</div>
+    <link
+      rel="preload"
+      as="image"
+      href="/ComicPortfolio/assets/background/paper_texture310_black.jpg"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/ComicPortfolio/assets/background/paper_texture310.jpg"
+      fetchpriority="high"
+    />
+    <title>Portfolio</title>
+  </head>
+  <style>
+    .header {
+      min-height: 70px;
+      clip-path: polygon(0 -2%, 100% 0, 100% 83%, 0 100%);
+    }
+  </style>
+  <body class="doodle container mx-auto p-4">
+    <Book>
+      <Page index={1} totalCards={6}>
+        <div slot="front" class="flex flex-col w-full h-full">
+          <Image
+            src={noirmale2}
+            alt="ProfilePhoto"
+            width={600}
+            height={790}
+            loading="eager"
+            fetchpriority="high"
+            style={"height: 100%; object-fit: cover;"}
+          />
+        </div>
+        <div slot="back" class="flex flex-col w-full h-full">
+          <div class="flex w-full has-comic-bg">
+            <h2 class="text-2xl font-bold mb-2" style="margin-left: 15px;">
+              Contact Me
+            </h2>
+          </div>
+          <div class="relative p-4 mb-4">
+            <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+              <form action="#" class="space-y-8">
+                <div>
+                  <label
+                    for="email"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Your email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                    placeholder="name@flowbite.com"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    for="subject"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                    >Subject</label
+                  >
+                  <input
+                    type="text"
+                    id="subject"
+                    class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                    placeholder="Let us know how we can help you"
+                    required
+                  />
+                </div>
+                <div class="sm:col-span-2">
+                  <label
+                    for="message"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+                    >Your message</label
+                  >
+                  <textarea
+                    id="message"
+                    rows="6"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Leave a comment..."></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  >Send message</button
+                >
+              </form>
+            </div>
+          </div>
+        </div>
+      </Page>
 
-			<section class="tech-grid debug-border">
-				<TechGrid
-					title="Languages"
-					skills={[
-						{
-							icon: Icons.JavaIcon,
-							progress: "",
-							title: "Java",
-						},
-						{
-							icon: Icons.JsIcon,
-							progress: "",
-							title: "JavaScript",
-						},
-						{
-							icon: Icons.KotlinIcon,
-							progress: "",
-							title: "Kotlin",
-						},
-						{ icon: Icons.RustIcon, progress: 55, title: "Rust" },
-						{
-							icon: Icons.PythonIcon,
-							progress: "",
-							title: "Python",
-						},
-					]}
-				/>
+      <Page index={2} totalCards={6}>
+        <div slot="front" class="flex flex-col w-full h-full">
+          <div class="h-2/3 w-full bg-cover bg-center">
+            <ComicPhoto class="object-cover" />
+          </div>
+          <div
+            class="h-1/3 w-full p-6 flex flex-col justify-center items-center"
+          >
+            <h1
+              class="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold"
+            >
+              Hi! I'm [YourName]
+            </h1>
+            <TabPanel
+              initialTab="about"
+              tabs={[
+                {
+                  id: "default",
+                  label: "About",
+                  content: "Lorem ipsum1...",
+                },
+                {
+                  id: "other",
+                  label: "Other",
+                  content: "Lorem ipsum2...",
+                },
+                {
+                  id: "other2",
+                  label: "Other2",
+                  content: "Lorem ipsum3...",
+                },
+              ]}
+            />
+          </div>
+        </div>
+        <div slot="back" class="flex flex-col w-full h-full">
+          <div class="header has-comic-bg">
+            <h2 class="text-2xl font-bold mb-2" style="margin-left: 15px;">
+              Featured Projects
+            </h2>
+          </div>
+          <div class="w-full grid grid-cols-2 grid-rows-5 gap-4">
+            <ProjectCard
+              src="https://placehold.co/400x400"
+              title="Project1"
+              description="Description."
+              icons={[
+                { src: ICON_REACT, alt: "React" },
+                { src: ICON_TS, alt: "TS" },
+              ]}
+            />
+            <ProjectCard
+              src="https://placehold.co/400x400"
+              title="Project2"
+              description="Description."
+              icons={[
+                { src: ICON_JAVA, alt: "Java" },
+                { src: ICON_SQL, alt: "SQL" },
+              ]}
+            />
+          </div>
+        </div>
+      </Page>
 
-				<TechGrid
-					title="Frameworks & Libraries"
-					skills={[
-						{
-							icon: Icons.BootstrapIcon,
-							progress: 100,
-							title: "Bootstrap",
-						},
-						{ icon: Icons.AstroIcon, progress: 55, title: "Astro" },
-					]}
-				/>
+      <Page index={3} totalCards={6}>
+        <div slot="front" class="flex flex-col w-full h-full">
+          <div class="header has-comic-bg">
+            <h2 class="text-2xl font-bold mb-2" style="margin-left: 15px;">
+              Projects
+            </h2>
+          </div>
+          <div
+            class="grid grid-cols-4 grid-rows-3 gap-2 w-full h-full p-2 bg-gray-900"
+          >
+            <Image
+              width={200}
+              height={100}
+              src="https://placehold.co/200x200"
+              alt="Astro"
+              class="w-16 h-16 object-cover"
+            />
+            <Image
+              width={200}
+              height={100}
+              src="https://placehold.co/200x200"
+              alt="Astro"
+              class="w-16 h-16 object-cover"
+            />
+            <Image
+              width={200}
+              height={100}
+              src="https://placehold.co/200x200"
+              alt="Astro"
+              class="w-16 h-16 object-cover"
+            />
+            <Image
+              width={200}
+              height={100}
+              src="https://placehold.co/200x200"
+              alt="Astro"
+              class="w-16 h-16 object-cover"
+            />
+          </div>
+        </div>
+        <div slot="back" class="flex flex-col w-full h-full">
+          <div class="header has-comic-bg">
+            <h2 class="text-2xl font-bold mb-2 ml-4">Tech Stack</h2>
+          </div>
 
-				<TechGrid
-					title="Tools"
-					skills={[
-						{ icon: Icons.GitIcon, progress: 100, title: "Git" },
-						{
-							icon: Icons.PostmanIcon,
-							progress: 100,
-							title: "Postman",
-						},
-					]}
-				/>
+          <div class="flex flex-wrap gap-6 justify-center items-stretch p-6">
+            <fieldset
+              class="flex flex-col justify-between items-center flex-1 p-4 border border-gray-200 rounded-2xl shadow-sm bg-white min-w-[250px]"
+            >
+              <h3 class="text-lg font-semibold text-gray-700 self-start">
+                Frontend
+              </h3>
+              <div class="flex flex-wrap justify-center gap-4">
+                <Image
+                  src={ICON_ASTRO}
+                  alt="Astro"
+                  width={80}
+                  height={80}
+                  class="w-16 h-16 grayscale hover:grayscale-0 hover:scale-110 transition"
+                />
+                <Image
+                  src={ICON_REACT}
+                  alt="React"
+                  width={80}
+                  height={80}
+                  class="w-16 h-16 grayscale hover:grayscale-0 hover:scale-110 transition"
+                />
+                <Image
+                  src={ICON_TS}
+                  alt="TypeScript"
+                  width={80}
+                  height={80}
+                  class="w-16 h-16 grayscale hover:grayscale-0 hover:scale-110 transition"
+                />
+                <Image
+                  src={ICON_JS}
+                  alt="JavaScript"
+                  width={80}
+                  height={80}
+                  class="w-16 h-16 grayscale hover:grayscale-0 hover:scale-110 transition"
+                />
+              </div>
+            </fieldset>
 
-				<TechGrid
-					title="Other"
-					skills={[
-						{ icon: Icons.LinuxIcon, progress: 65, title: "Linux" },
-						{
-							icon: Icons.SqlIcon,
-							progress: 100,
-							title: "SQL Database",
-						},
-					]}
-				/>
-			</section>
-		</main>
-		<div>
-			<section class="content-section">
-				<h2 class="highlight">Featured Projects</h2>
+            <fieldset
+              class="flex flex-col justify-between items-center flex-1 p-4 border border-gray-200 rounded-2xl shadow-sm bg-white min-w-[250px]"
+            >
+              <h3 class="text-lg font-semibold text-gray-700 self-start">
+                Backend
+              </h3>
+              <div class="flex justify-center">
+                <Image
+                  src={ICON_NODE}
+                  alt="Node.js"
+                  width={80}
+                  height={80}
+                  class="w-16 h-16 grayscale hover:grayscale-0 hover:scale-110 transition"
+                />
+              </div>
+            </fieldset>
 
-				<ProjectGrid
-					projects={[
-						{
-							title: "Rlox lang",
-							description:
-								"I developed a programming language...",
-							link: "https://github.com/Garkatron/Rust-Lox-Interpreter",
-							image: Images.Rloxlang,
-							icons: [Icons.RustIcon],
-						},
-						{
-							title: "3D Rasterizer in Rust",
-							description: "I developed a 3D rendering engine...",
-							link: "https://github.com/Garkatron/ScrapRenderer",
-							image: Images.Renderer3D,
-							icons: [Icons.RustIcon],
-						},
-						{
-							title: "Rust-Coded LRU",
-							description:
-								"I implemented an LRU Cache in Rust...",
-							link: "https://github.com/Garkatron/LRU-Cache-Rust",
-							image: Images.Lrucache,
-							icons: [Icons.RustIcon],
-						},
-					]}
-				/>
-			</section>
-			<section class="content-section">
-				<h2 class="highlight">Other Projects</h2>
-				<Carousel
-					items={[
-						{
-							title: "CHIP-8 Emulator",
-							href: "https://github.com/Garkatron/Von-Neumann-Simulator",
-							image: Images.Chip8,
-							description:
-								"CHIP-8 Emulator implemented in Python",
-							icons: [Icons.PythonIcon],
-						},
-						{
-							title: "TerraX69",
-							href: "https://github.com/Garkatron/TerraX69-JS",
-							description: "JavaScript game built with Tauri",
-							icons: [Icons.JsIcon],
-						},
-						{
-							title: "PC Pokémon Web",
-							href: "https://garkatron.github.io/PC-PokeApi/",
-							image: Images.PokeApi,
-							description:
-								"An interactive web app for exploring Pokémon data using the PokéAPI",
-							icons: [Icons.JsIcon],
-						},
-						{
-							title: "Von Neumann Simulator",
-							href: "https://github.com/Garkatron/Von-Neumann-Simulator",
-							image: Images.VonNeumann,
-							description:
-								"Von Neumann architecture simulator in Python",
-							icons: [Icons.PythonIcon],
-						},
-						{
-							title: "IWantToLearnX",
-							href: "https://github.com/Garkatron/IWantToLearnX",
-							description:
-								"A personal 'Build Your Own X' project to explore and learn various programming concepts",
-							icons: [Icons.GithubIcon],
-						},
-						{
-							title: "FactBoard NEM",
-							href: "https://github.com/Garkatron/FactBoard_NEM",
-							description:
-								"A Node.js and MongoDB-based app for managing and sharing publications",
-							icons: [Icons.JsIcon],
-						},
-						{
-							title: "FactBoard",
-							href: "https://github.com/Garkatron/FactBoard",
-							description:
-								"A PHP and MySQL-based app for managing and sharing publications",
-						},
-					]}
-				/>
-			</section>
+            <fieldset
+              class="flex flex-col justify-between items-center flex-1 p-4 border border-gray-200 rounded-2xl shadow-sm bg-white min-w-[250px]"
+            >
+              <h3 class="text-lg font-semibold text-gray-700 self-start">
+                Bases de Datos
+              </h3>
+              <div class="flex flex-wrap justify-center gap-4">
+                <Image
+                  src={ICON_SQL}
+                  alt="SQL"
+                  width={80}
+                  height={80}
+                  class="w-16 h-16 grayscale hover:grayscale-0 hover:scale-110 transition"
+                />
+                <Image
+                  src={ICON_MONGO}
+                  alt="MongoDB"
+                  width={80}
+                  height={80}
+                  class="w-16 h-16 grayscale hover:grayscale-0 hover:scale-110 transition"
+                />
+              </div>
+            </fieldset>
 
-			<section class="content-section">
-				<h2 class="highlight">Minecraft mods</h2>
-				<Carousel
-					items={[
-						{
-							title: "BTA PainScale",
-							href: "https://github.com/Garkatron/BTA-PainScale",
-							description:
-								"A Minecraft mod with a dynamic difficulty system, enhanced health mechanics, and tougher enemies",
-							icons: [Icons.JavaIcon],
-						},
-						{
-							title: "BTA Guidebook",
-							href: "https://github.com/Garkatron/BTA-Guidebook.md",
-							image: Images.Guidebook,
-							description:
-								"A Markdown-based guidebook library for BTA modders with in-game editing and export features",
-							icons: [Icons.JavaIcon],
-						},
-						{
-							title: "StanleyTemperature",
-							href: "https://github.com/Garkatron/StanleyTemperature",
-							image: Images.Stanley,
-							description:
-								"A temperature mod and skill system library for RPG-style gameplay in Minecraft",
-							icons: [Icons.JavaIcon],
-						},
-						{
-							title: "BTA Paperwork",
-							href: "https://github.com/Garkatron/BTA-Paperwork",
-							image: Images.Paperwork,
-							description:
-								"A Minecraft mod adding decorative blocks, items, and paper-based entities like cardboard boxes",
-							icons: [Icons.JavaIcon],
-						},
-						{
-							title: "BTA POVERH",
-							href: "https://github.com/Garkatron/BTA-POVERH",
-							image: Images.Parkour,
-							description:
-								"A Minecraft mod introducing stamina and parkour mechanics for enhanced movement",
-							icons: [Icons.JavaIcon],
-						},
-					]}
-				/>
-			</section>
-		</div>
-	</body>
+            <fieldset
+              class="flex flex-col justify-between items-center flex-1 p-4 border border-gray-200 rounded-2xl shadow-sm bg-white min-w-[250px]"
+            >
+              <h3 class="text-lg font-semibold text-gray-700 self-start">
+                Otros
+              </h3>
+              <div class="flex justify-center">
+                <Image
+                  src={ICON_JAVA}
+                  alt="Java"
+                  width={80}
+                  height={80}
+                  class="w-16 h-16 grayscale hover:grayscale-0 hover:scale-110 transition"
+                />
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </Page>
 
-	<style>
-		body {
-			position: relative;
-		}
+      <Page index={4} totalCards={6}>
+        <div slot="front" class="flex flex-col w-full h-full">
+          <div class="header has-comic-bg">
+            <h2 class="text-2xl font-bold mb-2" style="margin-left: 15px;">
+              Formation
+            </h2>
+          </div>
+          <blockquote>
+            <div class="p-6 flex flex-col gap-4">
+              <p>A</p>
+              <p>B</p>
+            </div>
+          </blockquote>
+        </div>
+        <div slot="back" class="flex flex-col w-full h-full">
+          <div class="header has-comic-bg">
+            <h2 class="text-2xl font-bold mb-2" style="margin-left: 15px;">
+              JOB / PRACTICES
+            </h2>
+          </div>
+          <div class="p-6 flex flex-col gap-4">
+            <blockquote>
+              <p>A</p>
+              <p>B</p>
+            </blockquote>
+          </div>
+        </div>
+      </Page>
 
-		body::before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-image: url("/Portfolio/circuit-board.svg");
-			background-repeat: repeat;
-			opacity: 0.5;
-			z-index: -1;
-		}
+      <Page index={5} totalCards={6}>
+        <div slot="front" class="flex flex-col w-full h-full">
+          <div class="header has-comic-bg">
+            <h2 class="text-2xl font-bold mb-2" style="margin-left: 15px;">
+              Achievements
+            </h2>
+          </div>
+          <ul class="list-disc list-inside">
+            <li>A</li>
+            <li>B</li>
+            <li>C</li>
+          </ul>
+        </div>
+        <div slot="back" class="flex flex-col w-full h-full"></div>
+      </Page>
 
-		.debug-border {
-			/*border: white 2px solid; */
-		}
-		.tech-grid {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-evenly;
-			padding: 10px;
-		}
-		.content-section {
-			padding: 40px;
-		}
-
-		#profile-container {
-			display: flex;
-			align-items: center;
-		}
-
-		.profile-img {
-			height: 600px;
-			width: 300px;
-
-			padding: 10px;
-			border-radius: 50px;
-			object-fit: cover;
-
-			-webkit-mask-image: linear-gradient(
-				to left,
-				rgba(0, 0, 0, 1) 20%,
-				rgba(0, 0, 0, 0) 70%
-			);
-			-webkit-mask-repeat: no-repeat;
-			-webkit-mask-position: center;
-			-webkit-mask-size: cover;
-
-			mask-image: linear-gradient(
-				to left,
-				rgba(0, 0, 0, 1) 40%,
-				rgba(0, 0, 0, 0) 70%
-			);
-
-			mask-repeat: no-repeat;
-			mask-position: center;
-			mask-size: cover;
-		}
-
-		@media (max-width: 800px) {
-			#profile-container {
-				display: flex;
-				flex-direction: column;
-			}
-
-			.profile-img {
-				width: 100%;
-			}
-		}
-
-		#effect {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			z-index: -1;
-			opacity: 25%;
-			filter: contrast(150%) brightness(100%) blur(1px) sepia();
-		}
-
-		.profile-content {
-			padding: 1rem;
-			flex: 1;
-		}
-
-		.presentation h1,
-		.presentation h3 {
-			margin-top: 0;
-			margin-bottom: 0.5rem;
-		}
-		.highlight {
-			color: #ffb25f;
-		}
-		.keyword {
-			color: #b4937d;
-		}
-		.description {
-			text-align: justify;
-			font-size: 1.1rem;
-		}
-		.profile-links {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 1rem;
-			margin-top: 1rem;
-		}
-		.profile-links a {
-			display: flex;
-			align-items: center;
-			gap: 0.3rem;
-			font-weight: 600;
-			text-decoration: none;
-		}
-		.icon {
-			width: 20px;
-			height: 20px;
-		}
-		a {
-			display: inline-block;
-			outline: 0;
-			text-align: center;
-			cursor: pointer;
-			min-width: 80px;
-			height: 32px;
-			color: rgb(255, 255, 255);
-		}
-	</style>
-	<script>
-		document
-			.getElementById("email-button")
-			?.addEventListener("click", (e) => {
-				const email = "masitacarg@gmail.com";
-				navigator.clipboard
-					.writeText(email)
-					.then(() => {
-						alert("Email copied to clipboard: " + email);
-					})
-					.catch((err) => {
-						console.error("Failed to copy email: ", err);
-						alert("Failed to copy email. Please try again.");
-					});
-			});
-	</script>
-</Default>
+      <!-- Página 7: Contacto -->
+      <Page index={6} totalCards={6}>
+        <div slot="front" class="flex flex-col w-full h-full"></div>
+        <div slot="back" class="flex flex-col w-full h-full"></div>
+      </Page>
+    </Book>
+  </body>
+</html>

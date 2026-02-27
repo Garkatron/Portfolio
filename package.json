@@ -1,18 +1,18 @@
 {
   "name": "vigorous-visual",
-  "type": "module",
   "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
   "dependencies": {
     "@astrojs/preact": "^4.1.3",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^5.17.1",
     "doodle.css": "^0.0.2",
     "tailwindcss": "^4.2.1"
-  }
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "type": "module"
 }

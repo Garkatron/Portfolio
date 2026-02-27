@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "../styles/Book.module.css";
 
-export default function Book({ children, className = "" }) {
+const Book = forwardRef(({ children, className = "", onNext, onPrev }, ref) => {
   const bookRef = useRef(null);
 
   const pages = React.Children.toArray(children).filter((child) =>
@@ -11,6 +11,9 @@ export default function Book({ children, className = "" }) {
   const totalCards = pages.length;
   const [currentPage, setCurrentPage] = useState(0);
   const [audio, setAudio] = useState(null);
+  const [pageStates, setPageStates] = useState(
+    Array(totalCards).fill({ flipped: false, zIndex: 0 })
+  );
 
   useEffect(() => {
     setAudio({
@@ -28,7 +31,7 @@ export default function Book({ children, className = "" }) {
         bookRef.current.style.transform = "translateX(0%)";
         return;
       } else if (currentPage === pages.length) {
-        bookRef.current.style.transform = "translateX(0%)";
+        bookRef.current.style.transform = "translateX(100%)";
         return;
       }
 
@@ -43,7 +46,7 @@ export default function Book({ children, className = "" }) {
     centerBook();
     window.addEventListener("resize", centerBook);
     return () => window.removeEventListener("resize", centerBook);
-  }, [currentPage]);
+  }, [currentPage, pages.length]);
 
   const playAudio = (name) => {
     const clip = audio?.[name];
@@ -54,12 +57,29 @@ export default function Book({ children, className = "" }) {
 
   const goNext = () => {
     setCurrentPage((prev) => {
-      const next = Math.min(prev + 1, totalCards - 1);
+      const next = Math.min(prev + 1, totalCards);
+      
+      if (next === prev) return prev;
+
+      setPageStates(states => {
+        const newStates = [...states];
+        newStates[prev] = { flipped: true, zIndex: states[prev]?.zIndex || (totalCards - prev) };
+        return newStates;
+      });
+
+      setTimeout(() => {
+        setPageStates(states => {
+          const newStates = [...states];
+          newStates[prev] = { ...newStates[prev], zIndex: prev };
+          return newStates;
+        });
+      }, 70);
 
       if (prev === 0) playAudio("open");
-      else if (next === totalCards - 1) playAudio("close");
+      else if (next === totalCards) playAudio("close");
       else playAudio("fold");
 
+      onNext?.(next);
       return next;
     });
   };
@@ -67,14 +87,38 @@ export default function Book({ children, className = "" }) {
   const goPrev = () => {
     setCurrentPage((prev) => {
       const next = Math.max(prev - 1, 0);
+      
+      if (next === prev) return prev;
 
-      if (prev === 0) playAudio("close");
-      else if (next === totalCards - 1) playAudio("open");
+      setPageStates(states => {
+        const newStates = [...states];
+        newStates[next] = { flipped: false, zIndex: states[next].zIndex };
+        return newStates;
+      });
+
+      setTimeout(() => {
+        setPageStates(states => {
+          const newStates = [...states];
+          newStates[next] = { flipped: false, zIndex: totalCards - next };
+          return newStates;
+        });
+      }, 120);
+
+      if (next === 0) playAudio("close");
+      else if (prev === totalCards) playAudio("open");
       else playAudio("fold");
 
+      onPrev?.(next);
       return next;
     });
   };
+
+  useImperativeHandle(ref, () => ({
+    goNext,
+    goPrev,
+    getCurrentPage: () => currentPage,
+    getTotalPages: () => totalCards
+  }));
 
   return (
     <div className={`${styles.book} ${className}`} ref={bookRef}>
@@ -84,42 +128,19 @@ export default function Book({ children, className = "" }) {
             key: index,
             index,
             totalCards,
-            flipped: index < currentPage,
+            flipped: pageStates[index]?.flipped || false,
+            style: { zIndex: pageStates[index]?.zIndex || (totalCards - index) }
           }),
         )}
       </div>
-
-      <button
-        className={`${styles.navButton} ${styles.navButtonLeft} ${currentPage === 0 ? styles.navButtonDisabled : ""}`}
-        onClick={goPrev}
-        disabled={currentPage === 0}
-        onMouseEnter={(e) =>
-          (e.target.style.transform = "translateY(-50%) scale(1.1)")
-        }
-        onMouseLeave={(e) =>
-          (e.target.style.transform = "translateY(-50%) scale(1)")
-        }
-      >
-        ‹
-      </button>
-
-      <button
-        className={`${styles.navButton} ${styles.navButtonRight} ${currentPage === totalCards - 1 ? styles.navButtonDisabled : ""}`}
-        onClick={goNext}
-        disabled={currentPage === totalCards - 1}
-        onMouseEnter={(e) =>
-          (e.target.style.transform = "translateY(-50%) scale(1.1)")
-        }
-        onMouseLeave={(e) =>
-          (e.target.style.transform = "translateY(-50%) scale(1)")
-        }
-      >
-        ›
-      </button>
 
       <div className={styles.pageCounter}>
         Página {currentPage + 1} de {totalCards}
       </div>
     </div>
   );
-}
+});
+
+Book.displayName = "Book";
+
+export default Book;

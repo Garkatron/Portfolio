@@ -1,14 +1,13 @@
 .book {
   position: relative;
   width: 600px;
-  height: 800px;
-  margin: 50px auto;
+  height: 900px;
   perspective: 2000px;
   background-image: url("/assets/background/papel0black.png");
-  padding: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
+} 
+
+/* margin: 50px auto; */
 
 .bookInner {
   position: relative;
@@ -18,34 +17,6 @@
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-.navButton {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10000;
-  padding: 15px 25px;
-  font-size: 28px;
-  cursor: pointer;
-  background-color: #8b4513;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s;
-}
-
-.navButtonLeft {
-  left: -60px;
-}
-
-.navButtonRight {
-  right: -60px;
-}
-
-.navButtonDisabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
 
 .pageCounter {
   position: absolute;

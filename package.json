@@ -10,8 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@preact/preset-vite": "^2.10.3",
     "@tailwindcss/vite": "^4.1.18",
-    "react": "^19.2.0",
+    "doodle.css": "^0.0.2",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.1.18"
   },

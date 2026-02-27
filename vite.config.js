@@ -1,8 +1,14 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
+import preact from '@preact/preset-vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
-})
+    plugins: [preact(), tailwindcss()],
+    resolve: {
+        alias: {
+            react: "preact/compat",
+            "react-dom": "preact/compat",
+        },
+    },
+});

@@ -1,11 +1,20 @@
-import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  Children,
+  isValidElement,
+  cloneElement
+} from "preact/compat";
 import styles from "../styles/Book.module.css";
 
 const Book = forwardRef(({ children, className = "", onNext, onPrev }, ref) => {
   const bookRef = useRef(null);
 
-  const pages = React.Children.toArray(children).filter((child) =>
-    React.isValidElement(child),
+  const pages = Children.toArray(children).filter((child) =>
+    isValidElement(child),
   );
 
   const totalCards = pages.length;
@@ -124,7 +133,7 @@ const Book = forwardRef(({ children, className = "", onNext, onPrev }, ref) => {
     <div className={`${styles.book} ${className}`} ref={bookRef}>
       <div className={styles.bookInner}>
         {pages.map((child, index) =>
-          React.cloneElement(child, {
+          cloneElement(child, {
             key: index,
             index,
             totalCards,

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "preact/compat";
 import Book from "./components/Book";
 import Page from "./components/Page";
 // import noirmale2 from "./assets/noirmale2.png";
@@ -47,7 +47,7 @@ function App() {
         <Page>
           <div className="flex flex-col w-full h-full overflow-hidden">
             <img
-              src={noirmale2}
+              src={noirmale2.src}
               alt="ProfilePhoto"
               className="w-full h-full object-cover"
             />
@@ -97,7 +97,7 @@ function App() {
             <ul className="grid grid-cols-4 gap-6 place-items-center">
               {languagesIcons.map(({ name, icon }) => (
                 <li key={name} className="flex flex-col items-center gap-2">
-                  <img src={icon} alt={name} className="w-10 h-10" />
+                  <img src={icon.src} alt={name} className="w-10 h-10" />
                   <span className="opacity-70 text-2xl">{name}</span>
                 </li>
               ))}
@@ -108,7 +108,7 @@ function App() {
             <ul className="grid grid-cols-4 gap-6 place-items-center">
               {librariesIcons.map(({ name, icon }) => (
                 <li key={name} className="flex flex-col items-center gap-2">
-                  <img src={icon} alt={name} className="w-10 h-10" />
+                  <img src={icon.src} alt={name} className="w-10 h-10" />
                   <span className="opacity-70 text-2xl">{name}</span>
                 </li>
               ))}
@@ -119,7 +119,7 @@ function App() {
             <ul className="grid grid-cols-4 gap-6 place-items-center">
               {frameworksIcons.map(({ name, icon }) => (
                 <li key={name} className="flex flex-col items-center gap-2">
-                  <img src={icon} alt={name} className="w-10 h-10" />
+                  <img src={icon.src} alt={name} className="w-10 h-10" />
                   <span className="opacity-70 text-2xl">{name}</span>
                 </li>
               ))}
@@ -137,7 +137,7 @@ function App() {
             <ul className="grid grid-cols-4 gap-6 place-items-center">
               {toolsIcons.map(({ name, icon }) => (
                 <li key={name} className="flex flex-col items-center gap-2">
-                  <img src={icon} alt={name} className="w-10 h-10" />
+                  <img src={icon.src} alt={name} className="w-10 h-10" />
                   <span className="opacity-70 text-2xl">{name}</span>
                 </li>
               ))}
@@ -149,7 +149,7 @@ function App() {
             <ul className="grid grid-cols-4 gap-6 place-items-center">
               {databasesIcons.map(({ name, icon }) => (
                 <li key={name} className="flex flex-col items-center gap-2">
-                  <img src={icon} alt={name} className="w-10 h-10" />
+                  <img src={icon.src} alt={name} className="w-10 h-10" />
                   <span className="opacity-70 text-2xl">{name}</span>
                 </li>
               ))}

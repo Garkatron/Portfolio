@@ -1,25 +1,25 @@
-import React from "react";
+import { Children } from "preact/compat";
 import pageTexture from "../assets/papel0.png";
 import styles from "../styles/Page.module.css";
 
-export default function Page({ 
-  index, 
-  totalCards, 
-  flipped = false, 
-  children, 
+export default function Page({
+  index,
+  totalCards,
+  flipped = false,
+  children,
   className = "",
-  style = {} 
+  style = {},
 }) {
-  const childArray = React.Children.toArray(children);
+  const childArray = Children.toArray(children);
   const front = childArray[0];
   const back = childArray[1];
 
   return (
-    <div 
-      className={`${styles.paper} ${flipped ? styles.flipped : ""} ${className}`} 
-      style={{ 
-        ...style, 
-        backgroundImage: `url(${pageTexture})`
+    <div
+      className={`${styles.paper} ${flipped ? styles.flipped : ""} ${className}`}
+      style={{
+        ...style,
+        backgroundImage: `url(${pageTexture})`,
       }}
     >
       <div className={styles.front}>

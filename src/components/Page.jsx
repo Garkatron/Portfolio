@@ -1,33 +1,36 @@
-import { Children } from "preact/compat";
-import pageTexture from "../assets/papel0.png";
-import styles from "../styles/Page.module.css";
+import React from "react";
 
-export default function Page({
-  index,
-  totalCards,
-  flipped = false,
-  children,
-  className = "",
-  style = {},
-}) {
-  const childArray = Children.toArray(children);
-  const front = childArray[0];
-  const back = childArray[1];
-
+const Page = React.forwardRef(({ children }, ref) => {
   return (
     <div
-      className={`${styles.paper} ${flipped ? styles.flipped : ""} ${className}`}
+      ref={ref}
+      className="page w-full h-full bg-white relative overflow-hidden"
       style={{
-        ...style,
-        backgroundImage: `url(${pageTexture})`,
+        boxShadow:
+          "inset 0 0 0 1px rgba(0,0,0,0.08), inset 10px 0 18px rgba(0,0,0,0.08)"
       }}
     >
-      <div className={styles.front}>
-        <div className="frontContent">{front}</div>
-      </div>
-      <div className={styles.back}>
-        <div className="backContent">{back}</div>
-      </div>
+      <div
+        className="absolute top-0 right-0 w-6 h-full pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to left, rgba(0,0,0,0.18), transparent)"
+        }}
+      />
+
+      <div
+        className="absolute top-0 left-0 w-6 h-full pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(0,0,0,0.06), transparent)"
+        }}
+      />
+
+      {children}
     </div>
   );
-}
+});
+
+Page.displayName = "Page";
+
+export default Page;

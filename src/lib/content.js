@@ -123,21 +123,26 @@ export function getPlaylist(providerId = siteData.audioProvider) {
 /**
  * Blog posts live in src/data/blog/<lang>/<slug>/index.md, with any images the
  * post uses sitting next to it — a folder per post, so assets never get mixed
- * up between posts. A locale without its own copy of a post falls back to the
- * default-locale version (`fallback: true`).
+ * up between posts.
+ *
+ * A post written in only one locale is still listed in the others
+ * (`fallback: true`), preferring the active locale, then the default one. Posts
+ * are drafted in whichever language comes first, so a blog written in English
+ * must not read as empty on the Spanish site.
  */
 export async function getPosts(lang) {
   const entries = await getCollection("blog", (e) => !e.data.draft);
   const bySlug = new Map();
+  // Lower rank wins, so a later locale can only replace a worse match.
+  const rank = (entryLang) => (entryLang === lang ? 0 : entryLang === defaultLocale ? 1 : 2);
   for (const entry of entries) {
     // The collection id is `<lang>/<slug>/index`; the slug is the folder name.
     const [entryLang, slug] = entry.id.split("/");
-    if (entryLang !== lang && entryLang !== defaultLocale) continue;
     const existing = bySlug.get(slug);
-    if (existing && entryLang !== lang) continue;
-    bySlug.set(slug, { slug, entry, fallback: entryLang !== lang });
+    if (existing && rank(entryLang) >= existing.rank) continue;
+    bySlug.set(slug, { slug, entry, rank: rank(entryLang), fallback: entryLang !== lang });
   }
   return [...bySlug.values()]
-    .map((p) => ({ ...p, ...p.entry.data, href: localePath(lang, `/blog/${p.slug}/`) }))
+    .map(({ rank: _rank, ...p }) => ({ ...p, ...p.entry.data, href: localePath(lang, `/blog/${p.slug}/`) }))
     .sort((a, b) => b.date - a.date);
 }

@@ -19,7 +19,7 @@ const fmt = new Intl.DateTimeFormat(lang, { year: "numeric", month: "2-digit", d
       <ul class="posts">
         {posts.map((p) => (
           <li>
-            <a href={p.href} data-log="open" data-log-arg={`blog/${p.slug}.md`}>
+            <a href={p.href} data-log="open" data-log-arg={`blog/${p.slug}/index.md`}>
               <time datetime={p.date.toISOString()}>{fmt.format(p.date)}</time>
               <span>
                 <span class="post-title">{p.title}</span>

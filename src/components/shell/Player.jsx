@@ -38,17 +38,17 @@ export default function Player({ playlist }) {
   const { provider } = playlist;
   const [query, setQuery] = useState("");
 
-  // Shuffle track order for display (stable per mount via seed).
-  const shuffled = useMemo(() => {
+  // Shuffle track order once per page load (stable across re-renders).
+  const [shuffled] = useState(() => {
     const indices = playlist.tracks.map((_, i) => i);
     for (let i = indices.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [indices[i], indices[j]] = [indices[j], indices[i]];
     }
     return indices;
-  }, [playlist.tracks]);
+  });
 
-  // Always play the first shuffled track on load (clear stale session index).
+  // Play first shuffled track only on first mount (not on SPA navigation).
   useEffect(() => {
     try { sessionStorage.removeItem("garkatron:track"); } catch {}
     host?.load(playlist.tracks, playlist.provider);
@@ -56,7 +56,8 @@ export default function Player({ playlist }) {
     if (first && (first.streamUrl || first.embedUrl)) {
       host?.play(shuffled[0]);
     }
-  }, [host, playlist.tracks]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // The provider's brand colour drives the whole card (equaliser, progress, cover).
   const cardProps = { className: "card apx", style: { "--apx": provider.accent } };
 

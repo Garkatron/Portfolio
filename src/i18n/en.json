@@ -46,7 +46,7 @@
     "tracks": "{n} tracks",
     "full": "full track ↗",
     "search": "search ↗",
-    "fullLength": "full track",
+    "seek": "position",
     "volume": "vol",
     "enable": "click anywhere to enable sound",
     "note": {

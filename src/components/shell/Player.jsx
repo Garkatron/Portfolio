@@ -3,12 +3,15 @@ import { log } from "../../lib/syslog.js";
 import { useI18n } from "./i18n.jsx";
 
 // Provider-agnostic player. It renders whatever src/lib/audio/index.js
-// resolved: a custom transport for tracks with a direct stream (Spotify's 30s
-// previews), the provider's own widget for tracks with an embed (SoundCloud),
-// and a plain link for anything else.
+// resolved: the host's transport for tracks with a direct stream (Spotify's 30s
+// previews) or a provider embed (SoundCloud), and a plain link for anything else.
 //
-// Playback itself lives in src/lib/audio/host.js, which outlives this island so
-// the music keeps playing while the reader navigates.
+// Both playable modes share one UI. For an embed the provider iframe is hidden
+// and driven over its own API, so the card looks the same either way — no
+// third-party player is ever visible.
+//
+// Playback lives in src/lib/audio/host.js, which outlives this island so the
+// music keeps playing while the reader navigates.
 function Equalizer({ on }) {
   return (
     <span className={`eq${on ? " on" : ""}`} aria-hidden="true">
@@ -30,7 +33,7 @@ function fmt(sec) {
 export default function Player({ playlist }) {
   const { t } = useI18n();
   const { host, state, surfaceRef } = useAudioHost(playlist);
-  const { track, mode, playing, waiting, volume, time, duration, index } = state;
+  const { track, mode, playing, waiting, volume, time, duration, index, controlled } = state;
   const { provider } = playlist;
   // The provider's brand colour drives the whole card (equaliser, progress, cover).
   const cardProps = { className: "card apx", style: { "--apx": provider.accent } };
@@ -65,8 +68,12 @@ export default function Player({ playlist }) {
   };
 
   const progress = duration ? (time / duration) * 100 : 0;
-  const isStream = mode === "stream";
-  const isEmbed = mode === "embed";
+  const playable = mode !== "link";
+
+  const seekAt = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    if (rect.width > 0) host?.seek((e.clientX - rect.left) / rect.width);
+  };
 
   return (
     <div {...cardProps}>
@@ -76,7 +83,7 @@ export default function Player({ playlist }) {
         type="button"
         className={`cover${playing ? " on" : ""}`}
         onClick={() => host?.toggle()}
-        disabled={mode === "link"}
+        disabled={!playable}
         aria-label={playing ? t("player.pause") : t("player.play")}
       >
         {waiting ? (
@@ -86,8 +93,13 @@ export default function Player({ playlist }) {
         )}
       </button>
 
-      {/* Mount point for the provider's own media nodes (see src/lib/audio/host.js). */}
-      <div className="apx-surface" ref={surfaceRef} hidden={!isStream && !isEmbed} />
+      {/* Host-owned media. `controlled` means the provider exposes a parent-side
+          API, so the iframe can be hidden and our transport drives it. */}
+      <div
+        className={`apx-surface${controlled ? "" : " apx-visible"}`}
+        ref={surfaceRef}
+        aria-hidden="true"
+      />
 
       <div className="now">
         <div className="song">{track ? track.title : "—"}</div>
@@ -96,8 +108,17 @@ export default function Player({ playlist }) {
         </div>
       </div>
 
-      {isStream && (
-        <div className="bar">
+      {playable && (
+        <div
+          className="bar"
+          role="slider"
+          tabIndex={duration ? 0 : -1}
+          aria-label={t("player.seek")}
+          aria-valuemin={0}
+          aria-valuemax={Math.round(duration)}
+          aria-valuenow={Math.round(time)}
+          onClick={seekAt}
+        >
           <i style={{ width: `${progress}%` }} />
           <span className="bar-time">
             {fmt(time)} / {fmt(duration)}
@@ -106,7 +127,7 @@ export default function Player({ playlist }) {
       )}
 
       <div className="controls">
-        {isStream ? (
+        {playable ? (
           <>
             <span className="vol-label">{t("player.volume")}</span>
             <input
@@ -120,7 +141,7 @@ export default function Player({ playlist }) {
             />
           </>
         ) : (
-          <span className="vol-label">{isEmbed ? t("player.fullLength") : ""}</span>
+          <span className="vol-label" />
         )}
         {track && (
           <a className="full" href={track.pageUrl ?? track.searchUrl} target="_blank" rel="noreferrer">

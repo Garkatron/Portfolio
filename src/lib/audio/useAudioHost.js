@@ -28,7 +28,7 @@ export function useAudioHost(playlist) {
   useEffect(() => {
     if (!host) return;
     setState(host.getState());
-    host.load(playlist.tracks, playlist.provider.id);
+    host.load(playlist.tracks, playlist.provider);
     return host.subscribe(setState);
   }, [host, playlist]);
 

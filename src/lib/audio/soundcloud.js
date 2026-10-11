@@ -12,21 +12,34 @@ import { encodeQuery } from "./util.js";
 
 const BASE = "https://soundcloud.com";
 const WIDGET = "https://w.soundcloud.com/player/";
+/** Parent-side controller for the widget (SC.Widget); loaded on demand. */
+export const WIDGET_API = "https://w.soundcloud.com/player/api.js";
 const ACCENT = "#ff5500";
+
+/**
+ * Widget options. The iframe is hidden and driven over the Widget API
+ * (src/lib/audio/host.js), so this only has to start the track and keep
+ * SoundCloud's own chrome out of the way.
+ */
+export function widgetOptions() {
+  return {
+    auto_play: "true", // audible playback waits on the first gesture (see host.js)
+    color: ACCENT.replace("#", ""),
+    buying: "false",
+    sharing: "false",
+    download: "false",
+    show_artwork: "false",
+    show_playcount: "false",
+    show_user: "false",
+    show_reposts: "false",
+    hide_related: "true",
+    visual: "false",
+  };
+}
 
 /** The widget is the only supported way to play a SoundCloud track in a page. */
 function widgetUrl(trackUrl) {
-  const params = new URLSearchParams({
-    url: trackUrl,
-    color: ACCENT, // URLSearchParams escapes the "#" for us
-    auto_play: "false",
-    hide_related: "true",
-    show_comments: "false",
-    show_user: "true",
-    show_reposts: "false",
-    visual: "false",
-  });
-  return `${WIDGET}?${params}`;
+  return `${WIDGET}?${new URLSearchParams({ url: trackUrl, ...widgetOptions() })}`;
 }
 
 /**
@@ -52,6 +65,9 @@ export const soundcloudProvider = {
   id: "soundcloud",
   label: "SOUNDCLOUD",
   accent: ACCENT,
+  /** Parent-side controller, so the iframe itself can stay hidden. */
+  apiUrl: WIDGET_API,
+  widgetOptions,
   playlistEmbedUrl: (id) => widgetUrl(`${BASE}/${String(id).replace(/^\/+/, "")}`),
 
   resolveTrack(track) {

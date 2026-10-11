@@ -14,9 +14,8 @@ const KEY = "__garkatronAudioHost";
 const TRACK_KEY = "garkatron:track";
 const VOLUME_KEY = "garkatron:volume";
 const DEFAULT_VOLUME = 0.3; // low, per request
-// Must match `transition:persist` in src/layout/Base.astro.
-const PERSIST_ID = "garkatron-audio";
-const WIDGET_LOAD_MS = 400; // a fresh widget needs a moment before it listens
+const PERSIST_ID = "garkatron-audio"; // must match `transition:persist` in Base.astro
+const AUTOPLAY_GRACE_MS = 1200; // how long we wait before saying autoplay was blocked
 
 function readVolume() {
   try {
@@ -59,15 +58,19 @@ function createHost() {
   audio.preload = "auto";
   audio.volume = readVolume();
 
-  let embed = null; // provider widget iframe, created on first use
+  let embed = null; // provider iframe, hidden and driven from here
+  let widget = null; // SC.Widget controller for it
+  let widgetApiPromise = null;
+  let autoplayTimer = null;
+  let wakeHandler = null;
 
   const state = {
     tracks: [],
-    providerId: null,
+    provider: null,
     index: null,
     mode: "link",
     playing: false,
-    waiting: false, // muted autoplay, still waiting for a user gesture
+    waiting: false, // autoplay was blocked; waiting for a user gesture
     volume: audio.volume,
     time: 0,
     duration: 0,
@@ -79,6 +82,7 @@ function createHost() {
     index: state.index,
     track: state.index === null ? null : (state.tracks[state.index] ?? null),
     mode: state.mode,
+    controlled: state.mode === "embed" && !!state.provider?.apiUrl,
     playing: state.playing,
     waiting: state.waiting,
     volume: state.volume,
@@ -104,10 +108,10 @@ function createHost() {
    * rendered is still connected — parking them is what carries them over.
    *
    * Known limitation: re-parenting an <iframe> can make the browser reload it,
-   * so an embedded provider track may restart at 0:00 after a navigation. The
-   * <audio> element is unaffected. Parking the widget for good (and laying that
-   * container out over the sidebar) would fix it at the cost of a hand-built
-   * layout, so it is left as-is until a provider actually needs it.
+   * so an embedded track may restart after a navigation. The <audio> element is
+   * unaffected. Parking the iframe for good (and laying that container out over
+   * the sidebar) would fix it at the cost of a hand-built layout, so it is left
+   * as-is until it actually bites.
    */
   function stash() {
     const target = container();
@@ -117,48 +121,154 @@ function createHost() {
     }
   }
 
-  // ---- provider embeds ----------------------------------------------------
+  // ---- provider embed -----------------------------------------------------
 
-  function ensureEmbed(url) {
-    if (!embed) {
-      embed = document.createElement("iframe");
-      embed.title = "player";
-      embed.allow = "autoplay";
-      embed.setAttribute("scrolling", "no");
-      embed.setAttribute("frameborder", "no");
-    }
-    if (embed.getAttribute("src") !== url) embed.setAttribute("src", url);
-    return embed;
+  /**
+   * SoundCloud ships a parent-side API (SC.Widget) that reports playback and
+   * accepts commands. With it the iframe can stay invisible while the site draws
+   * its own transport, instead of showing SoundCloud's player inside our card.
+   */
+  function loadWidgetApi(apiUrl) {
+    widgetApiPromise ??= new Promise((resolve, reject) => {
+      if (window.SC?.Widget) return resolve(window.SC.Widget);
+      const script = document.createElement("script");
+      script.src = apiUrl;
+      script.async = true;
+      script.onload = () =>
+        window.SC?.Widget
+          ? resolve(window.SC.Widget)
+          : reject(new Error("widget API loaded without SC.Widget"));
+      script.onerror = () => reject(new Error("widget API failed to load"));
+      document.head.appendChild(script);
+    });
+    return widgetApiPromise.catch((err) => {
+      widgetApiPromise = null; // let a later attempt retry
+      throw err;
+    });
   }
 
-  /** The widget is a separate document, so it has to be told what to do. */
-  function embedCommand(method) {
-    if (!embed?.contentWindow) return;
-    try {
-      embed.contentWindow.postMessage(JSON.stringify({ method }), "*");
-    } catch {}
+  /** Mirror the widget's audio events onto the host state. */
+  function bindWidget(Events) {
+    widget.bind(Events.READY, () => {
+      state.waiting = false;
+      widget?.play(); // auto_play may have been blocked before any interaction
+      emit();
+    });
+
+    widget.bind(Events.PLAY, () => {
+      state.playing = true;
+      state.waiting = false;
+      clearTimeout(autoplayTimer);
+      clearWake();
+      emit();
+    });
+
+    widget.bind(Events.PAUSE, () => {
+      state.playing = false;
+      emit();
+    });
+
+    widget.bind(Events.PLAY_PROGRESS, (e) => {
+      state.time = (e?.currentPosition ?? 0) / 1000;
+      // relativePosition lets us derive the length without a round trip.
+      if (e?.relativePosition > 0) state.duration = state.time / e.relativePosition;
+      emit();
+    });
+
+    widget.bind(Events.SEEK, (e) => {
+      state.time = (e?.currentPosition ?? 0) / 1000;
+      emit();
+    });
+
+    widget.bind(Events.FINISH, () => {
+      state.playing = false;
+      emit();
+      // The old transport looped; keep the music coming.
+      if (state.tracks.length > 1) select((state.index + 1) % state.tracks.length, { gesture: true });
+    });
+
+    widget.bind(Events.ERROR, () => console.warn("[audio] provider reported a playback error"));
+  }
+
+  function ensureWidget(url) {
+    const { apiUrl, widgetOptions } = state.provider ?? {};
+    if (!apiUrl) return; // no parent-side controller, so the iframe stays visible
+    if (widget) {
+      widget.load(url, widgetOptions); // reloads in place, listeners stay bound
+      return;
+    }
+    if (!embed) {
+      embed = document.createElement("iframe");
+      embed.id = "garkatron-provider";
+      embed.title = "audio";
+      embed.allow = "autoplay";
+      embed.width = "100%";
+      embed.height = "166"; // any real box: a 0-sized iframe is not a reliable host
+      embed.setAttribute("scrolling", "no");
+      embed.setAttribute("frameborder", "no");
+      embed.src = url; // bootstrap the first load
+    }
+    loadWidgetApi(apiUrl)
+      .then((Widget) => {
+        widget = new Widget(embed);
+        bindWidget(Widget.Events);
+        syncWidgetVolume();
+      })
+      .catch((err) => console.warn("[audio]", err.message));
+  }
+
+  function syncWidgetVolume() {
+    // The widget takes 0-100; the host keeps 0-1, like the <audio> element.
+    widget?.setVolume(Math.round(state.volume * 100));
+  }
+
+  /** No sound within the grace window means the browser blocked autoplay. */
+  function armAutoplayTimer() {
+    clearTimeout(autoplayTimer);
+    autoplayTimer = setTimeout(() => {
+      if (state.playing) return;
+      state.waiting = true;
+      emit();
+    }, AUTOPLAY_GRACE_MS);
   }
 
   // ---- transport ----------------------------------------------------------
 
-  function wakeOnGesture() {
-    const wake = () => {
-      audio.muted = false;
-      audio.play().catch(() => {});
-      state.waiting = false;
-      emit();
-      window.removeEventListener("pointerdown", wake);
-      window.removeEventListener("keydown", wake);
-    };
-    window.addEventListener("pointerdown", wake);
-    window.addEventListener("keydown", wake);
+  function clearWake() {
+    if (!wakeHandler) return;
+    window.removeEventListener("pointerdown", wakeHandler);
+    window.removeEventListener("keydown", wakeHandler);
+    wakeHandler = null;
   }
 
   /**
-   * Browsers block audible autoplay until a user gesture. Try unmuted first;
-   * if rejected, play muted and unmute on the first pointer/key press.
+   * One-shot: the first input after a blocked autoplay starts the sound. Bound
+   * at most once for the life of the page — islands re-mount on every
+   * navigation, and re-binding would stack listeners.
    */
-  function autoplay() {
+  function wakeOnGesture() {
+    if (wakeHandler) return;
+    wakeHandler = () => {
+      if (state.waiting) {
+        if (state.mode === "embed") widget?.play();
+        else {
+          audio.muted = false;
+          audio.play().catch(() => {});
+        }
+      }
+      state.waiting = false;
+      clearWake();
+      emit();
+    };
+    window.addEventListener("pointerdown", wakeHandler);
+    window.addEventListener("keydown", wakeHandler);
+  }
+
+  /**
+   * Browsers block audible autoplay until a user gesture. Try unmuted first; if
+   * rejected, fall back to a muted start and unmute on the first input.
+   */
+  function autoplayStream() {
     audio
       .play()
       .then(() => {
@@ -166,7 +276,7 @@ function createHost() {
       })
       .catch(() => {
         audio.muted = true;
-        wakeOnGesture();
+        armAutoplayTimer();
         audio
           .play()
           .then(() => {
@@ -178,29 +288,32 @@ function createHost() {
   }
 
   /** Point the transport at a track and start it. */
-  function load(track, { gesture = false } = {}) {
+  function loadTrack(track, { gesture = false } = {}) {
     if (state.mode === "stream") {
       if (audio.getAttribute("src") !== track.streamUrl) audio.setAttribute("src", track.streamUrl);
       audio.currentTime = 0;
-      autoplay();
+      autoplayStream();
       return;
     }
     // Embed mode: the widget owns the audio, we only aim it at the track.
-    ensureEmbed(track.embedUrl);
+    ensureWidget(track.embedUrl);
     state.playing = false;
-    // A fresh widget needs a moment before it answers commands; the click that
-    // selected the track is the gesture that lets it make noise.
-    if (gesture) setTimeout(() => embedCommand("play"), WIDGET_LOAD_MS);
+    state.time = 0;
+    state.duration = 0;
+    armAutoplayTimer();
+    if (gesture) widget?.play();
   }
 
   function select(index, { autoplay: shouldAutoplay = true, gesture = false } = {}) {
     const track = state.tracks[index];
     if (!track) return;
+    if (gesture) clearWake();
 
     // Silence and reset the outgoing track while `mode` still describes it: the
-    // <audio> pause event is what clears the transport, and it is ignored in
+    // pause event is what clears the <audio> transport, and it is ignored in
     // the other modes.
     audio.pause();
+    clearTimeout(autoplayTimer);
     state.playing = false;
     state.waiting = false;
     state.time = 0;
@@ -210,12 +323,13 @@ function createHost() {
     state.mode = trackMode(track);
     writeIndex(index);
 
-    if (state.mode !== "link" && shouldAutoplay) load(track, { gesture });
+    if (state.mode !== "link" && shouldAutoplay) loadTrack(track, { gesture });
     emit();
   }
 
   function toggle() {
     if (state.mode === "link") return;
+    clearWake();
 
     if (state.mode === "stream") {
       audio.muted = false;
@@ -225,15 +339,27 @@ function createHost() {
       return;
     }
 
-    // The widget reports nothing back, so the host is the source of truth here.
-    state.playing = !state.playing;
+    // The widget reports real PLAY/PAUSE, so only nudge it here.
+    widget?.toggle();
+  }
+
+  function seek(fraction) {
+    const ratio = Math.min(1, Math.max(0, Number(fraction)));
+    if (!Number.isFinite(ratio) || state.mode === "link") return;
+    if (state.mode === "stream") {
+      if (!Number.isFinite(audio.duration)) return;
+      audio.currentTime = ratio * audio.duration;
+      return;
+    }
+    if (!state.duration) return;
+    widget?.seekTo(ratio * state.duration * 1000);
+    state.time = ratio * state.duration;
     emit();
-    embedCommand(state.playing ? "play" : "pause");
   }
 
   // ---- audio element events ----------------------------------------------
   // Only the custom transport reports through the <audio> element; in embed mode
-  // the widget owns playback and the host drives it by hand, so these are inert.
+  // the widget owns playback and reports through bindWidget instead.
 
   function onStream(event, handler) {
     audio.addEventListener(event, (e) => {
@@ -245,6 +371,7 @@ function createHost() {
 
   onStream("play", () => {
     state.playing = true;
+    clearWake();
   });
 
   onStream("pause", () => {
@@ -267,14 +394,14 @@ function createHost() {
      * Adopt a page's playlist. Safe to call on every mount: the remembered
      * track wins, and nothing restarts while it is already playing.
      */
-    load(tracks, providerId) {
+    load(tracks, provider) {
       if (!tracks.length) return;
 
       // Compare against the playlist we already had, before overwriting it.
       const current = state.tracks[state.index] ?? null;
       const remembered = readIndex();
       state.tracks = tracks;
-      state.providerId = providerId;
+      state.provider = provider;
 
       // Same track in the same slot (a re-mount on the same build): leave
       // playback alone and just repaint the UI against current state.
@@ -291,10 +418,11 @@ function createHost() {
       if (state.index === null || !tracks[state.index] || (remembered !== null && state.index !== remembered)) {
         // First mount, or the remembered track is gone from this build.
         select(index === -1 ? 0 : index);
+        wakeOnGesture();
       } else {
         // Same slot, different track (a new build): keep the position, and
         // don't interrupt what was already running.
-        select(state.index, { autoplay: !audio.paused });
+        select(state.index, { autoplay: !audio.paused && !widget });
       }
     },
 
@@ -305,29 +433,31 @@ function createHost() {
     },
     select,
     toggle,
-    /** Selecting from a click also unlocks the widget's autoplay policy. */
+    seek,
+    /** Selecting from a click also unlocks the browser's autoplay policy. */
     play: (index) => select(index, { gesture: true }),
 
     setVolume(value) {
       const next = Math.min(1, Math.max(0, Number(value)));
-      if (!Number.isFinite(next)) return;
+      if (!Number.isFinite(next)) return; // NaN fails here, before audio.volume throws
       audio.volume = next;
       state.volume = next;
       writeVolume(next);
+      syncWidgetVolume();
       emit();
     },
 
     /**
-     * Show the provider's media inside `surface`. Called after every render
-     * that changes the current track or its transport. The <audio> node is
-     * reused as-is; the widget iframe is reused too, but aiming it at another
-     * track reloads it — that is the provider's own player, and a reload is the
-     * only way to change track on it.
+     * Show the provider's media inside `surface`. Called after every render that
+     * changes the current track or its transport. The <audio> node is reused
+     * as-is; the iframe is reused too, but aiming it at another track reloads
+     * it — that is the provider's own player, and a reload is the only way to
+     * change track on it.
      */
     mount(surface) {
       if (!surface) return;
       const track = snapshot().track;
-      if (state.mode === "embed" && track) surface.appendChild(ensureEmbed(track.embedUrl));
+      if (state.mode === "embed" && track) surface.appendChild(embed ?? document.getElementById("garkatron-provider"));
       else if (state.mode === "stream") surface.appendChild(audio);
     },
   };

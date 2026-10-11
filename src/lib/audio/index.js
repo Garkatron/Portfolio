@@ -55,7 +55,15 @@ export async function resolvePlaylist(playlistData, lang, providerId) {
   const playlistId = playlist[`${provider.id}PlaylistId`];
 
   return {
-    provider: { id: provider.id, label: provider.label, accent: provider.accent },
+    // `apiUrl`/`widgetOptions` let a provider expose a parent-side controller,
+    // so the host can hide the iframe and draw the transport itself.
+    provider: {
+      id: provider.id,
+      label: provider.label,
+      accent: provider.accent,
+      apiUrl: provider.apiUrl ?? null,
+      widgetOptions: provider.widgetOptions?.() ?? null,
+    },
     title: playlist.title,
     source: playlist.source ?? null,
     playlistEmbedUrl:

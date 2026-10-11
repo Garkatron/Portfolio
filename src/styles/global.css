@@ -354,7 +354,16 @@ a { color: inherit; }
 .persist-audio { position: fixed; top: 0; left: 0; width: 320px; height: 180px; opacity: 0; pointer-events: none; z-index: -1; }
 .persist-audio > audio { display: none; }
 .apx { --apx: var(--acc); }
+/* The provider iframe is a hidden audio source, not a widget: it must stay
+   rendered (a 0-sized iframe is an unreliable host) but must never be seen or
+   clicked. Our own transport is the only control surface. */
 .apx-surface { min-height: 0; }
+.apx-surface iframe {
+  position: absolute; width: 1px; height: 1px; margin: 0; border: 0;
+  opacity: 0; pointer-events: none; overflow: hidden;
+}
+/* Fallback: a provider with no parent-side API can only play through its own UI. */
+.apx-surface.apx-visible iframe { position: static; width: 100%; height: 166px; opacity: 1; pointer-events: auto; }
 .apx .eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 14px; margin-right: 8px; flex: none; }
 .apx .eq i { width: 3px; height: 25%; background: var(--apx); }
 .apx .eq.on i { animation: eq 1s ease-in-out infinite; }
@@ -378,7 +387,8 @@ a { color: inherit; }
 .apx .now .song { font-weight: 700; line-height: 1.5; }
 .apx .now .artist { color: var(--dim); font-size: 11px; }
 .apx .note { font-size: 10px; color: var(--dim); margin-top: 10px; }
-.apx .bar { position: relative; height: 14px; margin: 8px 0 2px; }
+.apx .bar { position: relative; height: 14px; margin: 8px 0 2px; cursor: pointer; }
+.apx .bar:focus-visible { outline: 1px dashed var(--apx); outline-offset: 2px; }
 .apx .bar i { display: block; height: 3px; background: var(--apx); margin-top: 3px; }
 .apx .bar-time { position: absolute; top: 0; right: 0; font-family: var(--font-vt); font-size: 12px; color: var(--dim); }
 .apx .controls { display: flex; align-items: center; gap: 8px; margin-top: 6px; }

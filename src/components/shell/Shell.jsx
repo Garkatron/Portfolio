@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { navigate } from "astro:transitions/client";
 import { ThemeProvider } from "../theme/ThemeProvider.jsx";
 import { boot, log } from "../../lib/syslog.js";
 import { I18nProvider } from "./i18n.jsx";
@@ -33,8 +34,9 @@ function ShellLayout({ shell, children }) {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
 
+  // Client-side navigation, so the audio host survives the page change.
   const go = useCallback((href) => {
-    window.location.assign(href);
+    navigate(href);
   }, []);
 
   const switchLang = useCallback((locale) => {

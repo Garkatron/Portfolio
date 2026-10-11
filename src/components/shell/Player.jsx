@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useAudioHost } from "../../lib/audio/useAudioHost.js";
 import { log } from "../../lib/syslog.js";
 import { useI18n } from "./i18n.jsx";
 
-// Custom HTML5 audio player (no Spotify iframe). Tracks use their 30s MP3
-// preview URL (extracted at build time in src/lib/spotify.js).
-const TRACK_KEY = "garkatron:track";
-const VOLUME_KEY = "garkatron:volume";
-const DEFAULT_VOLUME = 0.3; // low, per request
-
+// Provider-agnostic player. It renders whatever src/lib/audio/index.js
+// resolved: a custom transport for tracks with a direct stream (Spotify's 30s
+// previews), the provider's own widget for tracks with an embed (SoundCloud),
+// and a plain link for anything else.
+//
+// Playback itself lives in src/lib/audio/host.js, which outlives this island so
+// the music keeps playing while the reader navigates.
 function Equalizer({ on }) {
   return (
     <span className={`eq${on ? " on" : ""}`} aria-hidden="true">
@@ -28,105 +29,27 @@ function fmt(sec) {
 
 export default function Player({ playlist }) {
   const { t } = useI18n();
-  const audioRef = useRef(null);
-  const [current, setCurrent] = useState(null); // track index
-  const [playing, setPlaying] = useState(false);
-  const [waiting, setWaiting] = useState(false); // muted autoplay, awaiting first gesture
-  const [volume, setVolume] = useState(DEFAULT_VOLUME);
-  const [time, setTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-
-  const playable = playlist.tracks.filter((tr) => tr.previewUrl);
-  const track = current !== null ? playlist.tracks[current] : null;
-
-  // Boot: pick the remembered track (or the first playable), set volume, try to start.
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.loop = true;
-    audio.preload = "auto";
-    audio.volume = Number(localStorage.getItem(VOLUME_KEY)) || DEFAULT_VOLUME;
-    setVolume(audio.volume);
-
-    const firstPlayable = playlist.tracks.findIndex((tr) => tr.previewUrl);
-    let i = Number(sessionStorage.getItem(TRACK_KEY));
-    if (!Number.isInteger(i) || !playlist.tracks[i]?.previewUrl) i = firstPlayable;
-    if (i >= 0) {
-      setCurrent(i);
-      audio.src = playlist.tracks[i].previewUrl;
-    }
-
-    // Browsers block audible autoplay until a user gesture. Try unmuted first;
-    // if rejected, play muted and unmute on the first pointer/key press.
-    audio
-      .play()
-      .then(() => {
-        audio.muted = false;
-      })
-      .catch(() => {
-        const wake = () => {
-          audio.muted = false;
-          audio.play().catch(() => {});
-          setWaiting(false);
-          window.removeEventListener("pointerdown", wake);
-          window.removeEventListener("keydown", wake);
-        };
-        audio.muted = true;
-        audio.play().then(() => setWaiting(true)).catch(() => {});
-        window.addEventListener("pointerdown", wake);
-        window.addEventListener("keydown", wake);
-      });
-
-    return () => {
-      audio.pause();
-      audio.removeAttribute("src");
-    };
-  }, [playlist.tracks]);
-
-  const pick = (i) => {
-    const tr = playlist.tracks[i];
-    log("open", `♪ ${tr.title}`);
-    sessionStorage.setItem(TRACK_KEY, String(i));
-    const audio = audioRef.current;
-    if (!audio || !tr.previewUrl) return; // external link handles it
-    audio.muted = false;
-    audio.src = tr.previewUrl;
-    audio.volume = Number(localStorage.getItem(VOLUME_KEY)) || DEFAULT_VOLUME;
-    audio.play().catch(() => {});
-    setCurrent(i); // even without preview
-    setWaiting(false);
-  };
-
-  const toggle = () => {
-    const audio = audioRef.current;
-    if (!audio || !track?.previewUrl) return;
-    audio.muted = false;
-    setWaiting(false);
-    if (audio.paused) audio.play().catch(() => {});
-    else audio.pause();
-  };
-
-  const changeVolume = (v) => {
-    const value = Number(v);
-    setVolume(value);
-    localStorage.setItem(VOLUME_KEY, String(value));
-    if (audioRef.current) audioRef.current.volume = value;
-  };
+  const { host, state, surfaceRef } = useAudioHost(playlist);
+  const { track, mode, playing, waiting, volume, time, duration, index } = state;
+  const { provider } = playlist;
+  // The provider's brand colour drives the whole card (equaliser, progress, cover).
+  const cardProps = { className: "card apx", style: { "--apx": provider.accent } };
 
   const header = (
     <div className="ttl">
       <Equalizer on={playing} />
-      {t("player.header")}
+      {t("player.header", { provider: provider.label })}
     </div>
   );
 
-  if (playlist.spotifyPlaylistId) {
+  // A playlist-level embed replaces the track list entirely.
+  if (playlist.playlistEmbedUrl) {
     return (
-      <div className="card spot">
+      <div {...cardProps}>
         {header}
         <iframe
           title={playlist.title}
-          src={`https://open.spotify.com/embed/playlist/${playlist.spotifyPlaylistId}?utm_source=generator&theme=0`}
+          src={playlist.playlistEmbedUrl}
           height="352"
           loading="lazy"
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
@@ -135,32 +58,45 @@ export default function Player({ playlist }) {
     );
   }
 
+  const pick = (i) => {
+    const next = playlist.tracks[i];
+    log("open", `♪ ${next.title}`);
+    host?.play(i);
+  };
+
   const progress = duration ? (time / duration) * 100 : 0;
+  const isStream = mode === "stream";
+  const isEmbed = mode === "embed";
 
   return (
-    <div className="card spot">
-      <audio
-        ref={audioRef}
-        className="player-audio"
-        loop
-        preload="auto"
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
-        onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-      />
+    <div {...cardProps}>
       {header}
 
-      <button type="button" className={`cover${playing ? " on" : ""}`} onClick={toggle} aria-label={playing ? t("player.pause") : t("player.play")}>
-        {waiting ? <span className="cover-wait">●</span> : <span>{playing ? "❚❚" : "▶"}</span>}
+      <button
+        type="button"
+        className={`cover${playing ? " on" : ""}`}
+        onClick={() => host?.toggle()}
+        disabled={mode === "link"}
+        aria-label={playing ? t("player.pause") : t("player.play")}
+      >
+        {waiting ? (
+          <span className="cover-wait">●</span>
+        ) : (
+          <span>{playing ? "❚❚" : "▶"}</span>
+        )}
       </button>
+
+      {/* Mount point for the provider's own media nodes (see src/lib/audio/host.js). */}
+      <div className="apx-surface" ref={surfaceRef} hidden={!isStream && !isEmbed} />
 
       <div className="now">
         <div className="song">{track ? track.title : "—"}</div>
-        <div className="artist">{track ? track.artist : t("player.tracks", { n: playlist.tracks.length })}</div>
+        <div className="artist">
+          {track ? track.artist : t("player.tracks", { n: playlist.tracks.length })}
+        </div>
       </div>
 
-      {track?.previewUrl && (
+      {isStream && (
         <div className="bar">
           <i style={{ width: `${progress}%` }} />
           <span className="bar-time">
@@ -170,11 +106,25 @@ export default function Player({ playlist }) {
       )}
 
       <div className="controls">
-        <span className="vol-label">{t("player.volume")}</span>
-        <input type="range" min="0" max="1" step="0.05" value={volume} aria-label={t("player.volume")} onChange={(e) => changeVolume(e.target.value)} />
+        {isStream ? (
+          <>
+            <span className="vol-label">{t("player.volume")}</span>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              value={volume}
+              aria-label={t("player.volume")}
+              onChange={(e) => host?.setVolume(e.target.value)}
+            />
+          </>
+        ) : (
+          <span className="vol-label">{isEmbed ? t("player.fullLength") : ""}</span>
+        )}
         {track && (
-          <a className="full" href={track.spotifyUrl ?? track.url} target="_blank" rel="noreferrer">
-            {t("player.full")}
+          <a className="full" href={track.pageUrl ?? track.searchUrl} target="_blank" rel="noreferrer">
+            {mode === "link" ? t("player.search") : t("player.full")}
           </a>
         )}
       </div>
@@ -182,24 +132,31 @@ export default function Player({ playlist }) {
       {waiting && <div className="mute-note">{t("player.enable")}</div>}
 
       <ol className="tracklist">
-        {playlist.tracks.map((tr, i) => (
-          <li key={`${tr.title}-${i}`} className={i === current ? "on" : undefined}>
-            {tr.previewUrl ? (
+        {playlist.tracks.map((tr, i) =>
+          tr.streamUrl || tr.embedUrl ? (
+            <li key={`${tr.title}-${i}`} className={i === index ? "on" : undefined}>
               <button type="button" onClick={() => pick(i)}>
-                <span className="tr-title">{i === current && playing ? "❚❚ " : "▶ "}{tr.title}</span>
+                <span className="tr-title">
+                  {i === index && playing ? "❚❚ " : "▶ "}
+                  {tr.title}
+                </span>
                 <span className="tr-artist">{tr.artist}</span>
               </button>
-            ) : (
-              <a href={tr.spotifyUrl ?? tr.url} target="_blank" rel="noreferrer" title={t("player.external")}>
-                <span className="tr-title">{tr.title} ↗</span>
+            </li>
+          ) : (
+            <li key={`${tr.title}-${i}`}>
+              <a href={tr.pageUrl ?? tr.searchUrl} target="_blank" rel="noreferrer" title={t("player.search")}>
+                <span className="tr-title">
+                  {tr.title} ↗
+                </span>
                 <span className="tr-artist">{tr.artist}</span>
               </a>
-            )}
-          </li>
-        ))}
+            </li>
+          ),
+        )}
       </ol>
 
-      <div className="note">{t("player.note")}</div>
+      <div className="note">{t(`player.note.${provider.id}`)}</div>
     </div>
   );
 }

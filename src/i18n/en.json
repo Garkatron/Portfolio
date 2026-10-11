@@ -40,15 +40,19 @@
     "uptimeValue": "{y}y {m}m"
   },
   "player": {
-    "header": "SPOTIFY // PLAYBACK",
+    "header": "{provider} // PLAYBACK",
     "play": "play",
     "pause": "pause",
     "tracks": "{n} tracks",
-    "external": "open link",
     "full": "full track ↗",
+    "search": "search ↗",
+    "fullLength": "full track",
     "volume": "vol",
     "enable": "click anywhere to enable sound",
-    "note": "30s previews · no “now playing”"
+    "note": {
+      "spotify": "30s previews · no “now playing”",
+      "soundcloud": "full tracks via the widget · no “now playing”"
+    }
   },
   "assistant": {
     "visitor": "visitor",

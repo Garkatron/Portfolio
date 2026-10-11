@@ -2,6 +2,7 @@
 // Every page renders through this layout: <head>, pre-paint theme/lang script,
 // and the persistent editor shell around the page content.
 import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
 import Shell from "../components/shell/Shell.jsx";
 import { useTranslations } from "../i18n/index.js";
 import { buildShell } from "../lib/shell.js";
@@ -32,6 +33,8 @@ const alternates = Object.fromEntries(shell.locales.map((l) => [l.code, l.href])
     <meta property="og:url" content={canonical} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {/* Client-side navigation is what lets the audio host outlive a page change. */}
+    <ClientRouter />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Silkscreen&family=VT323&display=swap"
@@ -56,6 +59,10 @@ const alternates = Object.fromEntries(shell.locales.map((l) => [l.code, l.href])
 
   <body>
     <a class="skip" href="#content">{t("shell.skip")}</a>
+    {/* The audio host parks the <audio> element / provider iframe here on
+        `astro:before-swap`; Astro lifts this box out of <body> instead of
+        discarding it, so playback survives navigation. */}
+    <div class="persist-audio" transition:persist="garkatron-audio"></div>
     <Shell client:load shell={shell}>
       <div id="content" data-pagefind-body>
         <slot />

@@ -19,5 +19,7 @@
     "linkedin": ""
   },
   "cv": "/MatiasGuliasCarrascalCV.pdf",
-  "cv_en": "/MatiasGuliasCarrascal-CV-English.pdf"
+  "cv_en": "/MatiasGuliasCarrascal-CV-English.pdf",
+  "_audioProvider_comment": "Which audio provider the player uses: 'soundcloud' or 'spotify'. Both ship in src/lib/audio/; the other stays available as a fallback.",
+  "audioProvider": "soundcloud"
 }

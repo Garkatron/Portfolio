@@ -1,5 +1,5 @@
 {
-  "_comment": "If spotifyPlaylistId is set, the player embeds that playlist. Otherwise it shows the track list below with per-track Spotify embeds; tracks without spotifyId link to `url`.",
+  "_comment": "Tracks are resolved at build time by the active audio provider (src/data/site.json -> audioProvider; providers in src/lib/audio/). Each track can carry a `spotifyId` (streams a 30s preview) and/or a `soundcloudUrl` (plays the full track in SoundCloud's widget); the provider picks what it can resolve and links out to a search otherwise. If `<providerId>PlaylistId` is set, the player embeds that whole playlist instead of the track list.",
   "title": "garkatron.mix",
   "spotifyPlaylistId": "",
   "source": "https://www.youtube.com/watch?v=JBMsiblNB_Y&list=RDMM",

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { navigate } from "astro:transitions/client";
 import { log } from "../../lib/syslog.js";
 import { useI18n } from "./i18n.jsx";
 
@@ -60,7 +61,7 @@ export default function Search() {
   const openResult = (r) => {
     log("search", query.trim());
     log("open", r.meta?.title ?? r.url);
-    window.location.assign(r.url);
+    navigate(r.url);
   };
 
   const onKeyDown = (e) => {

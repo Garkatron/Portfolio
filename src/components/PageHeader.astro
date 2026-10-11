@@ -1,0 +1,10 @@
+---
+// Header for non-home pages: kicker comment, pixel title, intro line.
+const { kicker, title, intro } = Astro.props;
+---
+
+<header class="page-h">
+  {kicker && <div class="kick px">{kicker}</div>}
+  <h1>{title}<span class="cur" aria-hidden="true"></span></h1>
+  {intro && <p>{intro}</p>}
+</header>

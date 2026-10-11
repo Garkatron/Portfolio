@@ -1,0 +1,23 @@
+{
+  "name": "GARKATRON",
+  "handle": "garkatron",
+  "realName": "Matías Gulías Carrascal",
+  "status": "abierto a trabajar",
+  "status_en": "open to work",
+  "openToWork": true,
+  "codingSince": "2020-03",
+  "role": "desarrollador de software · sistemas · juegos",
+  "role_en": "software developer · systems · games",
+  "bio": "Empecé a programar durante la pandemia y desde entonces no he parado: renderizadores, intérpretes, APIs y juegos. Esta web está construida como un editor, así que el propio portfolio es una pieza más del portfolio.",
+  "bio_en": "I began my programming journey during the pandemic and haven't stopped since: renderers, interpreters, APIs and games. This site is built like an editor, so the portfolio itself is a portfolio piece.",
+  "baseUrl": "https://garkatron.site/",
+  "defaultLocale": "es",
+  "links": {
+    "github": "https://github.com/Garkatron",
+    "mail": "masitacarg@gmail.com",
+    "itch": "",
+    "linkedin": ""
+  },
+  "cv": "/MatiasGuliasCarrascalCV.pdf",
+  "cv_en": "/MatiasGuliasCarrascal-CV-English.pdf"
+}

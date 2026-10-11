@@ -1,0 +1,18 @@
+---
+import Base from "../../../layout/Base.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import ProjectExplorer from "../../../components/ProjectExplorer.jsx";
+import { defaultLocale, getDict, localeParams, useTranslations } from "../../../i18n/index.js";
+import { getProjects } from "../../../lib/content.js";
+
+export const getStaticPaths = localeParams;
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const projects = getProjects(lang);
+---
+
+<Base lang={lang} page="projects" title={t("projects.title")} description={t("projects.intro")}>
+  <PageHeader kicker={`// ${t("files.projects")}`} title={t("projects.title")} intro={t("projects.intro")} />
+  <ProjectExplorer client:load projects={projects} dict={getDict(lang)} fallback={getDict(defaultLocale)} />
+</Base>

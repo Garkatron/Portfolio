@@ -1,19 +1,65 @@
 ---
+// Every page renders through this layout: <head>, pre-paint theme/lang script,
+// and the persistent editor shell around the page content.
 import "../styles/global.css";
+import Shell from "../components/shell/Shell.jsx";
+import { useTranslations } from "../i18n/index.js";
+import { buildShell } from "../lib/shell.js";
 
-const { title = "Portfolio", description = "" } = Astro.props;
+const { lang, page, title, description, path, tabs } = Astro.props;
+const t = useTranslations(lang);
+const shell = buildShell({ lang, page, pathname: Astro.url.pathname, path, tabs });
+
+const fullTitle = title ? `${title} — ${t("meta.title")}` : t("meta.title");
+const metaDescription = description ?? t("meta.description");
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const alternates = Object.fromEntries(shell.locales.map((l) => [l.code, l.href]));
 ---
 
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang={lang} data-accent="hazard">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    {description && <meta name="description" content={description} />}
+    <title>{fullTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <meta name="theme-color" content="#16161e" />
+    <link rel="canonical" href={canonical} />
+    {shell.locales.map((l) => <link rel="alternate" hreflang={l.code} href={new URL(l.href, Astro.site).href} />)}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonical} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Silkscreen&family=VT323&display=swap"
+    />
+    <script is:inline define:vars={{ alternates }}>
+      // Pre-paint: apply the stored accent (no flash), and honour an explicit
+      // language choice when arriving from outside the site.
+      (function () {
+        var root = document.documentElement;
+        try {
+          var accent = localStorage.getItem("garkatron:accent");
+          if (accent) root.dataset.accent = accent;
+          var lang = localStorage.getItem("garkatron:lang");
+          var internal = document.referrer && new URL(document.referrer).origin === location.origin;
+          if (lang && lang !== root.lang && alternates[lang] && !internal) {
+            location.replace(alternates[lang] + location.hash);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
 
-  <body class="bg-[#111] text-white min-h-screen">
-    <slot />
+  <body>
+    <a class="skip" href="#content">{t("shell.skip")}</a>
+    <Shell client:load shell={shell}>
+      <div id="content" data-pagefind-body>
+        <slot />
+      </div>
+    </Shell>
   </body>
 </html>

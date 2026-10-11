@@ -1,0 +1,126 @@
+<!doctype html>
+<!--
+  SKETCH B — "ROGUE AI HUD"
+  Refs: Sanctuary Aetheria rogue-AI pack (holographic cyan, clipped panels, AI core),
+        vecteezy cyberpunk HUD elements (corner brackets, rings, segmented bars, scanlines),
+        warning yellow #E9D502 reserved for alerts / CTAs.
+  Pixel font stand-in: VT323 + Silkscreen (swap for Pixel Cyberphont 2.0 later).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sketch B — Rogue AI HUD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen&family=VT323&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --bg: #04080d; --cy: #00f0ff; --cy2: #0a6b78; --cydim: rgba(0,240,255,.12); --warn: #e9d502; --red: #ff2a4a; --fg: #bff8ff; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: radial-gradient(ellipse at 50% 30%, #062030 0%, var(--bg) 70%); color: var(--fg); font: 18px/1.4 "Rajdhani", sans-serif; min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 10; background: repeating-linear-gradient(0deg, rgba(0,0,0,.25) 0 1px, transparent 1px 3px); }
+  body::after { content: ""; position: fixed; inset: 0; pointer-events: none; background-image: linear-gradient(var(--cydim) 1px, transparent 1px), linear-gradient(90deg, var(--cydim) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse at center, #000 20%, transparent 75%); opacity: .4; }
+  .px { font-family: "Silkscreen", monospace; } .vt { font-family: "VT323", monospace; }
+
+  .clip { clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px); }
+  .panel { position: relative; background: linear-gradient(180deg, rgba(0,240,255,.08), rgba(0,240,255,.02)); border: 1px solid var(--cy2); padding: 18px; }
+  .panel::before, .panel::after { content: ""; position: absolute; width: 14px; height: 14px; border: 2px solid var(--cy); }
+  .panel::before { top: -3px; left: -3px; border-right: 0; border-bottom: 0; }
+  .panel::after { bottom: -3px; right: -3px; border-left: 0; border-top: 0; }
+  .ph { font-family: "Silkscreen"; font-size: 11px; color: var(--cy); display: flex; justify-content: space-between; margin-bottom: 12px; text-shadow: 0 0 8px var(--cy); }
+
+  /* top HUD bar */
+  .hud-top { position: relative; z-index: 2; display: flex; align-items: center; gap: 28px; padding: 14px 32px; border-bottom: 1px solid var(--cy2); }
+  .logo { font-family: "Silkscreen"; color: var(--cy); font-size: 20px; text-shadow: 0 0 12px var(--cy); }
+  .hud-top nav { display: flex; gap: 4px; margin-left: auto; }
+  .hud-top nav a { font-family: "VT323"; font-size: 20px; color: var(--fg); text-decoration: none; padding: 2px 14px; border: 1px solid transparent; }
+  .hud-top nav a.on, .hud-top nav a:hover { border-color: var(--cy); background: var(--cydim); color: var(--cy); }
+  .sig { display: flex; gap: 3px; align-items: flex-end; } .sig i { width: 4px; background: var(--cy); } 
+
+  .alert { position: relative; z-index: 2; margin: 18px 32px 0; display: flex; align-items: center; gap: 14px; padding: 8px 16px; border: 1px solid var(--warn); color: var(--warn); font-family: "VT323"; font-size: 20px; background: rgba(233,213,2,.06); }
+  .alert b { background: var(--warn); color: #000; padding: 0 8px; font-family: "Silkscreen"; font-size: 12px; }
+
+  .grid { position: relative; z-index: 2; display: grid; grid-template-columns: 280px 1fr 280px; gap: 22px; padding: 22px 32px 40px; }
+
+  /* AI core */
+  .core { display: grid; place-items: center; padding: 30px 0 10px; }
+  .ring { width: 320px; height: 320px; border-radius: 50%; position: relative; display: grid; place-items: center; }
+  .ring::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px dashed var(--cy2); animation: spin 30s linear infinite; }
+  .ring::after { content: ""; position: absolute; inset: 22px; border-radius: 50%; border: 6px solid transparent; border-top-color: var(--cy); border-left-color: var(--cy); filter: drop-shadow(0 0 6px var(--cy)); animation: spin 6s linear infinite reverse; }
+  .ring .inner { width: 200px; height: 200px; border-radius: 50%; border: 1px solid var(--cy); box-shadow: 0 0 40px rgba(0,240,255,.35) inset, 0 0 30px rgba(0,240,255,.25); display: grid; place-items: center; text-align: center; }
+  .ring .eye { width: 54px; height: 54px; border-radius: 50%; background: radial-gradient(circle, #fff 0 15%, var(--cy) 30%, transparent 70%); margin: 0 auto 8px; animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 50% { transform: scale(.8); opacity: .6; } }
+
+  .hero { text-align: center; margin-top: 10px; }
+  .hero h1 { font-family: "Silkscreen"; font-size: 54px; color: #fff; text-shadow: 0 0 2px #fff, 0 0 18px var(--cy), 3px 0 0 rgba(255,42,74,.6), -3px 0 0 rgba(0,240,255,.6); letter-spacing: .06em; }
+  .hero .sub { font-family: "VT323"; font-size: 24px; color: var(--cy); }
+  .cta { display: flex; gap: 14px; justify-content: center; margin-top: 18px; }
+  .cta a { font-family: "Silkscreen"; font-size: 13px; padding: 12px 24px; text-decoration: none; }
+  .cta .p { background: var(--warn); color: #000; }
+  .cta .s { border: 1px solid var(--cy); color: var(--cy); background: var(--cydim); }
+
+  .seg { display: flex; gap: 3px; margin: 4px 0 12px; } .seg i { flex: 1; height: 8px; background: var(--cy); box-shadow: 0 0 6px var(--cy); } .seg i.off { background: var(--cy2); opacity: .35; box-shadow: none; }
+  .lbl { display: flex; justify-content: space-between; font-family: "VT323"; font-size: 18px; }
+  .log { font-family: "VT323"; font-size: 18px; color: var(--cy); line-height: 1.3; }
+  .log .w { color: var(--warn); } .log .r { color: var(--red); }
+
+  .mission { display: grid; grid-template-columns: 54px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--cy2); }
+  .mission:last-child { border: 0; }
+  .mission .ico { width: 54px; height: 54px; border: 1px solid var(--cy); display: grid; place-items: center; font-family: "Silkscreen"; font-size: 12px; color: var(--cy); background: var(--cydim); }
+  .mission h4 { font-size: 18px; color: #fff; } .mission small { color: var(--cy); font-family: "VT323"; font-size: 16px; }
+
+  .projects { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .proj .img { height: 150px; background: linear-gradient(135deg, rgba(0,240,255,.15), transparent), repeating-linear-gradient(90deg, transparent 0 22px, var(--cydim) 22px 23px); border: 1px solid var(--cy2); margin-bottom: 12px; display: grid; place-items: center; font-family: "VT323"; color: var(--cy2); font-size: 20px; }
+  .proj h3 { font-family: "Silkscreen"; font-size: 16px; color: #fff; }
+  .proj p { font-size: 16px; opacity: .8; }
+  .proj .meta { display: flex; justify-content: space-between; margin-top: 10px; font-family: "VT323"; font-size: 18px; color: var(--cy); }
+  .proj .meta .w { color: var(--warn); }
+</style>
+</head>
+<body>
+  <header class="hud-top">
+    <div class="logo">GRK//OS</div>
+    <div class="vt" style="font-size:18px;color:var(--cy2)">NODE 07 · SANCTUARY.NET</div>
+    <nav><a class="on" href="#">[CORE]</a><a href="#">[MISSIONS]</a><a href="#">[ARCHIVE]</a><a href="#">[UPLINK]</a></nav>
+    <div class="sig"><i style="height:6px"></i><i style="height:10px"></i><i style="height:14px"></i><i style="height:18px;opacity:.3"></i></div>
+  </header>
+
+  <div class="alert clip"><b>WARN</b> UNAUTHORISED VISITOR DETECTED — GRANTING READ ACCESS TO PORTFOLIO_ARCHIVE&hellip;</div>
+
+  <div class="grid">
+    <aside class="panel clip">
+      <div class="ph"><span>OPERATOR</span><span>ID-0042</span></div>
+      <div class="lbl"><span>RUST</span><span>85%</span></div><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i></div>
+      <div class="lbl"><span>TYPESCRIPT</span><span>75%</span></div><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i></div>
+      <div class="lbl"><span>GODOT</span><span>60%</span></div><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i><i class="off"></i></div>
+      <div class="lbl"><span>UI/UX</span><span>70%</span></div><div class="seg"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i><i class="off"></i><i class="off"></i></div>
+      <div class="ph" style="margin-top:20px"><span>SYS.LOG</span><span>LIVE</span></div>
+      <div class="log">&gt; boot sequence ok<br>&gt; loading personality.core<br><span class="w">&gt; caffeine low</span><br>&gt; projects mounted: 12<br><span class="r">&gt; sleep.exe not found</span><br>&gt; awaiting input_</div>
+    </aside>
+
+    <section>
+      <div class="core">
+        <div class="ring"><div class="inner"><div><div class="eye"></div><div class="vt" style="color:var(--cy);font-size:20px">AI CORE<br>ONLINE</div></div></div></div>
+      </div>
+      <div class="hero">
+        <h1>GARKATRON</h1>
+        <div class="sub">&gt; SOFTWARE DEVELOPER // SYSTEMS // GAMES</div>
+        <div class="cta"><a class="p clip" href="#">ACCESS ARCHIVE</a><a class="s clip" href="#">OPEN UPLINK</a></div>
+      </div>
+    </section>
+
+    <aside class="panel clip">
+      <div class="ph"><span>ACTIVE MISSIONS</span><span>03</span></div>
+      <div class="mission"><div class="ico">01</div><div><h4>Senior Dev @ Corp</h4><small>2023 — NOW · IN PROGRESS</small></div></div>
+      <div class="mission"><div class="ico">02</div><div><h4>Indie game jam</h4><small>2024 · COMPLETE</small></div></div>
+      <div class="mission"><div class="ico" style="border-color:var(--warn);color:var(--warn)">!!</div><div><h4>Open to work</h4><small style="color:var(--warn)">PRIORITY · CONTACT</small></div></div>
+    </aside>
+
+    <div class="projects">
+      <article class="panel clip proj"><div class="ph"><span>FILE_01</span><span>DECRYPTED</span></div><div class="img">// IMAGE FEED</div><h3>Project Alpha</h3><p>Short description of the project goes here.</p><div class="meta"><span>RUST · WASM</span><span class="w">▶ OPEN</span></div></article>
+      <article class="panel clip proj"><div class="ph"><span>FILE_02</span><span>DECRYPTED</span></div><div class="img">// IMAGE FEED</div><h3>Project Beta</h3><p>Short description of the project goes here.</p><div class="meta"><span>ASTRO · TS</span><span class="w">▶ OPEN</span></div></article>
+      <article class="panel clip proj"><div class="ph"><span>FILE_03</span><span style="color:var(--warn)">ENCRYPTED</span></div><div class="img">// SIGNAL LOST</div><h3>Project Gamma</h3><p>Short description of the project goes here.</p><div class="meta"><span>GODOT</span><span class="w">▶ OPEN</span></div></article>
+    </div>
+  </div>
+</body>
+</html>

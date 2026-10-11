@@ -1,0 +1,127 @@
+<!doctype html>
+<!--
+  SKETCH C — "HAZARD TERMINAL"
+  Refs: warning yellow #E9D502 as the DOMINANT surface (Cyberpunk-2077-style signage),
+        Pixel Cyberphont for huge display type, vecteezy HUD tags/labels/barcodes,
+        omarchy-style swappable theme (yellow / cyan / magenta switch top-right).
+  Pixel font stand-in: Silkscreen + Press Start 2P (swap for Pixel Cyberphont 2.0 later).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sketch C — Hazard Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --acc: #e9d502; --ink: #0b0b0b; --ink2: #1a1a1a; --hot: #ff2a4a; --cy: #00e5ff; }
+  body.cyan { --acc: #00e5ff; } body.magenta { --acc: #ff3df2; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--ink); color: var(--acc); font: 15px/1.5 "IBM Plex Mono", monospace; transition: --acc .3s; }
+  .px { font-family: "Silkscreen", monospace; }
+  .stripes { height: 18px; background: repeating-linear-gradient(-45deg, var(--acc) 0 18px, var(--ink) 18px 36px); }
+
+  header { display: flex; align-items: stretch; border-bottom: 2px solid var(--acc); }
+  header .brand { background: var(--acc); color: var(--ink); font-family: "Silkscreen"; font-weight: 700; font-size: 20px; padding: 12px 22px; }
+  header nav { display: flex; }
+  header nav a { color: var(--acc); text-decoration: none; font-family: "Silkscreen"; padding: 14px 22px; border-right: 2px solid var(--acc); }
+  header nav a:hover { background: var(--acc); color: var(--ink); }
+  header .themes { margin-left: auto; display: flex; align-items: center; gap: 8px; padding: 0 18px; font-size: 11px; }
+  header .themes button { width: 18px; height: 18px; border: 2px solid var(--ink2); outline: 1px solid var(--acc); cursor: pointer; }
+
+  /* HERO: full yellow slab */
+  .hero { background: var(--acc); color: var(--ink); position: relative; padding: 56px 48px 40px; overflow: hidden; }
+  .hero .tag { display: inline-block; background: var(--ink); color: var(--acc); font-family: "Silkscreen"; font-size: 12px; padding: 4px 10px; }
+  .hero h1 { font-family: "Silkscreen"; font-weight: 700; font-size: clamp(64px, 12vw, 180px); line-height: .85; margin: 18px 0 8px; letter-spacing: -.02em; }
+  .hero h1 .o { -webkit-text-stroke: 3px var(--ink); color: transparent; }
+  .hero .row { display: flex; gap: 40px; align-items: flex-end; flex-wrap: wrap; }
+  .hero p { max-width: 460px; font-weight: 700; }
+  .hero .big-jp { position: absolute; right: 40px; top: 30px; writing-mode: vertical-rl; font-size: 54px; font-weight: 700; opacity: .9; }
+  .barcode { height: 46px; width: 220px; background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 4px, var(--ink) 4px 7px, transparent 7px 8px, var(--ink) 8px 9px, transparent 9px 13px); }
+  .hero .cta a { display: inline-block; background: var(--ink); color: var(--acc); padding: 14px 26px; font-family: "Silkscreen"; text-decoration: none; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%); margin-right: 8px; }
+  .hero .cta a.alt { background: transparent; color: var(--ink); outline: 2px solid var(--ink); clip-path: none; }
+  .hero .corner { position: absolute; bottom: 14px; right: 48px; font-family: "Silkscreen"; font-size: 11px; text-align: right; }
+
+  /* ticker */
+  .ticker { overflow: hidden; border-block: 2px solid var(--acc); white-space: nowrap; }
+  .ticker div { display: inline-block; padding: 8px 0; font-family: "Silkscreen"; animation: tick 25s linear infinite; }
+  .ticker span { margin: 0 24px; } .ticker .h { color: var(--hot); }
+  @keyframes tick { to { transform: translateX(-50%); } }
+
+  /* content */
+  .wrap { padding: 48px; display: grid; grid-template-columns: 1fr 340px; gap: 40px; }
+  .sh { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; }
+  .sh .n { font-family: "Silkscreen"; font-size: 48px; line-height: 1; -webkit-text-stroke: 1px var(--acc); color: transparent; }
+  .sh h2 { font-family: "Silkscreen"; font-size: 28px; }
+
+  .proj { display: grid; grid-template-columns: 220px 1fr auto; gap: 22px; align-items: center; padding: 18px 0; border-top: 2px solid var(--acc); color: var(--acc); text-decoration: none; }
+  .proj:hover { background: var(--acc); color: var(--ink); padding-inline: 14px; }
+  .proj .img { height: 120px; background: var(--ink2); border: 2px solid currentColor; display: grid; place-items: center; font-size: 11px; position: relative; }
+  .proj .img::before { content: "REC ●"; position: absolute; top: 6px; left: 8px; color: var(--hot); font-size: 10px; }
+  .proj h3 { font-family: "Silkscreen"; font-size: 26px; } .proj .stack { font-size: 12px; opacity: .8; }
+  .proj .arrow { font-family: "Silkscreen"; font-size: 40px; }
+
+  .side .box { border: 2px solid var(--acc); margin-bottom: 20px; }
+  .side .box h4 { background: var(--acc); color: var(--ink); font-family: "Silkscreen"; padding: 6px 12px; display: flex; justify-content: space-between; }
+  .side .box div.c { padding: 14px; }
+  .kv { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--acc); padding: 4px 0; font-size: 13px; }
+  .warnbox { background: repeating-linear-gradient(-45deg, rgba(233,213,2,.08) 0 10px, transparent 10px 20px); }
+  .hot { color: var(--hot); }
+  footer { padding: 18px 48px; display: flex; justify-content: space-between; font-family: "Silkscreen"; font-size: 11px; border-top: 2px solid var(--acc); }
+</style>
+</head>
+<body>
+  <div class="stripes"></div>
+  <header>
+    <div class="brand">⚠ GRK</div>
+    <nav><a href="#">WORK</a><a href="#">ABOUT</a><a href="#">LOG</a><a href="#">CONTACT</a></nav>
+    <div class="themes px">THEME
+      <button style="background:#e9d502" onclick="document.body.className=''"></button>
+      <button style="background:#00e5ff" onclick="document.body.className='cyan'"></button>
+      <button style="background:#ff3df2" onclick="document.body.className='magenta'"></button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <span class="tag">CAUTION · DEVELOPER ZONE · EST. 20XX</span>
+    <h1>GARKA<br><span class="o">TRON</span>_</h1>
+    <div class="big-jp">開発者</div>
+    <div class="row">
+      <p>Software developer building tools, systems and games. Placeholder bio — loud, poster-like, brutalist cyberpunk.</p>
+      <div class="cta"><a href="#">SEE WORK</a><a class="alt" href="#">HIRE ME</a></div>
+      <div class="barcode"></div>
+    </div>
+    <div class="corner">LAT 40.41 · LON -3.70<br>SECTOR 07 // CLEARANCE: PUBLIC</div>
+  </section>
+
+  <div class="ticker"><div>
+    <span>RUST</span><span>◆</span><span>TYPESCRIPT</span><span>◆</span><span>ASTRO</span><span>◆</span><span class="h">OPEN TO WORK</span><span>◆</span><span>GODOT</span><span>◆</span><span>LINUX</span><span>◆</span>
+    <span>RUST</span><span>◆</span><span>TYPESCRIPT</span><span>◆</span><span>ASTRO</span><span>◆</span><span class="h">OPEN TO WORK</span><span>◆</span><span>GODOT</span><span>◆</span><span>LINUX</span><span>◆</span>
+  </div></div>
+
+  <div class="wrap">
+    <main>
+      <div class="sh"><span class="n">01</span><h2>SELECTED WORK</h2></div>
+      <a class="proj" href="#"><div class="img">[ IMG ]</div><div><h3>PROJECT ALPHA</h3><div class="stack">RUST / WASM / CLI — 2025</div><p>Short description of what it does and why it matters.</p></div><div class="arrow">→</div></a>
+      <a class="proj" href="#"><div class="img">[ IMG ]</div><div><h3>PROJECT BETA</h3><div class="stack">ASTRO / TS — 2024</div><p>Short description of what it does and why it matters.</p></div><div class="arrow">→</div></a>
+      <a class="proj" href="#"><div class="img">[ IMG ]</div><div><h3>PROJECT GAMMA</h3><div class="stack">GODOT — 2024</div><p>Short description of what it does and why it matters.</p></div><div class="arrow">→</div></a>
+    </main>
+    <aside class="side">
+      <div class="box"><h4><span>ID CARD</span><span>#0042</span></h4><div class="c">
+        <div class="kv"><span>NAME</span><span>GARKATRON</span></div>
+        <div class="kv"><span>CLASS</span><span>NETRUNNER</span></div>
+        <div class="kv"><span>LVL</span><span>27</span></div>
+        <div class="kv"><span>STATUS</span><span class="hot">● AVAILABLE</span></div>
+      </div></div>
+      <div class="box warnbox"><h4><span>⚠ NOTICE</span><span>!!</span></h4><div class="c">Currently accepting freelance and full-time contracts. Response time &lt; 24h.</div></div>
+      <div class="box"><h4><span>UPLINK</span><span>↗</span></h4><div class="c">
+        <div class="kv"><span>GITHUB</span><span>@garkatron</span></div>
+        <div class="kv"><span>MAIL</span><span>hi@…</span></div>
+        <div class="kv"><span>ITCH</span><span>garkatron.itch</span></div>
+      </div></div>
+    </aside>
+  </div>
+  <div class="stripes"></div>
+  <footer><span>© GARKATRON // ALL SYSTEMS NOMINAL</span><span>BUILT WITH ASTRO</span></footer>
+</body>
+</html>

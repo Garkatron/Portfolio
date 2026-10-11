@@ -1,0 +1,42 @@
+---
+import { render } from "astro:content";
+import Base from "../../../layout/Base.astro";
+import { localeParams, useTranslations } from "../../../i18n/index.js";
+import { getPosts } from "../../../lib/content.js";
+import { getRoutes } from "../../../lib/shell.js";
+
+export async function getStaticPaths() {
+  const perLocale = await Promise.all(
+    localeParams().map(async ({ params, props }) =>
+      (await getPosts(props.lang)).map((post) => ({
+        params: { ...params, slug: post.slug },
+        props: { lang: props.lang, post },
+      })),
+    ),
+  );
+  return perLocale.flat();
+}
+
+const { lang, post } = Astro.props;
+const t = useTranslations(lang);
+const routes = getRoutes(lang);
+const { Content } = await render(post.entry);
+const file = `blog/${post.slug}.md`;
+const fmt = new Intl.DateTimeFormat(lang, { dateStyle: "long" });
+const tabs = [
+  { file: t("files.blog"), href: routes.blog },
+  { file, href: "#content", active: true },
+];
+---
+
+<Base lang={lang} page="blog" title={post.title} description={post.description} path={file} tabs={tabs}>
+  <a class="back" href={routes.blog} data-log="open" data-log-arg={t("files.blog")}>{t("blog.back")}</a>
+  <header class="page-h">
+    <div class="kick px">// {file} — <time datetime={post.date.toISOString()}>{fmt.format(post.date)}</time></div>
+    <h1>{post.title}</h1>
+  </header>
+  {post.fallback && <p class="notice">{t("blog.fallback")}</p>}
+  <article class="prose">
+    <Content />
+  </article>
+</Base>

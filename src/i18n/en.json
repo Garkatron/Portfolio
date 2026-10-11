@@ -1,0 +1,153 @@
+{
+  "_meta": { "name": "English", "short": "EN" },
+  "meta": {
+    "title": "GARKATRON — portfolio",
+    "description": "Garkatron's portfolio: software developer — systems, tooling and games."
+  },
+  "files": {
+    "root": "portfolio",
+    "about": "about.md",
+    "projects": "projects.tsx",
+    "books": "books.md",
+    "roadmap": "roadmap.md",
+    "experience": "experience.log",
+    "blog": "blog/",
+    "contact": "contact.sh",
+    "reading": "reading.md",
+    "toRead": "to-read.md"
+  },
+  "shell": {
+    "explorer": "Explorer",
+    "tools": "Tools",
+    "profile": "Profile",
+    "player": "Player",
+    "assistant": "Assistant",
+    "syslog": "Sys.log",
+    "accent": "accent color",
+    "language": "language",
+    "branch": "main",
+    "mode": "NORMAL",
+    "errors": "0 errors",
+    "encoding": "UTF-8 · LF",
+    "cursor": "Ln {ln}, Col {col}",
+    "skip": "Skip to content",
+    "openMenu": "open explorer"
+  },
+  "profile": {
+    "name": "NAME",
+    "status": "STATUS",
+    "uptime": "UPTIME",
+    "uptimeValue": "{y}y {m}m"
+  },
+  "player": {
+    "header": "SPOTIFY // PLAYBACK",
+    "play": "play",
+    "tracks": "{n} tracks",
+    "external": "open link",
+    "note": "static embed · no “now playing”"
+  },
+  "assistant": {
+    "visitor": "visitor",
+    "question": "what do you work on?",
+    "agent": "garkatron.agent",
+    "answerPrefix": "Try",
+    "answerJoin": "or",
+    "answerSuffix": "— or hit ⌘K."
+  },
+  "syslog": {
+    "boot": "boot sequence ok",
+    "mounted": "projects mounted: {n}",
+    "coffee": "coffee low",
+    "awaiting": "awaiting input",
+    "open": "open {arg}",
+    "cmd": "$ {arg}",
+    "theme": "theme → {arg}",
+    "lang": "lang → {arg}",
+    "search": "search “{arg}”",
+    "unknown": "unknown command: {arg}"
+  },
+  "search": {
+    "placeholder": "search…",
+    "label": "Search the site",
+    "loading": "indexing…",
+    "empty": "no results",
+    "unavailable": "the search index is generated at build time (pnpm build && pnpm preview)"
+  },
+  "palette": {
+    "trigger": "⌘K command palette",
+    "triggerShort": "⌘K",
+    "placeholder": "type a command…",
+    "empty": "no matching command",
+    "hint": "↑↓ navigate · ↵ run · esc close",
+    "groups": { "nav": "navigate", "theme": "theme", "lang": "language" },
+    "commands": {
+      "go-home": "go home",
+      "open-projects": "open projects",
+      "open-books": "open books",
+      "open-roadmap": "open roadmap",
+      "open-blog": "open blog",
+      "contact": "contact",
+      "toggle-theme": "toggle theme",
+      "theme": "theme {name}",
+      "lang": "language: {name}",
+      "search": "search the site"
+    }
+  },
+  "themes": { "hazard": "hazard", "cyan": "cyan", "magenta": "magenta", "green": "green" },
+  "hero": {
+    "kicker": "// WARNING: developer at work ⌁",
+    "viewProjects": "view projects",
+    "contact": "contact"
+  },
+  "home": {
+    "allProjects": "all projects",
+    "allBooks": "all books"
+  },
+  "roadmap": { "title": "ROADMAP", "target": "TARGET PROFILE" },
+  "books": {
+    "title": "Books",
+    "intro": "What I'm reading and what's on the stack.",
+    "reading": "READING NOW",
+    "to-read": "ON THE LIST",
+    "empty": "nothing here"
+  },
+  "experience": { "title": "Experience" },
+  "projects": {
+    "title": "Projects",
+    "intro": "Everything I've built. Filter by tags or search.",
+    "search": "filter projects…",
+    "tags": "tags",
+    "clear": "clear",
+    "count": "{n} of {total} projects",
+    "empty": "no project matches the filter",
+    "repo": "repo",
+    "live": "live",
+    "tech": "tech",
+    "back": "← projects",
+    "barcode": "Code128 → {url}",
+    "scan": "scan or click the code to open the project",
+    "screenshots": "screenshots"
+  },
+  "blog": {
+    "title": "Blog",
+    "intro": "Notes, devlogs and things I learn.",
+    "empty": "no posts yet",
+    "back": "← blog",
+    "fallback": "This post isn't translated yet; showing the original."
+  },
+  "contact": {
+    "title": "Contact",
+    "intro": "A project, an offer or a chat? Write to me.",
+    "mail": "mail",
+    "github": "github",
+    "linkedin": "linkedin",
+    "itch": "itch.io",
+    "cv": "cv (pdf)",
+    "run": "run"
+  },
+  "notFound": {
+    "title": "404 — file not found",
+    "text": "The buffer you're looking for doesn't exist.",
+    "home": "back home"
+  }
+}

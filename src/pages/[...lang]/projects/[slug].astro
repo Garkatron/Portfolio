@@ -1,0 +1,90 @@
+---
+import Base from "../../../layout/Base.astro";
+import { localeParams, useTranslations } from "../../../i18n/index.js";
+import { getProjects, getToolGroups } from "../../../lib/content.js";
+import { getRoutes } from "../../../lib/shell.js";
+
+export function getStaticPaths() {
+  return localeParams().flatMap(({ params, props }) =>
+    getProjects(props.lang).map((project) => ({
+      params: { ...params, slug: project.slug },
+      props: { lang: props.lang, project },
+    })),
+  );
+}
+
+const { lang, project } = Astro.props;
+const t = useTranslations(lang);
+const routes = getRoutes(lang);
+const file = `projects/${project.slug}.tsx`;
+
+// Tech entries pick up icon + color from tools.json when the name matches.
+const toolsByName = new Map(getToolGroups(lang).flatMap((g) => g.tools).map((tool) => [tool.name.toLowerCase(), tool]));
+const tech = project.tech.map((name) => ({ name, tool: toolsByName.get(name.toLowerCase()) }));
+
+const tabs = [
+  { file: t("files.projects"), href: routes.projects },
+  { file, href: "#content", active: true },
+];
+---
+
+<Base lang={lang} page="projects" title={project.title} description={project.description} path={file} tabs={tabs}>
+  <a class="back" href={routes.projects} data-log="open" data-log-arg={t("files.projects")}>{t("projects.back")}</a>
+  <header class="page-h">
+    <div class="kick px">// {file}{project.year && ` — ${project.year}`}</div>
+    <h1>{project.title}<span class="cur" aria-hidden="true"></span></h1>
+    {project.description && <p>{project.description}</p>}
+  </header>
+
+  <div class="thumb detail-hero" data-pagefind-ignore>
+    {project.image && <img src={project.image} alt={project.title} />}
+    <span class="rec">REC ●</span>
+    {!project.image && <span class="slug">{file}</span>}
+  </div>
+  {
+    project.screenshots.length > 0 && (
+      <div class="shots" aria-label={t("projects.screenshots")}>
+        {project.screenshots.map((src, i) => <img src={src} alt={`${project.title} — ${i + 1}`} loading="lazy" />)}
+      </div>
+    )
+  }
+
+  <h2 class="section-h px"><b>01</b> {project.slug}.meta</h2>
+  <div class="detail-grid">
+    <div>
+      <h5 class="px">{t("projects.tags")}</h5>
+      <div class="tags">{project.tags.join(" · ")}</div>
+      {
+        (project.links.repo || project.links.live) && (
+          <div class="btns">
+            {project.links.repo && <a class="btn solid" href={project.links.repo} target="_blank" rel="noreferrer" data-log="open" data-log-arg={`${project.slug}:repo`}>↗ {t("projects.repo")}</a>}
+            {project.links.live && <a class="btn" href={project.links.live} target="_blank" rel="noreferrer" data-log="open" data-log-arg={`${project.slug}:live`}>↗ {t("projects.live")}</a>}
+          </div>
+        )
+      }
+    </div>
+    <div>
+      <h5 class="px">{t("projects.tech")}</h5>
+      <ul class="tech-list">
+        {
+          tech.map(({ name, tool }) => (
+            <li>
+              {tool?.icon ? (
+                <span class="tool-icon" aria-hidden="true" style={`--tool-color:${tool.color};--tool-icon:url("${tool.icon}")`} />
+              ) : (
+                <span class="i" style="color:var(--acc);margin-right:8px">●</span>
+              )}
+              {name}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-h px"><b>02</b> barcode.code128</h2>
+  <a class="barcode-link barcode-lg" data-pagefind-ignore href={project.href} title={t("projects.scan")} aria-label={t("projects.barcode", { url: project.url })}>
+    <span set:html={project.barcode} />
+    <span class="barcode-url">{project.url} — {t("projects.scan")}</span>
+  </a>
+</Base>

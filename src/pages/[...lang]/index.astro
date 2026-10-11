@@ -1,0 +1,91 @@
+---
+import Base from "../../layout/Base.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import BookColumns from "../../components/BookColumns.astro";
+import ProjectCard from "../../components/ProjectCard.jsx";
+import { localeParams, useTranslations } from "../../i18n/index.js";
+import { getExperience, getFeaturedProjects, getRoadmap, getSite } from "../../lib/content.js";
+import { getRoutes } from "../../lib/shell.js";
+
+export const getStaticPaths = localeParams;
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const site = getSite(lang);
+const routes = getRoutes(lang);
+const featured = getFeaturedProjects(lang, 4);
+const roadmap = getRoadmap(lang);
+const experience = getExperience(lang);
+
+// "GARKATRON" -> solid "GARKA" + outlined "TRON"
+const split = Math.ceil(site.name.length / 2);
+const [solid, outline] = [site.name.slice(0, split), site.name.slice(split)];
+
+const f = (key) => t(`files.${key}`);
+const tabs = [
+  { file: f("about"), href: "#content", active: true },
+  { file: f("projects"), href: "#projects" },
+  { file: f("books"), href: "#books" },
+  { file: f("roadmap"), href: "#roadmap" },
+  { file: f("experience"), href: "#experience" },
+];
+const cardLabels = (p) => ({ repo: t("projects.repo"), live: t("projects.live"), barcode: t("projects.barcode", { url: p.url }) });
+---
+
+<Base lang={lang} page="about" tabs={tabs}>
+  <section class="hero">
+    <div class="kick px">{t("hero.kicker")}</div>
+    <h1>{solid}<span class="o">{outline}</span><span class="cur" aria-hidden="true"></span></h1>
+    <div class="role"><span class="k">const</span> role = <span class="s">"{site.role}"</span>;</div>
+    <p>{site.bio}</p>
+    <div class="btns">
+      <a class="btn solid" href={routes.projects} data-log="open" data-log-arg={f("projects")}>{t("hero.viewProjects")}<kbd>P</kbd></a>
+      <a class="btn" href={routes.contact} data-log="open" data-log-arg={f("contact")}>{t("hero.contact")}<kbd>C</kbd></a>
+    </div>
+  </section>
+  <div class="stripes thin" aria-hidden="true"></div>
+
+  <SectionHeading n="02" file={f("projects")} id="projects" />
+  <div class="projects">
+    {featured.map((p) => <ProjectCard project={p} labels={cardLabels(p)} />)}
+  </div>
+  <div class="section-more">
+    <a class="btn solid sm" href={routes.projects} data-log="open" data-log-arg={f("projects")}>{t("home.allProjects")} →</a>
+  </div>
+
+  <SectionHeading n="03" file={f("books")} id="books" />
+  <BookColumns lang={lang} limit={3} />
+  <div class="section-more">
+    <a class="btn sm" href={routes.books} data-log="open" data-log-arg={f("books")}>{t("home.allBooks")} →</a>
+  </div>
+
+  <SectionHeading n="04" file={f("roadmap")} id="roadmap" />
+  <div class="dcols">
+    <div class="dcol">
+      <h5 class="px">{t("roadmap.title")}</h5>
+      <ul>{roadmap.milestones.map((m) => <li>{m.year} <span>—</span> {m.text}</li>)}</ul>
+    </div>
+    <div class="dcol">
+      <h5 class="px">{t("roadmap.target")}</h5>
+      <ul>{roadmap.targetProfile.map((item) => <li>{item}</li>)}</ul>
+    </div>
+  </div>
+
+  <SectionHeading n="05" file={f("experience")} id="experience" />
+  <div class="xp">
+    {
+      experience.map((x) => (
+        <article>
+          <h4>{x.company} {x.role && <span>— {x.role}</span>}</h4>
+          <div class="meta">
+            {x.startDate}{x.endDate && x.endDate !== x.startDate ? ` – ${x.endDate}` : ""}
+            {x.website && <> · <a href={x.website} target="_blank" rel="noreferrer">{x.website.replace(/^https?:\/\//, "")}</a></>}
+            {x.links?.map((l) => <> · <a href={l.url} target="_blank" rel="noreferrer">{l.label}</a></>)}
+          </div>
+          {x.description && <p>{x.description}</p>}
+          {x.highlights?.length > 0 && <ul>{x.highlights.map((h) => <li>{h}</li>)}</ul>}
+        </article>
+      ))
+    }
+  </div>
+</Base>

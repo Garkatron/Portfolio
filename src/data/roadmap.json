@@ -1,0 +1,14 @@
+{
+  "milestones": [
+    { "year": "2020", "text": "primeras líneas de código durante la pandemia", "text_en": "first lines of code during the pandemic" },
+    { "year": "2024", "text": "salto a sistemas: intérpretes y renderizado en Rust", "text_en": "moved into systems: interpreters and rendering in Rust" },
+    { "year": "2025", "text": "prácticas en Platita Software (web)", "text_en": "internship at Platita Software (web)" },
+    { "year": "2026", "text": "backend, móvil y escritorio en producción", "text_en": "backend, mobile and desktop in production" }
+  ],
+  "targetProfile": [
+    { "text": "Ingeniero de software — sistemas, herramientas, DX", "text_en": "Software engineer — systems, tooling, DX" },
+    { "text": "Rust a fondo + desarrollo de videojuegos", "text_en": "Deep Rust + game development" },
+    { "text": "Mantenedor de open source", "text_en": "Open-source maintainer" },
+    { "text": "Arquitectura clara para equipos humanos + IA", "text_en": "Clear architecture for AI + human teams" }
+  ]
+}

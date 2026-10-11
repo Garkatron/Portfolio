@@ -1,0 +1,35 @@
+---
+// Books grouped by status (reading / to-read). No tags, by design.
+import { useTranslations } from "../i18n/index.js";
+import { BOOK_STATUSES, getBooks } from "../lib/content.js";
+
+const { lang, limit } = Astro.props;
+const t = useTranslations(lang);
+const groups = getBooks(lang);
+---
+
+<div class="books">
+  {
+    BOOK_STATUSES.map((status) => {
+      const books = limit ? groups[status].slice(0, limit) : groups[status];
+      return (
+        <div class="bookcol" id={`books-${status}`}>
+          <h5 class="px">{t(`books.${status}`)}</h5>
+          {books.length ? (
+            <ul>
+              {books.map((b) => (
+                <li>
+                  {b.title} {b.author && <span>— {b.author}</span>}
+                  {b.year && <span> · {b.year}</span>}
+                  {b.note && <span class="note">{b.note}</span>}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="empty">{t("books.empty")}</p>
+          )}
+        </div>
+      );
+    })
+  }
+</div>

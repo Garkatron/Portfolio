@@ -1,43 +1,59 @@
-# Astro Starter Kit: Minimal
+# GARKATRON — portfolio
+
+Static portfolio built as a code editor ("Editor × Hazard", see `mockups/d-editor-hazard-mix.html`).
+Astro 5 + React 19 + Tailwind v4, deployed to GitHub Pages at <https://garkatron.site/>.
 
 ```sh
-bun create astro@latest -- --template minimal
+pnpm install
+pnpm dev        # http://localhost:4321 (header search needs a build, see below)
+pnpm build      # astro build + Pagefind search index -> dist/
+pnpm preview    # serve dist/ (full site incl. search)
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Editing content (no .astro/.jsx changes needed)
 
-## 🚀 Project Structure
+| What | File |
+| --- | --- |
+| Name, status, bio, role, links, CV, default locale | `src/data/site.json` |
+| Projects (`featured` + `order` pick the 4 on the home page) | `src/data/projects.json` |
+| Books (`status`: `reading` \| `to-read`) | `src/data/books.json` |
+| Roadmap + target profile | `src/data/roadmap.json` |
+| Experience | `src/data/experience.json` |
+| Explorer → Tools (icon keys from `src/data/techIcons.js`) | `src/data/tools.json` |
+| Player tracks / Spotify playlist | `src/data/playlist.json` |
+| Blog posts (Markdown + frontmatter `title`, `date`, `description`) | `src/data/blog/<lang>/<slug>.md` |
+| UI strings | `src/i18n/<lang>.json` |
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Translations in content:** any field `x` can have an `x_en` sibling (`description` / `description_en`).
+  The base value is the default locale (Spanish) and is the fallback.
+- **Project images:** put files in `public/images/projects/` and reference them as `/images/projects/…`.
+  Missing images fall back to the striped placeholder.
+- **Blog:** a post missing in `en/` falls back to the `es/` version with a notice.
+- **Player:** set `spotifyPlaylistId` to embed a single playlist instead of the track list.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Adding a language
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+1. Copy `src/i18n/en.json` to `src/i18n/<code>.json` and translate it (including `_meta.name` / `_meta.short`).
+2. Add `_<code>` fields to content where you want translations.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Locales are discovered from `src/i18n/*.json` (used by `astro.config.mjs` and the routes), so no code changes are needed.
+The default locale lives at `/`; other locales live under `/<code>/`.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Features
 
-## 🧞 Commands
+- **Theme:** 4 accents (hazard / cyan / magenta / green), via titlebar swatches or the palette. Stored in `localStorage`.
+- **Command palette:** `⌘K` / `Ctrl+K`. Shortcuts: `/` search, `P` projects, `C` contact.
+- **Search:** Pagefind index generated at build time; results follow the page language.
+- **Sys.log:** session-persisted activity log (palette commands, opened files/links, theme/lang changes).
+- **Barcodes:** build-time Code128 (bwip-js) encoding each project's canonical URL. They scan reliably on the project
+  detail page. On the 2-column cards they're narrower than 1px per module, so treat those as a link, not a scan target.
 
-All commands are run from the root of the project, from a terminal:
+## Fonts
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+Silkscreen + JetBrains Mono + VT323 (Google Fonts). Silkscreen stands in for Pixel Cyberphont 2.0. To use licensed files,
+add an `@font-face` for them under `public/fonts/` and put the family first in `--font-px` in `src/styles/global.css`.
 
-## 👀 Want to learn more?
+## Deploy
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+`.github/workflows/deploy.yml` builds with pnpm on push to `main` and publishes `dist/` through GitHub Pages Actions.
+`public/CNAME` sets the custom domain. Repository Settings → Pages → Source must be **GitHub Actions**.

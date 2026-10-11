@@ -1,0 +1,153 @@
+{
+  "_meta": { "name": "Español", "short": "ES" },
+  "meta": {
+    "title": "GARKATRON — portfolio",
+    "description": "Portfolio de Garkatron: desarrollador de software — sistemas, herramientas y juegos."
+  },
+  "files": {
+    "root": "portfolio",
+    "about": "about.md",
+    "projects": "projects.tsx",
+    "books": "books.md",
+    "roadmap": "roadmap.md",
+    "experience": "experience.log",
+    "blog": "blog/",
+    "contact": "contact.sh",
+    "reading": "reading.md",
+    "toRead": "to-read.md"
+  },
+  "shell": {
+    "explorer": "Explorador",
+    "tools": "Herramientas",
+    "profile": "Perfil",
+    "player": "Reproductor",
+    "assistant": "Asistente",
+    "syslog": "Sys.log",
+    "accent": "color de acento",
+    "language": "idioma",
+    "branch": "main",
+    "mode": "NORMAL",
+    "errors": "0 errores",
+    "encoding": "UTF-8 · LF",
+    "cursor": "Ln {ln}, Col {col}",
+    "skip": "Saltar al contenido",
+    "openMenu": "abrir explorador"
+  },
+  "profile": {
+    "name": "NOMBRE",
+    "status": "ESTADO",
+    "uptime": "UPTIME",
+    "uptimeValue": "{y}a {m}m"
+  },
+  "player": {
+    "header": "SPOTIFY // PLAYBACK",
+    "play": "reproducir",
+    "tracks": "{n} pistas",
+    "external": "abrir enlace",
+    "note": "embed estático · sin «now playing»"
+  },
+  "assistant": {
+    "visitor": "visitante",
+    "question": "¿en qué trabajas?",
+    "agent": "garkatron.agent",
+    "answerPrefix": "Prueba",
+    "answerJoin": "o",
+    "answerSuffix": "— o pulsa ⌘K."
+  },
+  "syslog": {
+    "boot": "secuencia de arranque ok",
+    "mounted": "proyectos montados: {n}",
+    "coffee": "café bajo",
+    "awaiting": "esperando entrada",
+    "open": "abrir {arg}",
+    "cmd": "$ {arg}",
+    "theme": "tema → {arg}",
+    "lang": "idioma → {arg}",
+    "search": "buscar «{arg}»",
+    "unknown": "comando desconocido: {arg}"
+  },
+  "search": {
+    "placeholder": "buscar…",
+    "label": "Buscar en el sitio",
+    "loading": "indexando…",
+    "empty": "sin resultados",
+    "unavailable": "el índice de búsqueda se genera en el build (pnpm build && pnpm preview)"
+  },
+  "palette": {
+    "trigger": "⌘K paleta de comandos",
+    "triggerShort": "⌘K",
+    "placeholder": "escribe un comando…",
+    "empty": "ningún comando coincide",
+    "hint": "↑↓ navegar · ↵ ejecutar · esc cerrar",
+    "groups": { "nav": "navegar", "theme": "tema", "lang": "idioma" },
+    "commands": {
+      "go-home": "go home",
+      "open-projects": "open projects",
+      "open-books": "open books",
+      "open-roadmap": "open roadmap",
+      "open-blog": "open blog",
+      "contact": "contact",
+      "toggle-theme": "toggle theme",
+      "theme": "theme {name}",
+      "lang": "idioma: {name}",
+      "search": "buscar en el sitio"
+    }
+  },
+  "themes": { "hazard": "hazard", "cyan": "cian", "magenta": "magenta", "green": "verde" },
+  "hero": {
+    "kicker": "// WARNING: desarrollador trabajando ⌁",
+    "viewProjects": "ver proyectos",
+    "contact": "contacto"
+  },
+  "home": {
+    "allProjects": "todos los proyectos",
+    "allBooks": "todos los libros"
+  },
+  "roadmap": { "title": "ROADMAP", "target": "PERFIL OBJETIVO" },
+  "books": {
+    "title": "Libros",
+    "intro": "Lo que estoy leyendo y lo que está en la pila.",
+    "reading": "LEYENDO AHORA",
+    "to-read": "EN LA LISTA",
+    "empty": "nada por aquí"
+  },
+  "experience": { "title": "Experiencia" },
+  "projects": {
+    "title": "Proyectos",
+    "intro": "Todo lo que he construido. Filtra por etiquetas o busca.",
+    "search": "filtrar proyectos…",
+    "tags": "etiquetas",
+    "clear": "limpiar",
+    "count": "{n} de {total} proyectos",
+    "empty": "ningún proyecto coincide con el filtro",
+    "repo": "repo",
+    "live": "demo",
+    "tech": "tecnología",
+    "back": "← proyectos",
+    "barcode": "Code128 → {url}",
+    "scan": "escanea o pulsa el código para abrir el proyecto",
+    "screenshots": "capturas"
+  },
+  "blog": {
+    "title": "Blog",
+    "intro": "Notas, devlogs y cosas que aprendo.",
+    "empty": "todavía no hay entradas",
+    "back": "← blog",
+    "fallback": "Esta entrada no está traducida; se muestra el original."
+  },
+  "contact": {
+    "title": "Contacto",
+    "intro": "¿Un proyecto, una oferta o una charla? Escríbeme.",
+    "mail": "correo",
+    "github": "github",
+    "linkedin": "linkedin",
+    "itch": "itch.io",
+    "cv": "cv (pdf)",
+    "run": "ejecutar"
+  },
+  "notFound": {
+    "title": "404 — archivo no encontrado",
+    "text": "El buffer que buscas no existe.",
+    "home": "volver al inicio"
+  }
+}

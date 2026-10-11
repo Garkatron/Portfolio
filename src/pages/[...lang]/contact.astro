@@ -1,0 +1,49 @@
+---
+import Base from "../../layout/Base.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import { localeParams, useTranslations } from "../../i18n/index.js";
+import { getSite } from "../../lib/content.js";
+
+export const getStaticPaths = localeParams;
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const site = getSite(lang);
+
+// Empty links in site.json are simply not shown.
+const rows = [
+  ["mail", site.links.mail && `mailto:${site.links.mail}`, site.links.mail],
+  ["github", site.links.github, site.links.github],
+  ["linkedin", site.links.linkedin, site.links.linkedin],
+  ["itch", site.links.itch, site.links.itch],
+  ["cv", site.cv, site.cv],
+].filter(([, href]) => href);
+---
+
+<Base lang={lang} page="contact" title={t("contact.title")} description={t("contact.intro")}>
+  <PageHeader kicker={`// ${t("files.contact")}`} title={t("contact.title")} intro={t("contact.intro")} />
+  <div class="term">
+    <div class="term-head">~/garkatron/{t("files.contact")}</div>
+    <div class="term-body">
+      <div class="c">#!/usr/bin/env bash</div>
+      <div class="c"># {t("contact.intro")}</div>
+      <div><span class="k">echo</span> "{site.name} · {site.status}"</div>
+      {
+        rows.map(([key, href, label]) => (
+          <div class="term-row">
+            <span class="name">{t(`contact.${key}`)}</span>
+            <a
+              href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel={href.startsWith("http") ? "noreferrer" : undefined}
+              data-log="open"
+              data-log-arg={`contact:${key}`}
+            >
+              {label.replace(/^https?:\/\//, "")}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</Base>

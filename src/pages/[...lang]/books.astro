@@ -1,0 +1,22 @@
+---
+import Base from "../../layout/Base.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import BookColumns from "../../components/BookColumns.astro";
+import { localeParams, useTranslations } from "../../i18n/index.js";
+
+export const getStaticPaths = localeParams;
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const tabs = [
+  { file: t("files.books"), href: "#content", active: true },
+  { file: t("files.reading"), href: "#books-reading" },
+  { file: t("files.toRead"), href: "#books-to-read" },
+];
+---
+
+<Base lang={lang} page="books" title={t("books.title")} description={t("books.intro")} tabs={tabs}>
+  <PageHeader kicker={`// ${t("files.books")}`} title={t("books.title")} intro={t("books.intro")} />
+  <h2 class="section-h px" style="margin-top:32px"><b>01</b> {t("files.books")}</h2>
+  <BookColumns lang={lang} />
+</Base>

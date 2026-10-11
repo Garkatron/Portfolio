@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "scrap-renderer",
+    "title": "ScrapRenderer",
+    "description": "Rasterizador 3D por software escrito en Rust, hecho a mano desde cero.",
+    "description_en": "Software 3D rasterizer written in Rust, hand-made from scratch.",
+    "year": "2025",
+    "image": "/images/projects/scrap-renderer.png",
+    "screenshots": [],
+    "links": { "repo": "https://github.com/Garkatron/ScrapRenderer", "live": "" },
+    "featured": true,
+    "order": 1,
+    "tags": ["rust", "for-humans", "development", "hand-made"],
+    "tech": ["Rust"]
+  },
+  {
+    "slug": "rust-lox-interpreter",
+    "title": "Rust-Lox-Interpreter",
+    "description": "Intérprete del lenguaje Lox (Crafting Interpreters) implementado en Rust.",
+    "description_en": "Interpreter for the Lox language (Crafting Interpreters) implemented in Rust.",
+    "year": "2025",
+    "image": "/images/projects/rust-lox-interpreter.png",
+    "screenshots": [],
+    "links": { "repo": "https://github.com/Garkatron/Rust-Lox-Interpreter", "live": "" },
+    "featured": true,
+    "order": 2,
+    "tags": ["rust", "languages", "development"],
+    "tech": ["Rust"]
+  },
+  {
+    "slug": "express-quizz-api",
+    "title": "ExpressQuizzApi",
+    "description": "API REST para cuestionarios con Express y TypeScript.",
+    "description_en": "REST API for quizzes built with Express and TypeScript.",
+    "year": "2024",
+    "image": "/images/projects/express-quizz-api.png",
+    "screenshots": [],
+    "links": { "repo": "https://github.com/Garkatron/ExpressQuizzApi", "live": "" },
+    "featured": true,
+    "order": 3,
+    "tags": ["typescript", "backend", "api"],
+    "tech": ["TypeScript", "Node.js", "Express", "JWT"]
+  }
+]

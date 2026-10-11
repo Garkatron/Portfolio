@@ -1,0 +1,16 @@
+---
+import Base from "../layout/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { defaultLocale, useTranslations } from "../i18n/index.js";
+import { getRoutes } from "../lib/shell.js";
+
+// GitHub Pages serves a single 404 for every locale; it uses the default one.
+const lang = defaultLocale;
+const t = useTranslations(lang);
+const routes = getRoutes(lang);
+---
+
+<Base lang={lang} page="about" title="404">
+  <PageHeader kicker="// E404" title={t("notFound.title")} intro={t("notFound.text")} />
+  <div class="btns"><a class="btn solid" href={routes.home}>{t("notFound.home")}</a></div>
+</Base>

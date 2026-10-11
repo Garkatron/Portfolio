@@ -1,0 +1,61 @@
+{
+  "_comment": "icon = key in src/data/techIcons.js (optional). color = dot/icon tint; any CSS color or var(--cyan|--magenta|--green|--warn|--dim).",
+  "groups": [
+    {
+      "id": "languages",
+      "label": "lenguajes",
+      "label_en": "languages",
+      "tools": [
+        { "name": "Rust", "icon": "rust", "color": "var(--cyan)" },
+        { "name": "TypeScript", "icon": "typescript", "color": "var(--magenta)" },
+        { "name": "Lua", "icon": "lua", "color": "var(--green)" },
+        { "name": "Kotlin", "icon": "kotlin", "color": "var(--warn)" },
+        { "name": "Node.js", "icon": "node", "color": "var(--green)" },
+        { "name": "PHP", "icon": "php", "color": "var(--dim)" }
+      ]
+    },
+    {
+      "id": "frameworks",
+      "label": "frameworks",
+      "tools": [
+        { "name": "Astro", "icon": "astro", "color": "var(--green)" },
+        { "name": "Express", "icon": "express", "color": "var(--dim)" },
+        { "name": "Vite", "icon": "vite", "color": "var(--magenta)" },
+        { "name": "Vitest", "icon": "vitest", "color": "var(--green)" }
+      ]
+    },
+    {
+      "id": "libraries",
+      "label": "librerías",
+      "label_en": "libraries",
+      "tools": [
+        { "name": "React", "icon": "react", "color": "var(--cyan)" },
+        { "name": "Tailwind", "icon": "tailwind", "color": "var(--cyan)" },
+        { "name": "Bootstrap", "icon": "bootstrap", "color": "var(--magenta)" },
+        { "name": "p5.js", "icon": "p5", "color": "var(--red)" },
+        { "name": "JWT", "icon": "jwt", "color": "var(--magenta)" }
+      ]
+    },
+    {
+      "id": "tools",
+      "label": "herramientas",
+      "label_en": "tools",
+      "tools": [
+        { "name": "Linux", "icon": "linux", "color": "var(--warn)" },
+        { "name": "Git", "icon": "git", "color": "var(--red)" },
+        { "name": "GitHub", "icon": "github", "color": "var(--fg)" },
+        { "name": "Docker", "icon": "docker", "color": "var(--cyan)" },
+        { "name": "Firebase", "icon": "firebase", "color": "var(--warn)" }
+      ]
+    },
+    {
+      "id": "databases",
+      "label": "bases de datos",
+      "label_en": "databases",
+      "tools": [
+        { "name": "MariaDB", "icon": "mariadb", "color": "var(--cyan)" },
+        { "name": "MySQL", "icon": "mysql", "color": "var(--cyan)" }
+      ]
+    }
+  ]
+}

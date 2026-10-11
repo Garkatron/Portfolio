@@ -1,0 +1,56 @@
+[
+  {
+    "company": "Platita Software",
+    "role": "Prácticas — desarrollo web",
+    "role_en": "Internship — web development",
+    "startDate": "2025",
+    "endDate": "2026",
+    "website": "https://platita.es",
+    "description": "Desarrollo de invitaciones de bodas digitales.",
+    "description_en": "Development of digital wedding invitations.",
+    "links": [{ "label": "Invited.es", "url": "https://www.invited.es/es" }],
+    "highlights": [
+      "Crear invitaciones con JavaScript, React, Tailwind y Bootstrap.",
+      "Integración con APIs existentes.",
+      "Organización del tiempo."
+    ],
+    "highlights_en": [
+      "Built invitations with JavaScript, React, Tailwind and Bootstrap.",
+      "Integration with existing APIs.",
+      "Time management."
+    ]
+  },
+  {
+    "company": "Platita Software",
+    "role": "Prácticas — backend, móvil y escritorio",
+    "role_en": "Internship — backend, mobile and desktop",
+    "startDate": "2026",
+    "endDate": "2026",
+    "website": "https://platita.es",
+    "description": "Desarrollo de invitaciones de bodas digitales.",
+    "description_en": "Development of digital wedding invitations.",
+    "links": [],
+    "highlights": [
+      "Desarrollo de servicio backend con TypeScript y AdonisJS.",
+      "Desarrollo de app móvil con React Native y Expo.",
+      "Desarrollo de app de escritorio con Preact, Tauri y Tailwind.",
+      "Tecnología NFC.",
+      "Coordinación y comunicación con el desarrollador front-end.",
+      "Gestión de tiempo, fechas límite y tareas con fecha definida.",
+      "Selección de tecnologías para el proyecto.",
+      "Comunicación con los clientes.",
+      "Reuniones semanales para reporte de avances."
+    ],
+    "highlights_en": [
+      "Backend service development with TypeScript and AdonisJS.",
+      "Mobile app development with React Native and Expo.",
+      "Desktop app development with Preact, Tauri and Tailwind.",
+      "NFC technology.",
+      "Coordination and communication with the front-end developer.",
+      "Managing time, deadlines and dated tasks.",
+      "Choosing the project's technologies.",
+      "Client communication.",
+      "Weekly progress-report meetings."
+    ]
+  }
+]

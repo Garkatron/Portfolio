@@ -1,8 +1,10 @@
 ---
+import { Image } from "astro:assets";
 import { render } from "astro:content";
 import Base from "../../../layout/Base.astro";
 import { localeParams, useTranslations } from "../../../i18n/index.js";
 import { getPosts } from "../../../lib/content.js";
+import { getCover } from "../../../lib/cover.js";
 import { getRoutes } from "../../../lib/shell.js";
 
 export async function getStaticPaths() {
@@ -20,7 +22,15 @@ export async function getStaticPaths() {
 const { lang, post } = Astro.props;
 const t = useTranslations(lang);
 const routes = getRoutes(lang);
-const { Content } = await render(post.entry);
+const { Content, headings } = await render(post.entry);
+const cover = getCover(post);
+// `genIndex: true` opts the post into a table of contents. Only h2/h3 are
+// listed: h1 is the post title and h4+ is below the detail a reader navigates
+// to. A post with nothing to list gets no box rather than an empty one.
+const toc = post.genIndex ? headings.filter((h) => h.depth === 2 || h.depth === 3) : [];
+// A monospace cell is ~0.6em wide, so handing CSS the art's column count lets
+// it size the drawing to the available width instead of scrolling it.
+const coverStyle = cover?.kind === "ascii" ? `--cover-cols:${cover.columns}` : undefined;
 const file = `blog/${post.slug}/index.md`;
 const fmt = new Intl.DateTimeFormat(lang, { dateStyle: "long" });
 const tabs = [
@@ -31,11 +41,41 @@ const tabs = [
 
 <Base lang={lang} page="blog" title={post.title} description={post.description} path={file} tabs={tabs}>
   <a class="back" href={routes.blog} data-log="open" data-log-arg={t("files.blog")}>{t("blog.back")}</a>
+  {/* Cover above the title, so the art reads as the post's face. */}
+  {
+    cover?.kind === "image" && (
+      <Image class="cover-img" src={cover.image} alt={cover.alt} widths={[480, 720, 1080]} sizes="(min-width: 900px) 720px, 100vw" />
+    )
+  }
+  {
+    cover?.kind === "ascii" && (
+      <pre
+        class="cover-ascii"
+        style={coverStyle}
+        role="img"
+        aria-label={cover.alt}
+      ><code>{cover.text}</code></pre>
+    )
+  }
   <header class="page-h">
     <div class="kick px">// {file} — <time datetime={post.date.toISOString()}>{fmt.format(post.date)}</time></div>
     <h1>{post.title}</h1>
   </header>
   {post.fallback && <p class="notice">{t("blog.fallback")}</p>}
+  {
+    toc.length > 0 && (
+      <nav class="toc" aria-labelledby="toc-h">
+        <h2 id="toc-h" class="px">{t("blog.toc")}</h2>
+        <ol>
+          {toc.map((h) => (
+            <li class={`d${h.depth}`}>
+              <a href={`#${h.slug}`} data-log="open" data-log-arg={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )
+  }
   <article class="prose">
     <Content />
   </article>

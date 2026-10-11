@@ -204,6 +204,26 @@ a { color: inherit; }
 .page-h h1 { font-family: var(--font-px); font-size: clamp(32px, 5vw, 48px); line-height: 1; font-weight: 400; }
 .page-h p { color: var(--dim); margin-top: 10px; max-width: 620px; }
 
+/* ---------- post covers ---------- */
+/* Above the title. Optional, and either an image or ASCII art. */
+.cover-img { display: block; width: 100%; height: auto; max-width: 720px; margin-bottom: 20px; border: 1px solid var(--line); background: var(--bg); }
+.cover-ascii {
+  /* The drawing is sized in character cells, so the box is measured in them:
+     one column query unit divided by the widest row fits the art to the width
+     instead of scrolling it. */
+  container-type: inline-size;
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  max-width: 720px;
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  overflow: hidden;
+  line-height: 1;
+  white-space: pre;
+}
+.cover-ascii > code { background: none; border: 0; padding: 0; font: inherit; }
+.cover-ascii { font-size: min(11px, calc((100cqi - 32px) / (var(--cover-cols, 80) * 0.6))); }
+
 /* ---------- projects ---------- */
 /* 1px-gap + outline draws the grid lines per card, so an odd count leaves a clean empty cell. */
 .projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; padding: 1px; }
@@ -408,6 +428,16 @@ a { color: inherit; }
    language tag is highlighted as `plaintext`; tagged code keeps the roomier
    leading. */
 .prose pre[data-language="plaintext"] { line-height: 1; font-size: 11px; }
+/* Table of contents, from `genIndex: true`. A boxed file listing to match the
+   editor shell; h3 entries indent one step under their h2. */
+.toc { max-width: 720px; margin-top: 20px; padding: 12px 16px; background: var(--bg); border: 1px solid var(--line); }
+.toc h2 { font-size: 13px; margin: 0 0 8px; padding: 0; }
+.toc ol { margin: 0; padding: 0; list-style: none; counter-reset: toc; }
+.toc li { counter-increment: toc; }
+.toc li::before { content: counter(toc, decimal-leading-zero) " "; color: var(--dim); }
+.toc li.d3 { padding-left: 18px; }
+.toc a { color: var(--fg); text-decoration: none; }
+.toc a:hover { color: var(--acc); }
 .prose blockquote { border-left: 2px solid var(--warn); padding-left: 12px; color: var(--dim); }
 .prose img { max-width: 100%; border: 1px solid var(--line); }
 .prose hr { border: 0; height: 8px; background: repeating-linear-gradient(-45deg, var(--warn) 0 12px, var(--ink) 12px 24px); }
@@ -494,6 +524,17 @@ a { color: inherit; }
 .apx .bar-time { position: absolute; top: 0; right: 0; font-family: var(--font-vt); font-size: 12px; color: var(--dim); }
 .apx .controls { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
 .apx .controls input[type="range"] { flex: 1; height: 3px; accent-color: var(--apx); min-width: 0; cursor: pointer; }
+/* Mute sits after the slider, so the row ends `vol ─────── (icon)`. */
+.apx .mute { flex: none; width: 26px; height: 26px; padding: 0; display: grid; place-items: center; background: none; border: 1px solid var(--line); color: var(--fg); cursor: pointer; }
+.apx .mute:hover { border-color: var(--apx); }
+.apx .mute.on { color: var(--apx); border-color: var(--apx); }
+/* Same mask trick as .tool-icon: the glyph is the mask, the colour is the box. */
+.apx .mute-icon {
+  display: block; width: 14px; height: 14px;
+  background: currentColor;
+  -webkit-mask: var(--mute-icon) center / contain no-repeat;
+  mask: var(--mute-icon) center / contain no-repeat;
+}
 .vol-label { font-size: 10px; color: var(--dim); }
 .apx .full { font-size: 10px; color: var(--acc); text-decoration: none; white-space: nowrap; margin-left: auto; }
 .apx .full:hover { text-decoration: underline; }

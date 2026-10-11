@@ -21,6 +21,7 @@ export const IDLE_STATE = {
   playing: false,
   waiting: false,
   volume: 0,
+  muted: false,
   time: 0,
   duration: 0,
 };

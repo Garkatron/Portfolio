@@ -32,6 +32,10 @@ pnpm preview    # serve dist/ (full site incl. search)
 - **Blog:** each post is a folder — `index.md` plus its own images, referenced relatively
   (`./diagram.jpg`) and optimized to webp at build time (needs the `sharp` devDependency).
   A post missing in `en/` falls back to the `es/` version with a notice.
+- **Post frontmatter:** `cover` / `coverAlt` for the optional cover above the title (an image or
+  a `.ascii` file, both inside the post folder), and `genIndex: true` to build a table of contents
+  from the post's own `##`/`###` headings. The index is opt-in, and a post with nothing to list
+  gets no box rather than an empty one.
 - **Book covers:** `cover` accepts an image URL (Open Library works: `https://covers.openlibrary.org/b/isbn/<isbn>-M.jpg`) or a local `/images/books/…` file.
 - **Videos:** `videos.json` holds `playlists`; each renders as an explorer-style folder and opens into a mini
   YouTube (player + sidebar). A video uses either the YouTube `id` (the part after `watch?v=`) **or** a direct
@@ -41,6 +45,9 @@ pnpm preview    # serve dist/ (full site incl. search)
 - **Player:** each track's 30s Spotify preview is fetched at build time and played through a custom
   `<audio>` player (no iframe). Tracks play on click; full songs open in Spotify via the "full track" link.
   Set `spotifyPlaylistId` to embed a whole playlist instead.
+  The volume level and the mute toggle are both remembered in `localStorage`
+  (`garkatron:volume`, `garkatron:muted`); mute is kept apart from the level, so
+  unmuting brings back the volume the visitor had, not the default.
 
 ## Adding a language
 

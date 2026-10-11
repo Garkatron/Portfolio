@@ -52,6 +52,8 @@
     "seek": "posición",
 "unavailable": "no disponible en SoundCloud",
     "volume": "vol",
+    "mute": "silenciar",
+    "unmute": "activar el sonido",
     "enable": "haz clic en cualquier parte para activar el sonido",
     "note": {
       "spotify": "previews de 30s · sin «now playing»",
@@ -160,6 +162,7 @@
     "intro": "Notas, devlogs y cosas que aprendo.",
     "empty": "todavía no hay entradas",
     "back": "← blog",
+    "toc": "índice",
     "fallback": "Esta entrada no está traducida; se muestra el original."
   },
   "contact": {

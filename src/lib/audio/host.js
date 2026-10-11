@@ -13,6 +13,7 @@ import { trackMode } from "./util.js";
 const KEY = "__garkatronAudioHost";
 const TRACK_KEY = "garkatron:track";
 const VOLUME_KEY = "garkatron:volume";
+const MUTE_KEY = "garkatron:muted";
 const DEFAULT_VOLUME = 0.15; // low, per request
 const STAGE_ID = "garkatron-audio-stage";
 const AUTOPLAY_GRACE_MS = 1200; // how long we wait before saying autoplay was blocked
@@ -30,6 +31,26 @@ function readVolume() {
 function writeVolume(value) {
   try {
     localStorage.setItem(VOLUME_KEY, String(value));
+  } catch {}
+}
+
+/**
+ * Whether the visitor chose silence.
+ *
+ * Mute is remembered apart from the volume level on purpose: unmuting has to
+ * bring back the volume they picked, not a default one.
+ */
+function readMuted() {
+  try {
+    return localStorage.getItem(MUTE_KEY) === "true";
+  } catch {
+    return false;
+  }
+}
+
+function writeMuted(value) {
+  try {
+    localStorage.setItem(MUTE_KEY, String(Boolean(value)));
   } catch {}
 }
 
@@ -58,6 +79,7 @@ function createHost() {
   audio.loop = true;
   audio.preload = "auto";
   audio.volume = readVolume();
+  audio.muted = readMuted();
 
   let embed = null; // provider iframe, hidden and driven from here
   let widget = null; // SC.Widget controller for it
@@ -83,6 +105,7 @@ function createHost() {
     playing: false,
     waiting: false, // autoplay was blocked; waiting for a user gesture
     volume: audio.volume,
+    muted: audio.muted,
     time: 0,
     duration: 0,
   };
@@ -99,6 +122,7 @@ function createHost() {
     playing: state.playing,
     waiting: state.waiting,
     volume: state.volume,
+    muted: state.muted,
     time: state.time,
     duration: state.duration,
   });
@@ -308,8 +332,10 @@ function createHost() {
   }
 
   function syncWidgetVolume() {
-    // The widget takes 0-100; the host keeps 0-1, like the <audio> element.
-    widget?.setVolume(Math.round(state.volume * 100));
+    // The widget takes 0-100; the host keeps 0-1, like the <audio> element. It
+    // has no mute of its own, so silence is volume 0 and `state.volume` — the
+    // level the visitor picked — is left untouched for when they unmute.
+    widget?.setVolume(state.muted ? 0 : Math.round(state.volume * 100));
   }
 
   /**
@@ -343,6 +369,29 @@ function createHost() {
 
   // ---- transport ----------------------------------------------------------
 
+  /**
+   * Silence the music without touching the volume level.
+   *
+   * Kept apart from the volume on purpose: a visitor who mutes and comes back
+   * expects the level they set, not the default one. Moving the slider while
+   * muted is allowed — that is them choosing what it will sound like afterwards
+   * — so it does not lift the mute on its own.
+   */
+  function setMuted(value) {
+    const next = Boolean(value);
+    state.muted = next;
+    audio.muted = next;
+    writeMuted(next);
+    syncWidgetVolume();
+    // Silence the visitor asked for is not a blocked autoplay, so the "click to
+    // enable sound" note must not sit there inviting them to click again.
+    if (next) {
+      state.waiting = false;
+      clearWake();
+    }
+    emit();
+  }
+
   function clearWake() {
     if (!wakeHandler) return;
     window.removeEventListener("pointerdown", wakeHandler);
@@ -361,7 +410,9 @@ function createHost() {
       if (state.waiting) {
         if (state.mode === "embed") widget?.play();
         else {
-          audio.muted = false;
+          // Only the autoplay-blocked mute is lifted here; a mute the visitor
+          // asked for stays until they lift it themselves.
+          audio.muted = state.muted;
           audio.play().catch(() => {});
         }
       }
@@ -378,10 +429,17 @@ function createHost() {
    * rejected, fall back to a muted start and unmute on the first input.
    */
   function autoplayStream() {
+    // A visitor who muted does not want sound, so skip the audible attempt and
+    // the "click to enable" note that comes with it: muted autoplay always works.
+    if (state.muted) {
+      audio.muted = true;
+      audio.play().catch(() => {});
+      return;
+    }
     audio
       .play()
       .then(() => {
-        audio.muted = false;
+        audio.muted = state.muted;
       })
       .catch(() => {
         audio.muted = true;
@@ -443,7 +501,7 @@ function createHost() {
     if (state.mode === "embed" && dead.has(state.index)) return;
 
     if (state.mode === "stream") {
-      audio.muted = false;
+      audio.muted = state.muted;
       state.waiting = false;
       if (audio.paused) audio.play().catch(() => {});
       else audio.pause();
@@ -562,6 +620,10 @@ function createHost() {
       syncWidgetVolume();
       emit();
     },
+
+    setMuted,
+
+    toggleMuted: () => setMuted(!state.muted),
 
     /**
      * Attach the media nodes for the current transport.

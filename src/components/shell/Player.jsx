@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useAudioHost } from "../../lib/audio/useAudioHost.js";
 import { log } from "../../lib/syslog.js";
+// Imported SVGs resolve to `{src, width, …}`, not to a bare URL string, hence
+// the `.src` below — same as the tool icons in src/lib/content.js.
+import soundOn from "../../assets/icon/phosphor--speaker-high.svg";
+import soundOff from "../../assets/icon/phosphor--speaker-slash.svg";
 import { useI18n } from "./i18n.jsx";
 
 // Provider-agnostic player. It renders whatever src/lib/audio/index.js
@@ -34,7 +38,7 @@ function fmt(sec) {
 export default function Player({ playlist }) {
   const { t } = useI18n();
   const { host, state, surfaceRef } = useAudioHost(playlist);
-  const { track, mode, playing, waiting, volume, time, duration, index, controlled, dead, order } = state;
+  const { track, mode, playing, waiting, volume, muted, time, duration, index, controlled, dead, order } = state;
   const { provider } = playlist;
   const [query, setQuery] = useState("");
 
@@ -144,6 +148,22 @@ export default function Player({ playlist }) {
               aria-label={t("player.volume")}
               onChange={(e) => host?.setVolume(e.target.value)}
             />
+            <button
+              type="button"
+              className={`mute${muted ? " on" : ""}`}
+              onClick={() => host?.toggleMuted()}
+              aria-pressed={muted}
+              aria-label={muted ? t("player.unmute") : t("player.mute")}
+              title={muted ? t("player.unmute") : t("player.mute")}
+            >
+              {/* Masked, not an <img>: the icon is `fill="currentColor"`, which
+                  an <img> cannot inherit, so it would render black. */}
+              <i
+                className="mute-icon"
+                aria-hidden="true"
+                style={{ "--mute-icon": `url("${(muted ? soundOff : soundOn).src}")` }}
+              />
+            </button>
           </>
         ) : (
           <span className="vol-label" />

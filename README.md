@@ -17,6 +17,7 @@ pnpm preview    # serve dist/ (full site incl. search)
 | Name, status, bio, role, links, CV, default locale | `src/data/site.json` |
 | Projects (`featured` + `order` pick the 4 on the home page) | `src/data/projects.json` |
 | Books (`status`: `reading` \| `to-read`, optional `cover` URL) | `src/data/books.json` |
+| Videos (`playlists` = folders, each with a list of YouTube `id`s) | `src/data/videos.json` |
 | Roadmap + target profile | `src/data/roadmap.json` |
 | Experience | `src/data/experience.json` |
 | Explorer → Tools (icon keys from `src/data/techIcons.js`) | `src/data/tools.json` |
@@ -30,6 +31,9 @@ pnpm preview    # serve dist/ (full site incl. search)
   Missing images fall back to the striped placeholder.
 - **Blog:** a post missing in `en/` falls back to the `es/` version with a notice.
 - **Book covers:** `cover` accepts an image URL (Open Library works: `https://covers.openlibrary.org/b/isbn/<isbn>-M.jpg`) or a local `/images/books/…` file.
+- **Videos:** `videos.json` holds `playlists`; each renders as an explorer-style folder and opens into a mini
+  YouTube (player + sidebar). Every video needs the YouTube `id` (the part after `watch?v=`). The open
+  playlist/video is kept in the URL (`?p=…&v=…`) so a view can be shared.
 - **Player:** each track's 30s Spotify preview is fetched at build time and played through a custom
   `<audio>` player (no iframe). Tracks play on click; full songs open in Spotify via the "full track" link.
   Set `spotifyPlaylistId` to embed a whole playlist instead.

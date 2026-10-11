@@ -76,6 +76,9 @@ function ShellLayout({ shell, children }) {
       } else if (e.key === "p" || e.key === "P") {
         log("open", shell.files.projects);
         go(shell.routes.projects);
+      } else if (e.key === "v" || e.key === "V") {
+        log("open", shell.files.videos);
+        go(shell.routes.videos);
       } else if (e.key === "c" || e.key === "C") {
         log("open", shell.files.contact);
         go(shell.routes.contact);

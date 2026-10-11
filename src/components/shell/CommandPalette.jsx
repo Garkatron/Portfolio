@@ -28,6 +28,7 @@ export default function CommandPalette({ open, onClose, routes, locales, go, onS
       nav("go-home", routes.home),
       nav("open-projects", routes.projects),
       nav("open-books", routes.books),
+      nav("open-videos", routes.videos),
       nav("open-roadmap", routes.roadmap),
       nav("open-blog", routes.blog),
       nav("contact", routes.contact),

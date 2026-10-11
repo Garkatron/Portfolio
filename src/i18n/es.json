@@ -9,6 +9,7 @@
     "about": "about.md",
     "projects": "projects.tsx",
     "books": "books.md",
+    "videos": "videos/",
     "roadmap": "roadmap.md",
     "experience": "experience.log",
     "blog": "blog/",
@@ -93,6 +94,7 @@
       "go-home": "go home",
       "open-projects": "open projects",
       "open-books": "open books",
+      "open-videos": "open videos",
       "open-roadmap": "open roadmap",
       "open-blog": "open blog",
       "contact": "contact",
@@ -119,6 +121,17 @@
     "reading": "LEYENDO AHORA",
     "to-read": "EN LA LISTA",
     "empty": "nada por aquí"
+  },
+  "videos": {
+    "title": "Vídeos",
+    "intro": "Playlists como carpetas. Ábrelas y se ven como un mini YouTube.",
+    "hint": "Selecciona una carpeta para abrir la playlist.",
+    "count": "{n} vídeos",
+    "empty": "nada por aquí",
+    "list": "Vídeos de la playlist",
+    "back": "videos/",
+    "open": "abrir carpeta",
+    "playlist": "PLAYLIST"
   },
   "experience": { "title": "Experiencia" },
   "projects": {

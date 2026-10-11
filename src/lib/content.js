@@ -7,6 +7,7 @@ import { getCollection } from "astro:content";
 import siteData from "../data/site.json";
 import projectsData from "../data/projects.json";
 import booksData from "../data/books.json";
+import videosData from "../data/videos.json";
 import roadmapData from "../data/roadmap.json";
 import experienceData from "../data/experience.json";
 import toolsData from "../data/tools.json";
@@ -64,6 +65,26 @@ export function getFeaturedProjects(lang, limit = 4) {
 export function getBooks(lang) {
   const books = localize(booksData, lang);
   return Object.fromEntries(BOOK_STATUSES.map((s) => [s, books.filter((b) => b.status === s)]));
+}
+
+/**
+ * Videos in the shape the client island expects: playlists (rendered as
+ * explorer-style folders) each with a flat list of videos (rendered like a
+ * YouTube sidebar). See src/data/videos.json.
+ */
+export function getVideos(lang) {
+  const data = localize(videosData, lang);
+  return (data.playlists ?? []).map((p) => ({
+    id: p.id,
+    name: p.name,
+    description: p.description ?? "",
+    videos: (p.videos ?? []).map((v) => ({
+      id: v.id,
+      title: v.title,
+      author: v.author ?? "",
+      duration: v.duration ?? "",
+    })),
+  }));
 }
 
 export function getRoadmap(lang) {

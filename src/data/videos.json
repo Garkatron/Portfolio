@@ -1,0 +1,39 @@
+{
+  "_comment": "Fuente de la sección videos/. Cada `playlist` se muestra como una carpeta (estilo explorer); sus `videos` como una lista tipo YouTube. Cada vídeo necesita el `id` de YouTube (lo que va tras watch?v=). Cambia estos ejemplos por los tuyos. Los campos aceptan un hermano `_en` para el inglés (p. ej. `name_en`, `description_en`). `duration` es informativa.",
+  "playlists": [
+    {
+      "id": "dev",
+      "name": "desarrollo",
+      "name_en": "development",
+      "description": "Charlas, tutoriales y devlogs de programación.",
+      "description_en": "Talks, tutorials and programming devlogs.",
+      "videos": [
+        { "id": "M7lc1UVf-VE", "title": "YouTube IFrame Player API — demo", "author": "Google Developers", "duration": "8:37" },
+        { "id": "aqz-KE-bpKQ", "title": "Big Buck Bunny", "author": "Blender Foundation", "duration": "10:34" }
+      ]
+    },
+    {
+      "id": "musica",
+      "name": "música",
+      "name_en": "music",
+      "description": "Lo que suena mientras programo.",
+      "description_en": "What plays while I code.",
+      "videos": [
+        { "id": "9bZkp7q19f0", "title": "PSY — Gangnam Style", "author": "officialpsy", "duration": "4:12" },
+        { "id": "kJQP7kiw5Fk", "title": "Luis Fonsi — Despacito", "author": "Luis Fonsi", "duration": "4:41" },
+        { "id": "60ItHLz5WEA", "title": "Alan Walker — Faded", "author": "Alan Walker", "duration": "3:32" }
+      ]
+    },
+    {
+      "id": "varios",
+      "name": "varios",
+      "name_en": "misc",
+      "description": "Un cajón de sastre.",
+      "description_en": "A catch-all drawer.",
+      "videos": [
+        { "id": "jNQXAC9IVRw", "title": "Me at the zoo", "author": "jawed", "duration": "0:19" },
+        { "id": "dQw4w9WgXcQ", "title": "Rick Astley — Never Gonna Give You Up", "author": "Rick Astley", "duration": "3:33" }
+      ]
+    }
+  ]
+}

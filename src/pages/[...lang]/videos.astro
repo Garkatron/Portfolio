@@ -1,0 +1,18 @@
+---
+import Base from "../../layout/Base.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Videos from "../../components/Videos.jsx";
+import { defaultLocale, getDict, localeParams, useTranslations } from "../../i18n/index.js";
+import { getVideos } from "../../lib/content.js";
+
+export const getStaticPaths = localeParams;
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const playlists = getVideos(lang);
+---
+
+<Base lang={lang} page="videos" title={t("videos.title")} description={t("videos.intro")}>
+  <PageHeader kicker={`// ${t("files.videos")}`} title={t("videos.title")} intro={t("videos.intro")} />
+  <Videos client:load playlists={playlists} dict={getDict(lang)} fallback={getDict(defaultLocale)} />
+</Base>

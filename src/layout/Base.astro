@@ -8,7 +8,7 @@ import { buildShell } from "../lib/shell.js";
 
 const { lang, page, title, description, path, tabs } = Astro.props;
 const t = useTranslations(lang);
-const shell = buildShell({ lang, page, pathname: Astro.url.pathname, path, tabs });
+const shell = await buildShell({ lang, page, pathname: Astro.url.pathname, path, tabs });
 
 const fullTitle = title ? `${title} — ${t("meta.title")}` : t("meta.title");
 const metaDescription = description ?? t("meta.description");

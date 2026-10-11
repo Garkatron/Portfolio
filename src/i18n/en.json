@@ -42,9 +42,13 @@
   "player": {
     "header": "SPOTIFY // PLAYBACK",
     "play": "play",
+    "pause": "pause",
     "tracks": "{n} tracks",
     "external": "open link",
-    "note": "static embed · no “now playing”"
+    "full": "full track ↗",
+    "volume": "vol",
+    "enable": "click anywhere to enable sound",
+    "note": "30s previews · no “now playing”"
   },
   "assistant": {
     "visitor": "visitor",

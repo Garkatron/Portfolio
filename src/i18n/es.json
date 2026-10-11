@@ -42,9 +42,13 @@
   "player": {
     "header": "SPOTIFY // PLAYBACK",
     "play": "reproducir",
+    "pause": "pausar",
     "tracks": "{n} pistas",
     "external": "abrir enlace",
-    "note": "embed estático · sin «now playing»"
+    "full": "tema completo ↗",
+    "volume": "vol",
+    "enable": "haz clic en cualquier parte para activar el sonido",
+    "note": "previews de 30s · sin «now playing»"
   },
   "assistant": {
     "visitor": "visitante",

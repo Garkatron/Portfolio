@@ -1,8 +1,8 @@
 [
-  { "title": "The Pragmatic Programmer", "author": "Hunt & Thomas", "status": "reading", "year": null, "note": "" },
-  { "title": "Rust in Action", "author": "Tim McNamara", "status": "reading", "year": null, "note": "" },
-  { "title": "Crafting Interpreters", "author": "Robert Nystrom", "status": "reading", "year": null, "note": "" },
-  { "title": "Designing Data-Intensive Applications", "author": "Martin Kleppmann", "status": "to-read", "year": null, "note": "" },
-  { "title": "Code: The Hidden Language", "author": "Charles Petzold", "status": "to-read", "year": null, "note": "" },
-  { "title": "The Phoenix Project", "author": "Kim, Behr, Spafford", "status": "to-read", "year": null, "note": "" }
+  { "title": "The Pragmatic Programmer", "author": "Hunt & Thomas", "status": "reading", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9780135957059-M.jpg" },
+  { "title": "Rust in Action", "author": "Tim McNamara", "status": "reading", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9781617294556-M.jpg" },
+  { "title": "Crafting Interpreters", "author": "Robert Nystrom", "status": "reading", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9780990582939-M.jpg" },
+  { "title": "Designing Data-Intensive Applications", "author": "Martin Kleppmann", "status": "to-read", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9781449373320-M.jpg" },
+  { "title": "Code: The Hidden Language", "author": "Charles Petzold", "status": "to-read", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9780137909100-M.jpg" },
+  { "title": "The Phoenix Project", "author": "Kim, Behr, Spafford", "status": "to-read", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9781942788294-M.jpg" }
 ]

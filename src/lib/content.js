@@ -14,6 +14,7 @@ import playlistData from "../data/playlist.json";
 import { techIcons } from "../data/techIcons.js";
 import { absoluteUrl, defaultLocale, localePath, localize } from "../i18n/index.js";
 import { code128Svg } from "./barcode.js";
+import { fetchPreviewUrl } from "./spotify.js";
 
 export const BOOK_STATUSES = ["reading", "to-read"];
 
@@ -85,8 +86,17 @@ export function getToolGroups(lang) {
   }));
 }
 
-export function getPlaylist() {
-  return localize(playlistData, defaultLocale);
+export async function getPlaylist() {
+  const playlist = localize(playlistData, defaultLocale);
+  const previews = await Promise.all(playlist.tracks.map((tr) => fetchPreviewUrl(tr.spotifyId)));
+  return {
+    ...playlist,
+    tracks: playlist.tracks.map((tr, i) => ({
+      ...tr,
+      previewUrl: previews[i],
+      spotifyUrl: tr.spotifyId ? `https://open.spotify.com/track/${tr.spotifyId}` : null,
+    })),
+  };
 }
 
 /**

@@ -19,9 +19,13 @@ const groups = getBooks(lang);
             <ul>
               {books.map((b) => (
                 <li>
-                  {b.title} {b.author && <span>— {b.author}</span>}
-                  {b.year && <span> · {b.year}</span>}
-                  {b.note && <span class="note">{b.note}</span>}
+                  <span class="bcover">{b.cover && <img src={b.cover} alt="" loading="lazy" />}</span>
+                  <span class="binfo">
+                    <span class="btitle">{b.title}</span>
+                    {b.author && <span class="bauthor">{b.author}</span>}
+                    {b.year && <span class="bauthor"> · {b.year}</span>}
+                    {b.note && <span class="note">{b.note}</span>}
+                  </span>
                 </li>
               ))}
             </ul>

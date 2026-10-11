@@ -26,7 +26,7 @@ export function getRoutes(lang) {
  * @param {string} [opts.path]    file path shown in the titlebar
  * @param {{file: string, href: string, active?: boolean}[]} [opts.tabs]
  */
-export function buildShell({ lang, page, pathname, path, tabs }) {
+export async function buildShell({ lang, page, pathname, path, tabs }) {
   const dict = getDict(lang);
   const files = dict.files;
   const routes = getRoutes(lang);
@@ -58,7 +58,7 @@ export function buildShell({ lang, page, pathname, path, tabs }) {
       codingSince: site.codingSince,
     },
     toolGroups: getToolGroups(lang),
-    playlist: getPlaylist(),
+    playlist: await getPlaylist(),
     projectCount: getProjects(lang).length,
   };
 }

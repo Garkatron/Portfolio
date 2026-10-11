@@ -1,5 +1,5 @@
 {
-  "_comment": "Fuente de la sección videos/. Cada `playlist` se muestra como una carpeta (estilo explorer); sus `videos` como una lista tipo YouTube. Cada vídeo necesita el `id` de YouTube (lo que va tras watch?v=). Cambia estos ejemplos por los tuyos. Los campos aceptan un hermano `_en` para el inglés (p. ej. `name_en`, `description_en`). `duration` es informativa.",
+  "_comment": "Fuente de la sección videos/. Cada `playlist` se muestra como una carpeta (estilo explorer); sus `videos` como una lista tipo YouTube. Cada vídeo usa O BIEN `id` (YouTube, lo que va tras watch?v=) O BIEN `src` (archivo directo: ponlo en public/videos/ y referéncialo como /videos/archivo.mp4; también admite una URL absoluta). `poster` es una imagen opcional para la miniatura del reproductor. Cambia estos ejemplos por los tuyos. Los campos aceptan un hermano `_en` para el inglés (p. ej. `name_en`, `description_en`). `duration` es informativa.",
   "playlists": [
     {
       "id": "dev",
@@ -33,6 +33,16 @@
       "videos": [
         { "id": "jNQXAC9IVRw", "title": "Me at the zoo", "author": "jawed", "duration": "0:19" },
         { "id": "dQw4w9WgXcQ", "title": "Rick Astley — Never Gonna Give You Up", "author": "Rick Astley", "duration": "3:33" }
+      ]
+    },
+    {
+      "id": "proyecto",
+      "name": "proyecto",
+      "name_en": "project",
+      "description": "Clips propios servidos desde el proyecto (public/videos).",
+      "description_en": "Own clips served from the project (public/videos).",
+      "videos": [
+        { "src": "/videos/sample.mp4", "poster": "/images/videos/sample.jpg", "title": "Clip de ejemplo (mp4 local)", "author": "Garkatron", "duration": "0:03" }
       ]
     }
   ]

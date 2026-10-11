@@ -70,7 +70,8 @@ export function getBooks(lang) {
 /**
  * Videos in the shape the client island expects: playlists (rendered as
  * explorer-style folders) each with a flat list of videos (rendered like a
- * YouTube sidebar). See src/data/videos.json.
+ * YouTube sidebar). A video is either a YouTube `id` or a direct file `src`
+ * (e.g. /videos/clip.mp4, served from public/). See src/data/videos.json.
  */
 export function getVideos(lang) {
   const data = localize(videosData, lang);
@@ -79,10 +80,14 @@ export function getVideos(lang) {
     name: p.name,
     description: p.description ?? "",
     videos: (p.videos ?? []).map((v) => ({
-      id: v.id,
+      id: v.id ?? null,
+      src: v.src ?? null,
+      poster: resolveImage(v.poster),
       title: v.title,
       author: v.author ?? "",
       duration: v.duration ?? "",
+      // Stable handle for the URL (?v=…) and React keys, whichever source is used.
+      key: v.id || v.src,
     })),
   }));
 }

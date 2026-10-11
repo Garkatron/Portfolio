@@ -131,7 +131,9 @@
     "list": "Vídeos de la playlist",
     "back": "videos/",
     "open": "abrir carpeta",
-    "playlist": "PLAYLIST"
+    "playlist": "PLAYLIST",
+    "file": "archivo local",
+    "noSupport": "Tu navegador no puede reproducir este vídeo."
   },
   "experience": { "title": "Experiencia" },
   "projects": {

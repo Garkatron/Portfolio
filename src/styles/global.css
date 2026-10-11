@@ -330,6 +330,7 @@ a { color: inherit; }
 .vplayer-main { min-width: 0; }
 .vstage { position: relative; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--line); overflow: hidden; }
 .vstage iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.vstage video { position: absolute; inset: 0; width: 100%; height: 100%; background: #000; object-fit: contain; }
 .vstage-empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--dim); }
 .vback { background: none; border: 0; color: var(--dim); font: inherit; font-size: 12px; padding: 0; margin: 16px 0 6px; cursor: pointer; }
 .vback:hover { color: var(--warn); }
@@ -347,6 +348,7 @@ a { color: inherit; }
 .vlist button { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 10px; width: 100%; text-align: left; background: none; border: 0; color: var(--fg); font: inherit; padding: 8px; cursor: pointer; }
 .vlist button:hover .vname { color: var(--warn); }
 .vthumb { width: 92px; aspect-ratio: 16 / 9; object-fit: cover; background: var(--bg2); border: 1px solid var(--line); }
+.vthumb-file { display: grid; place-items: center; color: var(--acc); font-size: 18px; }
 .vinfo { display: grid; gap: 2px; min-width: 0; align-content: start; }
 .vname { font-size: 12px; line-height: 1.35; }
 .vauthor, .vduration { color: var(--dim); font-size: 11px; }

@@ -131,7 +131,9 @@
     "list": "Playlist videos",
     "back": "videos/",
     "open": "open folder",
-    "playlist": "PLAYLIST"
+    "playlist": "PLAYLIST",
+    "file": "local file",
+    "noSupport": "Your browser can't play this video."
   },
   "experience": { "title": "Experience" },
   "projects": {

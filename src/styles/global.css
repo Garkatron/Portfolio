@@ -403,6 +403,11 @@ a { color: inherit; }
 .prose code { background: var(--bg2); border: 1px solid var(--line); padding: 0 4px; font-size: .92em; }
 .prose pre { background: var(--bg2) !important; border: 1px solid var(--line); padding: 14px 16px; overflow-x: auto; font-size: 13px; }
 .prose pre code { background: none; border: 0; padding: 0; }
+/* ASCII art is drawn with character cells, so it only keeps its shape at a 1:1
+   line box — the 1.6 body leading would stretch it vertically. A fence with no
+   language tag is highlighted as `plaintext`; tagged code keeps the roomier
+   leading. */
+.prose pre[data-language="plaintext"] { line-height: 1; font-size: 11px; }
 .prose blockquote { border-left: 2px solid var(--warn); padding-left: 12px; color: var(--dim); }
 .prose img { max-width: 100%; border: 1px solid var(--line); }
 .prose hr { border: 0; height: 8px; background: repeating-linear-gradient(-45deg, var(--warn) 0 12px, var(--ink) 12px 24px); }

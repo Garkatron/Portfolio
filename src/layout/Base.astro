@@ -59,10 +59,6 @@ const alternates = Object.fromEntries(shell.locales.map((l) => [l.code, l.href])
 
   <body>
     <a class="skip" href="#content">{t("shell.skip")}</a>
-    {/* The audio host parks the <audio> element / provider iframe here on
-        `astro:before-swap`; Astro lifts this box out of <body> instead of
-        discarding it, so playback survives navigation. */}
-    <div class="persist-audio" transition:persist="garkatron-audio"></div>
     <Shell client:load shell={shell}>
       <div id="content" data-pagefind-body>
         <slot />

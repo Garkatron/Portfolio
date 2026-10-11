@@ -14,7 +14,7 @@ const KEY = "__garkatronAudioHost";
 const TRACK_KEY = "garkatron:track";
 const VOLUME_KEY = "garkatron:volume";
 const DEFAULT_VOLUME = 0.3; // low, per request
-const PERSIST_ID = "garkatron-audio"; // must match `transition:persist` in Base.astro
+const STAGE_ID = "garkatron-audio-stage";
 const AUTOPLAY_GRACE_MS = 1200; // how long we wait before saying autoplay was blocked
 const PROGRESS_GRACE_MS = 3500; // PLAY without sound after this means there is no stream
 
@@ -104,25 +104,35 @@ function createHost() {
 
   // ---- persistence across Astro navigations -------------------------------
 
-  /** The container Base.astro marks `transition:persist`; Astro lifts it out of <body> before the swap. */
-  function container() {
-    return document.querySelector(`[data-astro-transition-persist="${PERSIST_ID}"]`);
+  /**
+   * The box the media nodes live in.
+   *
+   * It hangs off <html>, *outside* <body>: Astro's ClientRouter swaps the whole
+   * <body> on navigation, but a node that is a sibling of it is never detached.
+   * That matters because detaching an <iframe> discards its browsing context and
+   * reloads it — which restarts the provider's track. Keeping the nodes here for
+   * good is what makes playback survive a page change.
+   *
+   * Fixed and off-screen, so it never takes part in layout (no scrollbars).
+   */
+  function stage() {
+    let el = document.getElementById(STAGE_ID);
+    if (!el) {
+      el = document.createElement("div");
+      el.id = STAGE_ID;
+      el.setAttribute("aria-hidden", "true");
+      document.documentElement.appendChild(el);
+    }
+    return el;
   }
 
   /**
-   * Park the media nodes in the persisted container. Called on
-   * `astro:before-swap`, i.e. while React is still mounted and the surface it
-   * rendered is still connected — parking them is what carries them over.
-   *
-   * Known limitation: re-parenting an <iframe> can make the browser reload it,
-   * so an embedded track may restart after a navigation. The <audio> element is
-   * unaffected. Parking the iframe for good (and laying that container out over
-   * the sidebar) would fix it at the cost of a hand-built layout, so it is left
-   * as-is until it actually bites.
+   * Park the media nodes back in the stage before a swap. In the normal
+   * (API-controlled) case they are already there, so this is a no-op; it only
+   * matters for the fallback provider whose iframe had to be shown in the card.
    */
   function stash() {
-    const target = container();
-    if (!target) return;
+    const target = stage();
     for (const node of [audio, embed]) {
       if (node && node.parentNode !== target) target.appendChild(node);
     }
@@ -230,7 +240,7 @@ function createHost() {
       embed.setAttribute("scrolling", "no");
       embed.setAttribute("frameborder", "no");
       // In the document before SC.Widget is built: it reads contentWindow.
-      (container() ?? document.body).appendChild(embed);
+      stage().appendChild(embed);
     }
 
     // SC.Widget parses iframe.src while constructing, so it has to be there first.
@@ -241,6 +251,11 @@ function createHost() {
         widget = new Widget(embed);
         bindWidget(Widget.Events);
         syncWidgetVolume();
+        // The iframe can finish its first load before the controller has bound
+        // its listeners, so that initial READY is missed and the track never
+        // starts. Loading explicitly, now that the listeners exist, makes the
+        // auto-selected first track behave like one the visitor picks.
+        widget.load(resourceUrl, widgetOptions);
       })
       .catch((err) => console.warn("[audio]", err.message));
   }
@@ -251,14 +266,19 @@ function createHost() {
   }
 
   /**
-   * The widget fires PLAY optimistically. If no PLAY_PROGRESS follows, there is
-   * no stream behind it (a removed or rights-restricted track), so give up and
-   * let the UI show the track as unavailable instead of a frozen play button.
+   * The widget fires PLAY optimistically, and for a track it cannot actually
+   * stream it then fires PAUSE again a moment later. If no PLAY_PROGRESS ever
+   * follows, there is no stream behind it (a removed or rights-restricted
+   * track), so give up and let the UI show the track as unavailable instead of
+   * a play button that does nothing.
+   *
+   * Progress — not the PAUSE — is the signal: a track the visitor pauses has
+   * already advanced the playhead, so `time > 0` clears it.
    */
   function armProgressWatchdog() {
     clearTimeout(progressTimer);
     progressTimer = setTimeout(() => {
-      if (!state.playing || state.time > 0) return;
+      if (state.time > 0) return; // it streamed after all
       widget?.pause();
       dead.add(state.index);
       state.playing = false;
@@ -437,21 +457,23 @@ function createHost() {
 
   return {
     /**
-     * Adopt a page's playlist. Safe to call on every mount: the remembered
-     * track wins, and nothing restarts while it is already playing.
+     * Adopt a page's playlist. Safe to call on every mount.
+     *
+     * The host outlives the islands. If it already owns a track, this call is a
+     * re-mount after a navigation: the media nodes never moved, so playback is
+     * still running and we only repaint the new island against current state.
+     * Otherwise it is a first mount (or a full reload, which recreates the
+     * host), and we adopt the remembered track.
      */
     load(tracks, provider) {
       if (!tracks.length) return;
 
-      // Compare against the playlist we already had, before overwriting it.
-      const current = state.tracks[state.index] ?? null;
+      const resumed = state.index !== null;
       const remembered = readIndex();
       state.tracks = tracks;
       state.provider = provider;
 
-      // Same track in the same slot (a re-mount on the same build): leave
-      // playback alone and just repaint the UI against current state.
-      if (current && tracks[state.index] === current) {
+      if (resumed) {
         emit();
         return;
       }
@@ -461,15 +483,8 @@ function createHost() {
           ? remembered
           : tracks.findIndex((t) => trackMode(t) !== "link");
 
-      if (state.index === null || !tracks[state.index] || (remembered !== null && state.index !== remembered)) {
-        // First mount, or the remembered track is gone from this build.
-        select(index === -1 ? 0 : index);
-        wakeOnGesture();
-      } else {
-        // Same slot, different track (a new build): keep the position, and
-        // don't interrupt what was already running.
-        select(state.index, { autoplay: !audio.paused && !widget });
-      }
+      select(index === -1 ? 0 : index);
+      wakeOnGesture();
     },
 
     getState: snapshot,
@@ -494,17 +509,24 @@ function createHost() {
     },
 
     /**
-     * Show the provider's media inside `surface`. Called after every render that
-     * changes the current track or its transport. The <audio> node is reused
-     * as-is; the iframe is reused too, but aiming it at another track reloads
-     * it — that is the provider's own player, and a reload is the only way to
-     * change track on it.
+     * Attach the media nodes for the current transport.
+     *
+     * With a parent-side API the provider's iframe is an invisible audio source,
+     * so it stays parked in the stage and is never re-parented (that would
+     * reload it). The `<audio>` element is detached-but-live the same way. Only
+     * a provider without an API — whose own UI is the sole transport — is shown
+     * inside `surface`.
      */
     mount(surface) {
       if (!surface) return;
       const track = snapshot().track;
-      if (state.mode === "embed" && track) surface.appendChild(embed ?? document.getElementById("garkatron-provider"));
-      else if (state.mode === "stream") surface.appendChild(audio);
+      if (state.mode === "embed" && track) {
+        const target = state.provider?.apiUrl ? stage() : surface;
+        if (embed && embed.parentNode !== target) target.appendChild(embed);
+      } else if (state.mode === "stream") {
+        const target = stage();
+        if (audio.parentNode !== target) target.appendChild(audio);
+      }
     },
   };
 }

@@ -24,7 +24,7 @@
     "links": { "repo": "https://github.com/Garkatron/Limpora", "live": "https://www.limpora.xyz" },
     "featured": true,
     "order": 2,
-    "tags": ["typescript", "fullstack", "web", "product", "hand-made"],
+    "tags": ["typescript", "fullstack", "web", "product", "hand-made", "api", "backend"],
     "tech": ["TypeScript", "Bun", "ElysiaJS", "React", "Mantine", "SQLite", "Firebase"]
   },
   {

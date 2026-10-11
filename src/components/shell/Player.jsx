@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useAudioHost } from "../../lib/audio/useAudioHost.js";
 import { log } from "../../lib/syslog.js";
 import { useI18n } from "./i18n.jsx";
@@ -35,6 +36,16 @@ export default function Player({ playlist }) {
   const { host, state, surfaceRef } = useAudioHost(playlist);
   const { track, mode, playing, waiting, volume, time, duration, index, controlled, dead } = state;
   const { provider } = playlist;
+
+  // Shuffle track order for display (stable per mount via seed).
+  const shuffled = useMemo(() => {
+    const indices = playlist.tracks.map((_, i) => i);
+    for (let i = indices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [indices[i], indices[j]] = [indices[j], indices[i]];
+    }
+    return indices;
+  }, [playlist.tracks]);
   // The provider's brand colour drives the whole card (equaliser, progress, cover).
   const cardProps = { className: "card apx", style: { "--apx": provider.accent } };
 
@@ -154,8 +165,9 @@ export default function Player({ playlist }) {
       {track && dead.includes(index) && <div className="mute-note">{t("player.unavailable")}</div>}
 
       <ol className="tracklist">
-        {playlist.tracks.map((tr, i) =>
-          (tr.streamUrl || tr.embedUrl) && !dead.includes(i) ? (
+        {shuffled.map((i) => {
+          const tr = playlist.tracks[i];
+          return (tr.streamUrl || tr.embedUrl) && !dead.includes(i) ? (
             <li key={`${tr.title}-${i}`} className={i === index ? "on" : undefined}>
               <button type="button" onClick={() => pick(i)}>
                 <span className="tr-title">
@@ -174,8 +186,8 @@ export default function Player({ playlist }) {
                 <span className="tr-artist">{tr.artist}</span>
               </a>
             </li>
-          ),
-        )}
+          );
+        })}
       </ol>
 
       <div className="note">{t(`player.note.${provider.id}`)}</div>

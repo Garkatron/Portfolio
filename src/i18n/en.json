@@ -126,7 +126,7 @@
   },
   "videos": {
     "title": "Videos",
-    "intro": "Playlists as folders. Open one and it looks like a mini YouTube.",
+    "intro": "My Playlists.",
     "hint": "Pick a folder to open the playlist.",
     "count": "{n} videos",
     "empty": "nothing here",

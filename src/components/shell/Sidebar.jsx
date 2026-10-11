@@ -36,24 +36,6 @@ export default function Sidebar({ site, playlist, routes }) {
       <h6 className="px">{t("shell.player")}</h6>
       <Player playlist={playlist} />
 
-      <h6 className="px">{t("shell.assistant")}</h6>
-      <div className="card">
-        <div className="who">{t("assistant.visitor")}</div>
-        {t("assistant.question")}
-      </div>
-      <div className="card me">
-        <div className="who">{t("assistant.agent")}</div>
-        {t("assistant.answerPrefix")}{" "}
-        <a className="acc-link" href={routes.projects} data-log="open" data-log-arg="/projects">
-          /projects
-        </a>{" "}
-        {t("assistant.answerJoin")}{" "}
-        <a className="acc-link" href={routes.contact} data-log="open" data-log-arg="/contact">
-          /contact
-        </a>{" "}
-        {t("assistant.answerSuffix")}
-      </div>
-
       <h6 className="px">{t("shell.syslog")}</h6>
       <SysLog />
     </aside>

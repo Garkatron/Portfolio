@@ -11,6 +11,7 @@
         { "name": "ChatGPT", "icon": "openai", "color": "#10a37f" },
         { "name": "Claude", "icon": "claude", "color": "#d97757" },
         { "name": "DeepSeek", "icon": "deepseek", "color": "#4d6bfe" },
+        { "name": "CodeGraph", "icon": "graph", "color": "#7dcfff" },
         { "name": "Skills", "icon": "sparkle", "color": "#e9d502" },
         { "name": "Harness", "icon": "harness", "color": "#bb9af7" },
         { "name": "Loop", "icon": "loop", "color": "#7dcfff" },

@@ -37,10 +37,11 @@ import harness from "../assets/icon/phosphor--harness.svg";
 import loop from "../assets/icon/phosphor--loop.svg";
 import sdd from "../assets/icon/phosphor--sdd.svg";
 import tdd from "../assets/icon/phosphor--tdd.svg";
+import graph from "../assets/icon/phosphor--graph.svg";
 
 export const techIcons = {
   astro, mariadb, bootstrap, mysql, docker, node, express, p5, firebase, php,
   github, react, git, rust, jwt, tailwind, kotlin, typescript, linux, vitest,
   lua, vite,
-  opencode, zed, claude, deepseek, openai, sparkle, harness, loop, sdd, tdd,
+  opencode, zed, claude, deepseek, openai, sparkle, harness, loop, sdd, tdd, graph,
 };

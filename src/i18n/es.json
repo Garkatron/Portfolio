@@ -126,7 +126,7 @@
   },
   "videos": {
     "title": "Vídeos",
-    "intro": "Playlists como carpetas. Ábrelas y se ven como un mini YouTube.",
+    "intro": "Mi Playlists.",
     "hint": "Selecciona una carpeta para abrir la playlist.",
     "count": "{n} vídeos",
     "empty": "nada por aquí",

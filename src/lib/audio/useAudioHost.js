@@ -13,6 +13,7 @@ const NO_DEAD = [];
 /** Rendered on the server and for the first client render; the host fills in the truth after mount. */
 export const IDLE_STATE = {
   index: null,
+  order: [],
   track: null,
   mode: "link",
   controlled: false,

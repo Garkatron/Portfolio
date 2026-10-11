@@ -72,6 +72,7 @@ function createHost() {
 
   const state = {
     tracks: [],
+    order: [], // shuffled track indices; display + advance order
     provider: null,
     index: null,
     mode: "link",
@@ -86,6 +87,7 @@ function createHost() {
 
   const snapshot = () => ({
     index: state.index,
+    order: [...state.order],
     track: state.index === null ? null : (state.tracks[state.index] ?? null),
     mode: state.mode,
     controlled: state.mode === "embed" && !!state.provider?.apiUrl,
@@ -204,10 +206,39 @@ function createHost() {
       state.playing = false;
       emit();
       // The old transport looped; keep the music coming.
-      if (state.tracks.length > 1) select((state.index + 1) % state.tracks.length, { gesture: true });
+      if (state.tracks.length > 1) advance({ gesture: true });
     });
 
-    widget.bind(Events.ERROR, () => console.warn("[audio] provider reported a playback error"));
+    widget.bind(Events.ERROR, () => {
+      console.warn("[audio] provider reported a playback error");
+      // A mid-play transient error shouldn't kill a track that's already
+      // streaming; only fail over when nothing has played yet.
+      if (state.time > 0) return;
+      onTrackDead();
+    });
+  }
+
+  /** Mark the current track as unstreamable and move on to the next playable. */
+  function onTrackDead() {
+    if (state.index === null || dead.has(state.index)) return;
+    dead.add(state.index);
+    state.playing = false;
+    emit();
+    advance();
+  }
+
+  /** Advance to the next non-dead track in shuffle order. */
+  function advance({ gesture = true } = {}) {
+    const n = state.tracks.length;
+    if (!n) return;
+    const pos = state.order.indexOf(state.index);
+    for (let step = 1; step <= n; step++) {
+      const i = state.order[(pos + step) % n];
+      if (!dead.has(i)) {
+        select(i, { gesture });
+        return;
+      }
+    }
   }
 
   /**
@@ -280,9 +311,7 @@ function createHost() {
     progressTimer = setTimeout(() => {
       if (state.time > 0) return; // it streamed after all
       widget?.pause();
-      dead.add(state.index);
-      state.playing = false;
-      emit();
+      onTrackDead();
     }, PROGRESS_GRACE_MS);
   }
 
@@ -453,6 +482,12 @@ function createHost() {
     state.duration = Number.isFinite(audio.duration) ? audio.duration : 0;
   });
 
+  // A stream that fails to load (404 / rights) can't play: skip to the next.
+  audio.addEventListener("error", () => {
+    if (state.mode !== "stream" || !state.tracks.length) return;
+    onTrackDead();
+  });
+
   document.addEventListener("astro:before-swap", stash);
 
   return {
@@ -478,12 +513,16 @@ function createHost() {
         return;
       }
 
+      // Shuffle order once for the session; the host survives navigations, so
+      // the order (and the playing track) stay put between pages.
+      state.order = tracks.map((_, i) => i).sort(() => Math.random() - 0.5);
+
       const index =
         remembered !== null && tracks[remembered]
           ? remembered
-          : tracks.findIndex((t) => trackMode(t) !== "link");
+          : state.order.find((i) => trackMode(tracks[i]) !== "link");
 
-      select(index === -1 ? 0 : index);
+      select(index ?? state.order[0] ?? 0);
       wakeOnGesture();
     },
 

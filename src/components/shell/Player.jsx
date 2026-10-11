@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from "react";
+import { useState } from "react";
 import { useAudioHost } from "../../lib/audio/useAudioHost.js";
 import { log } from "../../lib/syslog.js";
 import { useI18n } from "./i18n.jsx";
@@ -34,30 +34,12 @@ function fmt(sec) {
 export default function Player({ playlist }) {
   const { t } = useI18n();
   const { host, state, surfaceRef } = useAudioHost(playlist);
-  const { track, mode, playing, waiting, volume, time, duration, index, controlled, dead } = state;
+  const { track, mode, playing, waiting, volume, time, duration, index, controlled, dead, order } = state;
   const { provider } = playlist;
   const [query, setQuery] = useState("");
 
-  // Shuffle track order once per page load (stable across re-renders).
-  const [shuffled] = useState(() => {
-    const indices = playlist.tracks.map((_, i) => i);
-    for (let i = indices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [indices[i], indices[j]] = [indices[j], indices[i]];
-    }
-    return indices;
-  });
-
-  // Play first shuffled track only on first mount (not on SPA navigation).
-  useEffect(() => {
-    try { sessionStorage.removeItem("garkatron:track"); } catch {}
-    host?.load(playlist.tracks, playlist.provider);
-    const first = playlist.tracks[shuffled[0]];
-    if (first && (first.streamUrl || first.embedUrl)) {
-      host?.play(shuffled[0]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Shuffle order and the playing track live in the host (host.js), which
+  // outlives SPA navigation — so the music never restarts between pages.
   // The provider's brand colour drives the whole card (equaliser, progress, cover).
   const cardProps = { className: "card apx", style: { "--apx": provider.accent } };
 
@@ -186,7 +168,7 @@ export default function Player({ playlist }) {
       />
 
       <ol className="tracklist">
-        {shuffled
+        {order
           .map((i) => ({ tr: playlist.tracks[i], i }))
           .filter(({ tr }) =>
             query.trim() === "" ||

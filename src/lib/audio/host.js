@@ -62,6 +62,10 @@ function createHost() {
   let embed = null; // provider iframe, hidden and driven from here
   let widget = null; // SC.Widget controller for it
   let widgetApiPromise = null;
+  // The provider iframe starts at full volume and is rebuilt on every load, so a
+  // volume sent before a load is gone by the time sound comes out. `true` means
+  // "the widget may still be at its default: push the level again when it plays".
+  let widgetVolumeStale = false;
   let autoplayTimer = null;
   let wakeHandler = null;
   let progressTimer = null;
@@ -170,6 +174,7 @@ function createHost() {
   function bindWidget(Events) {
     widget.bind(Events.READY, () => {
       state.waiting = false;
+      syncWidgetVolume(); // only now does the iframe exist to receive it
       widget?.play(); // auto_play may have been blocked before any interaction
       emit();
     });
@@ -191,6 +196,12 @@ function createHost() {
     widget.bind(Events.PLAY_PROGRESS, (e) => {
       clearTimeout(progressTimer);
       dead.delete(state.index); // it streams after all
+      // First progress of a freshly loaded track: the volume we sent on READY
+      // can still have been dropped, so push it once more now that it is audible.
+      if (widgetVolumeStale) {
+        widgetVolumeStale = false;
+        syncWidgetVolume();
+      }
       state.time = (e?.currentPosition ?? 0) / 1000;
       // relativePosition lets us derive the length without a round trip.
       if (e?.relativePosition > 0) state.duration = state.time / e.relativePosition;
@@ -258,6 +269,9 @@ function createHost() {
 
     if (widget) {
       widget.load(resourceUrl, widgetOptions);
+      // load() swaps the iframe document, which resets the volume to the
+      // widget's own default; re-arm it for the widget we are about to build.
+      widgetVolumeStale = true;
       return;
     }
 
@@ -281,12 +295,14 @@ function createHost() {
       .then((Widget) => {
         widget = new Widget(embed);
         bindWidget(Widget.Events);
-        syncWidgetVolume();
         // The iframe can finish its first load before the controller has bound
         // its listeners, so that initial READY is missed and the track never
         // starts. Loading explicitly, now that the listeners exist, makes the
         // auto-selected first track behave like one the visitor picks.
         widget.load(resourceUrl, widgetOptions);
+        // That load replaces the iframe document, so it also resets the volume
+        // to the widget default; READY re-sends the remembered level.
+        widgetVolumeStale = true;
       })
       .catch((err) => console.warn("[audio]", err.message));
   }

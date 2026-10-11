@@ -1,8 +1,106 @@
 [
-  { "title": "The Pragmatic Programmer", "author": "Hunt & Thomas", "status": "reading", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9780135957059-M.jpg" },
-  { "title": "Rust in Action", "author": "Tim McNamara", "status": "reading", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9781617294556-M.jpg" },
-  { "title": "Crafting Interpreters", "author": "Robert Nystrom", "status": "reading", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9780990582939-M.jpg" },
-  { "title": "Designing Data-Intensive Applications", "author": "Martin Kleppmann", "status": "to-read", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9781449373320-M.jpg" },
-  { "title": "Code: The Hidden Language", "author": "Charles Petzold", "status": "to-read", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9780137909100-M.jpg" },
-  { "title": "The Phoenix Project", "author": "Kim, Behr, Spafford", "status": "to-read", "year": null, "note": "", "cover": "https://covers.openlibrary.org/b/isbn/9781942788294-M.jpg" }
+    {
+        "title": "Crafting Interpreters",
+        "author": "Robert Nystrom",
+        "status": "read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9780990582939-M.jpg"
+    },
+    {
+        "title": "Refactoring",
+        "author": "Martin Fowler",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9780134757599-M.jpg"
+    },
+    {
+        "title": "Working Effectively with Legacy Code",
+        "author": "Michael C. Feathers",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9780131177055-M.jpg"
+    },
+    {
+        "title": "Unit Testing: Principles, Practices, and Patterns",
+        "author": "Vladimir Khorikov",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9781617296277-M.jpg"
+    },
+    {
+        "title": "Agile Principles, Patterns, and Practices in C#",
+        "author": "Robert C. Martin",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9780131857254-M.jpg"
+    },
+    {
+        "title": "Fundamentals of Software Architecture (2nd Edition)",
+        "author": "Mark Richards, Neal Ford",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": ""
+    },
+    {
+        "title": "Software Architecture: The Hard Parts",
+        "author": "Neal Ford, Mark Richards, Pramod Sadalage, Zhamak Dehghani",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9781492086895-M.jpg"
+    },
+    {
+        "title": "Release It!",
+        "author": "Michael T. Nygard",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9781680502398-M.jpg"
+    },
+    {
+        "title": "Domain-Driven Design: Tackling Complexity in the Heart of Software",
+        "author": "Eric Evans",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9780321125217-M.jpg"
+    },
+    {
+        "title": "The Design of Design",
+        "author": "Frederick P. Brooks Jr.",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9780201362985-M.jpg"
+    },
+    {
+        "title": "The Manager's Path",
+        "author": "Camille Fournier",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9781491973899-M.jpg"
+    },
+    {
+        "title": "Security Engineering",
+        "author": "Ross Anderson",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9781119642787-M.jpg"
+    },
+    {
+        "title": "Clean Code",
+        "author": "Robert C. Martin",
+        "status": "to-read",
+        "year": null,
+        "note": "",
+        "cover": "https://covers.openlibrary.org/b/isbn/9780132350884-M.jpg"
+    }
 ]

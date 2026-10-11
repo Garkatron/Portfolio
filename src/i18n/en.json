@@ -15,7 +15,8 @@
     "blog": "blog/",
     "contact": "contact.sh",
     "reading": "reading.md",
-    "toRead": "to-read.md"
+    "toRead": "to-read.md",
+    "read": "read.md"
   },
   "shell": {
     "explorer": "Explorer",
@@ -120,6 +121,7 @@
     "intro": "What I'm reading and what's on the stack.",
     "reading": "READING NOW",
     "to-read": "ON THE LIST",
+    "read": "READ",
     "empty": "nothing here"
   },
   "videos": {

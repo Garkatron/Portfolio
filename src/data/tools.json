@@ -2,38 +2,20 @@
   "_comment": "icon = key in src/data/techIcons.js (optional). color = dot/icon tint; any CSS color or var(--cyan|--magenta|--green|--warn|--dim).",
   "groups": [
     {
-      "id": "languages",
-      "label": "lenguajes",
-      "label_en": "languages",
+      "id": "ai",
+      "label": "AI",
+      "label_en": "AI",
       "tools": [
-        { "name": "Rust", "icon": "rust", "color": "var(--cyan)" },
-        { "name": "TypeScript", "icon": "typescript", "color": "var(--magenta)" },
-        { "name": "Lua", "icon": "lua", "color": "var(--green)" },
-        { "name": "Kotlin", "icon": "kotlin", "color": "var(--warn)" },
-        { "name": "Node.js", "icon": "node", "color": "var(--green)" },
-        { "name": "PHP", "icon": "php", "color": "var(--dim)" }
-      ]
-    },
-    {
-      "id": "frameworks",
-      "label": "frameworks",
-      "tools": [
-        { "name": "Astro", "icon": "astro", "color": "var(--green)" },
-        { "name": "Express", "icon": "express", "color": "var(--dim)" },
-        { "name": "Vite", "icon": "vite", "color": "var(--magenta)" },
-        { "name": "Vitest", "icon": "vitest", "color": "var(--green)" }
-      ]
-    },
-    {
-      "id": "libraries",
-      "label": "librerías",
-      "label_en": "libraries",
-      "tools": [
-        { "name": "React", "icon": "react", "color": "var(--cyan)" },
-        { "name": "Tailwind", "icon": "tailwind", "color": "var(--cyan)" },
-        { "name": "Bootstrap", "icon": "bootstrap", "color": "var(--magenta)" },
-        { "name": "p5.js", "icon": "p5", "color": "var(--red)" },
-        { "name": "JWT", "icon": "jwt", "color": "var(--magenta)" }
+        { "name": "OpenCode", "icon": "opencode", "color": "#e6e6e6" },
+        { "name": "Zed", "icon": "zed", "color": "#9aa5b1" },
+        { "name": "ChatGPT", "icon": "openai", "color": "#10a37f" },
+        { "name": "Claude", "icon": "claude", "color": "#d97757" },
+        { "name": "DeepSeek", "icon": "deepseek", "color": "#4d6bfe" },
+        { "name": "Skills", "icon": "sparkle", "color": "#e9d502" },
+        { "name": "Harness", "icon": "harness", "color": "#bb9af7" },
+        { "name": "Loop", "icon": "loop", "color": "#7dcfff" },
+        { "name": "SDD", "icon": "sdd", "color": "#9ece6a" },
+        { "name": "TDD", "icon": "tdd", "color": "#ff2a4a" }
       ]
     },
     {
@@ -41,11 +23,24 @@
       "label": "herramientas",
       "label_en": "tools",
       "tools": [
-        { "name": "Linux", "icon": "linux", "color": "var(--warn)" },
-        { "name": "Git", "icon": "git", "color": "var(--red)" },
-        { "name": "GitHub", "icon": "github", "color": "var(--fg)" },
-        { "name": "Docker", "icon": "docker", "color": "var(--cyan)" },
-        { "name": "Firebase", "icon": "firebase", "color": "var(--warn)" }
+        { "name": "Linux", "icon": "linux", "color": "#fcc624" },
+        { "name": "Git", "icon": "git", "color": "#f05032" },
+        { "name": "GitHub", "icon": "github", "color": "#e6e6e6" },
+        { "name": "Docker", "icon": "docker", "color": "#2496ed" },
+        { "name": "Firebase", "icon": "firebase", "color": "#ffca28" }
+      ]
+    },
+    {
+      "id": "languages",
+      "label": "lenguajes",
+      "label_en": "languages",
+      "tools": [
+        { "name": "Rust", "icon": "rust", "color": "#f74c00" },
+        { "name": "TypeScript", "icon": "typescript", "color": "#3178c6" },
+        { "name": "Lua", "icon": "lua", "color": "#7b7fe0" },
+        { "name": "Kotlin", "icon": "kotlin", "color": "#7f52ff" },
+        { "name": "Node.js", "icon": "node", "color": "#5fa04e" },
+        { "name": "PHP", "icon": "php", "color": "#777bb4" }
       ]
     },
     {
@@ -53,8 +48,30 @@
       "label": "bases de datos",
       "label_en": "databases",
       "tools": [
-        { "name": "MariaDB", "icon": "mariadb", "color": "var(--cyan)" },
-        { "name": "MySQL", "icon": "mysql", "color": "var(--cyan)" }
+        { "name": "MariaDB", "icon": "mariadb", "color": "#5bc8d6" },
+        { "name": "MySQL", "icon": "mysql", "color": "#4479a1" }
+      ]
+    },
+    {
+      "id": "frameworks",
+      "label": "frameworks",
+      "tools": [
+        { "name": "Astro", "icon": "astro", "color": "#bc52ee" },
+        { "name": "Express", "icon": "express", "color": "#e6e6e6" },
+        { "name": "Vite", "icon": "vite", "color": "#646cff" },
+        { "name": "Vitest", "icon": "vitest", "color": "#6e9f18" }
+      ]
+    },
+    {
+      "id": "libraries",
+      "label": "librerías",
+      "label_en": "libraries",
+      "tools": [
+        { "name": "React", "icon": "react", "color": "#61dafb" },
+        { "name": "Tailwind", "icon": "tailwind", "color": "#06b6d4" },
+        { "name": "Bootstrap", "icon": "bootstrap", "color": "#7952b3" },
+        { "name": "p5.js", "icon": "p5", "color": "#ed225d" },
+        { "name": "JWT", "icon": "jwt", "color": "#e6e6e6" }
       ]
     }
   ]

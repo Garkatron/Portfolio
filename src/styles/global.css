@@ -288,14 +288,14 @@ a { color: inherit; }
 .bookgroup-reading li { display: grid; gap: 10px; align-content: start; }
 .bookgroup-reading .bcover { width: 100%; }
 
-/* On the list: one book per row, below the shelf. */
-.bookgroup-to-read ul { border-top: 1px dashed var(--line); }
-.bookgroup-to-read li {
+/* On the list / already read: one book per row, below the shelf. */
+.bookgroup-to-read ul, .bookgroup-read ul { border-top: 1px dashed var(--line); }
+.bookgroup-to-read li, .bookgroup-read li {
   display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 16px;
   align-items: start; padding: 14px 0; border-bottom: 1px dashed var(--line);
 }
-.bookgroup-to-read li:last-child { border-bottom: 0; }
-.bookgroup-to-read .bcover { width: 72px; }
+.bookgroup-to-read li:last-child, .bookgroup-read li:last-child { border-bottom: 0; }
+.bookgroup-to-read .bcover, .bookgroup-read .bcover { width: 72px; }
 
 .bcover {
   display: block; aspect-ratio: 2 / 3; overflow: hidden; flex: none;

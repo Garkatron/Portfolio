@@ -17,7 +17,7 @@ import { absoluteUrl, defaultLocale, localePath, localize } from "../i18n/index.
 import { resolvePlaylist } from "./audio/index.js";
 import { code128Svg } from "./barcode.js";
 
-export const BOOK_STATUSES = ["reading", "to-read"];
+export const BOOK_STATUSES = ["reading", "read", "to-read"];
 
 export function getSite(lang) {
   return localize(siteData, lang);

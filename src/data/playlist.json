@@ -4,7 +4,7 @@
   "spotifyPlaylistId": "",
   "source": "https://www.youtube.com/watch?v=JBMsiblNB_Y&list=RDMM",
   "tracks": [
-    { "title": "thumbs", "artist": "Jigitz, Lamb", "spotifyId": "5UBJLjnWWPU2dPwhfyVYqy" },
+    { "title": "thumbs", "artist": "Jigitz, Lamb", "spotifyId": "5UBJLjnWWPU2dPwhfyVYqy", "soundcloudUrl": "https://soundcloud.com/jigitz/thumbs?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" },
     { "title": "TALK", "artist": "Lamb", "spotifyId": "24PC2ZyPZ3L746gTjb0pYI" },
     { "title": "Panic Room", "artist": "Au/Ra, CamelPhat", "spotifyId": "3MkuFR7t25mu7Iscp6GGiV" },
     { "title": "Me Voy", "artist": "Miss Caffeina", "spotifyId": "2vsZIxfRBwV0uQOB95huMh" },

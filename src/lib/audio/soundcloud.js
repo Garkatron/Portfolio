@@ -29,12 +29,23 @@ function widgetUrl(trackUrl) {
   return `${WIDGET}?${params}`;
 }
 
-/** Accepts a full permalink or a bare "artist/track" path. */
+/**
+ * Accepts a full permalink, a "share" link with tracking params, or a bare
+ * "artist/track" path. Returns a clean permalink, which is what the widget
+ * wants — share URLs carry utm params that it does not need.
+ */
 function normalizeUrl(url) {
   if (!url) return null;
   const trimmed = String(url).trim();
   if (!trimmed) return null;
-  return /^https?:\/\//.test(trimmed) ? trimmed : `${BASE}/${trimmed.replace(/^\/+/, "")}`;
+  if (!/^https?:\/\//.test(trimmed)) return `${BASE}/${trimmed.replace(/^\/+/, "")}`;
+
+  try {
+    const parsed = new URL(trimmed);
+    return `${parsed.origin}${parsed.pathname.replace(/\/$/, "")}`;
+  } catch {
+    return trimmed;
+  }
 }
 
 export const soundcloudProvider = {

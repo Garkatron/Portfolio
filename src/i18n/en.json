@@ -48,6 +48,7 @@
     "tracks": "{n} tracks",
     "full": "full track ↗",
     "search": "search ↗",
+    "searchPlaceholder": "search track…",
     "seek": "position",
 "unavailable": "not available on SoundCloud",
     "volume": "vol",

@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useAudioHost } from "../../lib/audio/useAudioHost.js";
 import { log } from "../../lib/syslog.js";
 import { useI18n } from "./i18n.jsx";
@@ -36,6 +36,7 @@ export default function Player({ playlist }) {
   const { host, state, surfaceRef } = useAudioHost(playlist);
   const { track, mode, playing, waiting, volume, time, duration, index, controlled, dead } = state;
   const { provider } = playlist;
+  const [query, setQuery] = useState("");
 
   // Shuffle track order for display (stable per mount via seed).
   const shuffled = useMemo(() => {
@@ -46,6 +47,16 @@ export default function Player({ playlist }) {
     }
     return indices;
   }, [playlist.tracks]);
+
+  // Always play the first shuffled track on load (clear stale session index).
+  useEffect(() => {
+    try { sessionStorage.removeItem("garkatron:track"); } catch {}
+    host?.load(playlist.tracks, playlist.provider);
+    const first = playlist.tracks[shuffled[0]];
+    if (first && (first.streamUrl || first.embedUrl)) {
+      host?.play(shuffled[0]);
+    }
+  }, [host, playlist.tracks]);
   // The provider's brand colour drives the whole card (equaliser, progress, cover).
   const cardProps = { className: "card apx", style: { "--apx": provider.accent } };
 
@@ -164,30 +175,44 @@ export default function Player({ playlist }) {
       {waiting && <div className="mute-note">{t("player.enable")}</div>}
       {track && dead.includes(index) && <div className="mute-note">{t("player.unavailable")}</div>}
 
+      <input
+        type="search"
+        className="track-search"
+        placeholder={t("player.searchPlaceholder")}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        aria-label={t("player.searchPlaceholder")}
+      />
+
       <ol className="tracklist">
-        {shuffled.map((i) => {
-          const tr = playlist.tracks[i];
-          return (tr.streamUrl || tr.embedUrl) && !dead.includes(i) ? (
-            <li key={`${tr.title}-${i}`} className={i === index ? "on" : undefined}>
-              <button type="button" onClick={() => pick(i)}>
-                <span className="tr-title">
-                  {i === index && playing ? "❚❚ " : "▶ "}
-                  {tr.title}
-                </span>
-                <span className="tr-artist">{tr.artist}</span>
-              </button>
-            </li>
-          ) : (
-            <li key={`${tr.title}-${i}`}>
-              <a href={tr.pageUrl ?? tr.searchUrl} target="_blank" rel="noreferrer" title={t("player.search")}>
-                <span className="tr-title">
-                  {tr.title} ↗
-                </span>
-                <span className="tr-artist">{tr.artist}</span>
-              </a>
-            </li>
-          );
-        })}
+        {shuffled
+          .map((i) => ({ tr: playlist.tracks[i], i }))
+          .filter(({ tr }) =>
+            query.trim() === "" ||
+            `${tr.title} ${tr.artist}`.toLowerCase().includes(query.trim().toLowerCase())
+          )
+          .map(({ tr, i }) =>
+            (tr.streamUrl || tr.embedUrl) && !dead.includes(i) ? (
+              <li key={`${tr.title}-${i}`} className={i === index ? "on" : undefined}>
+                <button type="button" onClick={() => pick(i)}>
+                  <span className="tr-title">
+                    {i === index && playing ? "❚❚ " : "▶ "}
+                    {tr.title}
+                  </span>
+                  <span className="tr-artist">{tr.artist}</span>
+                </button>
+              </li>
+            ) : (
+              <li key={`${tr.title}-${i}`}>
+                <a href={tr.pageUrl ?? tr.searchUrl} target="_blank" rel="noreferrer" title={t("player.search")}>
+                  <span className="tr-title">
+                    {tr.title} ↗
+                  </span>
+                  <span className="tr-artist">{tr.artist}</span>
+                </a>
+              </li>
+            ),
+          )}
       </ol>
 
     </div>

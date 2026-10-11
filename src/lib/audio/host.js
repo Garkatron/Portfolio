@@ -13,7 +13,7 @@ import { trackMode } from "./util.js";
 const KEY = "__garkatronAudioHost";
 const TRACK_KEY = "garkatron:track";
 const VOLUME_KEY = "garkatron:volume";
-const DEFAULT_VOLUME = 0.3; // low, per request
+const DEFAULT_VOLUME = 0.15; // low, per request
 const STAGE_ID = "garkatron-audio-stage";
 const AUTOPLAY_GRACE_MS = 1200; // how long we wait before saying autoplay was blocked
 const PROGRESS_GRACE_MS = 3500; // PLAY without sound after this means there is no stream

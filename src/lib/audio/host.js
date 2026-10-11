@@ -16,6 +16,7 @@ const VOLUME_KEY = "garkatron:volume";
 const DEFAULT_VOLUME = 0.3; // low, per request
 const PERSIST_ID = "garkatron-audio"; // must match `transition:persist` in Base.astro
 const AUTOPLAY_GRACE_MS = 1200; // how long we wait before saying autoplay was blocked
+const PROGRESS_GRACE_MS = 3500; // PLAY without sound after this means there is no stream
 
 function readVolume() {
   try {
@@ -63,6 +64,11 @@ function createHost() {
   let widgetApiPromise = null;
   let autoplayTimer = null;
   let wakeHandler = null;
+  let progressTimer = null;
+  // Track indices the provider accepts but cannot actually stream. Some public
+  // SoundCloud tracks resolve fine yet 404 on the media endpoint; the widget
+  // still fires PLAY, so without this the UI would claim to play silence.
+  const dead = new Set();
 
   const state = {
     tracks: [],
@@ -83,6 +89,7 @@ function createHost() {
     track: state.index === null ? null : (state.tracks[state.index] ?? null),
     mode: state.mode,
     controlled: state.mode === "embed" && !!state.provider?.apiUrl,
+    dead: [...dead], // a plain array: this state is also read over the devtools bridge
     playing: state.playing,
     waiting: state.waiting,
     volume: state.volume,
@@ -161,6 +168,7 @@ function createHost() {
       clearTimeout(autoplayTimer);
       clearWake();
       emit();
+      armProgressWatchdog();
     });
 
     widget.bind(Events.PAUSE, () => {
@@ -169,6 +177,8 @@ function createHost() {
     });
 
     widget.bind(Events.PLAY_PROGRESS, (e) => {
+      clearTimeout(progressTimer);
+      dead.delete(state.index); // it streams after all
       state.time = (e?.currentPosition ?? 0) / 1000;
       // relativePosition lets us derive the length without a round trip.
       if (e?.relativePosition > 0) state.duration = state.time / e.relativePosition;
@@ -190,13 +200,26 @@ function createHost() {
     widget.bind(Events.ERROR, () => console.warn("[audio] provider reported a playback error"));
   }
 
-  function ensureWidget(url) {
+  /**
+   * Point the widget at a track.
+   *
+   * Two different URLs are in play, and mixing them up is the bug that cost us
+   * an afternoon: the iframe's `src` is a full *widget* URL, while
+   * `SC.Widget.load()` wants the *resource* URL (soundcloud.com/a/b). Passing a
+   * widget URL to load() nests it as url=<widget url> and the resolve fails.
+   *
+   * @param {string} resourceUrl SoundCloud resource URL, e.g. soundcloud.com/a/b
+   * @param {string} [widgetSrc] full widget URL, for the iframe's first src
+   */
+  function ensureWidget(resourceUrl, widgetSrc) {
     const { apiUrl, widgetOptions } = state.provider ?? {};
-    if (!apiUrl) return; // no parent-side controller, so the iframe stays visible
+    if (!apiUrl || !resourceUrl) return; // no controller, so the iframe stays visible
+
     if (widget) {
-      widget.load(url, widgetOptions); // reloads in place, listeners stay bound
+      widget.load(resourceUrl, widgetOptions);
       return;
     }
+
     if (!embed) {
       embed = document.createElement("iframe");
       embed.id = "garkatron-provider";
@@ -206,8 +229,13 @@ function createHost() {
       embed.height = "166"; // any real box: a 0-sized iframe is not a reliable host
       embed.setAttribute("scrolling", "no");
       embed.setAttribute("frameborder", "no");
-      embed.src = url; // bootstrap the first load
+      // In the document before SC.Widget is built: it reads contentWindow.
+      (container() ?? document.body).appendChild(embed);
     }
+
+    // SC.Widget parses iframe.src while constructing, so it has to be there first.
+    embed.src = widgetSrc ?? resourceUrl;
+
     loadWidgetApi(apiUrl)
       .then((Widget) => {
         widget = new Widget(embed);
@@ -220,6 +248,22 @@ function createHost() {
   function syncWidgetVolume() {
     // The widget takes 0-100; the host keeps 0-1, like the <audio> element.
     widget?.setVolume(Math.round(state.volume * 100));
+  }
+
+  /**
+   * The widget fires PLAY optimistically. If no PLAY_PROGRESS follows, there is
+   * no stream behind it (a removed or rights-restricted track), so give up and
+   * let the UI show the track as unavailable instead of a frozen play button.
+   */
+  function armProgressWatchdog() {
+    clearTimeout(progressTimer);
+    progressTimer = setTimeout(() => {
+      if (!state.playing || state.time > 0) return;
+      widget?.pause();
+      dead.add(state.index);
+      state.playing = false;
+      emit();
+    }, PROGRESS_GRACE_MS);
   }
 
   /** No sound within the grace window means the browser blocked autoplay. */
@@ -296,7 +340,7 @@ function createHost() {
       return;
     }
     // Embed mode: the widget owns the audio, we only aim it at the track.
-    ensureWidget(track.embedUrl);
+    ensureWidget(track.pageUrl, track.embedUrl);
     state.playing = false;
     state.time = 0;
     state.duration = 0;
@@ -314,6 +358,7 @@ function createHost() {
     // the other modes.
     audio.pause();
     clearTimeout(autoplayTimer);
+    clearTimeout(progressTimer);
     state.playing = false;
     state.waiting = false;
     state.time = 0;
@@ -330,6 +375,7 @@ function createHost() {
   function toggle() {
     if (state.mode === "link") return;
     clearWake();
+    if (state.mode === "embed" && dead.has(state.index)) return;
 
     if (state.mode === "stream") {
       audio.muted = false;

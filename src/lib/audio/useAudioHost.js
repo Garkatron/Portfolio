@@ -7,11 +7,16 @@ import { useEffect, useRef, useState } from "react";
 
 import { getAudioHost } from "./host.js";
 
+/** No track is known-dead before the host exists (this is also the SSR render). */
+const NO_DEAD = [];
+
 /** Rendered on the server and for the first client render; the host fills in the truth after mount. */
 export const IDLE_STATE = {
   index: null,
   track: null,
   mode: "link",
+  controlled: false,
+  dead: NO_DEAD,
   playing: false,
   waiting: false,
   volume: 0,

@@ -33,7 +33,7 @@ function fmt(sec) {
 export default function Player({ playlist }) {
   const { t } = useI18n();
   const { host, state, surfaceRef } = useAudioHost(playlist);
-  const { track, mode, playing, waiting, volume, time, duration, index, controlled } = state;
+  const { track, mode, playing, waiting, volume, time, duration, index, controlled, dead } = state;
   const { provider } = playlist;
   // The provider's brand colour drives the whole card (equaliser, progress, cover).
   const cardProps = { className: "card apx", style: { "--apx": provider.accent } };
@@ -83,7 +83,7 @@ export default function Player({ playlist }) {
         type="button"
         className={`cover${playing ? " on" : ""}`}
         onClick={() => host?.toggle()}
-        disabled={!playable}
+        disabled={!playable || dead.includes(index)}
         aria-label={playing ? t("player.pause") : t("player.play")}
       >
         {waiting ? (
@@ -151,10 +151,11 @@ export default function Player({ playlist }) {
       </div>
 
       {waiting && <div className="mute-note">{t("player.enable")}</div>}
+      {track && dead.includes(index) && <div className="mute-note">{t("player.unavailable")}</div>}
 
       <ol className="tracklist">
         {playlist.tracks.map((tr, i) =>
-          tr.streamUrl || tr.embedUrl ? (
+          (tr.streamUrl || tr.embedUrl) && !dead.includes(i) ? (
             <li key={`${tr.title}-${i}`} className={i === index ? "on" : undefined}>
               <button type="button" onClick={() => pick(i)}>
                 <span className="tr-title">

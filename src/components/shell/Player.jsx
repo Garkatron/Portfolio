@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { useAudioHost } from "../../lib/audio/useAudioHost.js";
 import { log } from "../../lib/syslog.js";
 import { useI18n } from "./i18n.jsx";
@@ -190,7 +190,6 @@ export default function Player({ playlist }) {
         })}
       </ol>
 
-      <div className="note">{t(`player.note.${provider.id}`)}</div>
     </div>
   );
 }

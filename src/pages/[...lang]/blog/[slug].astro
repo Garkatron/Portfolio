@@ -21,7 +21,7 @@ const { lang, post } = Astro.props;
 const t = useTranslations(lang);
 const routes = getRoutes(lang);
 const { Content } = await render(post.entry);
-const file = `blog/${post.slug}.md`;
+const file = `blog/${post.slug}/index.md`;
 const fmt = new Intl.DateTimeFormat(lang, { dateStyle: "long" });
 const tabs = [
   { file: t("files.blog"), href: routes.blog },

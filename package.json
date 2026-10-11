@@ -18,7 +18,8 @@
   },
   "type": "module",
   "devDependencies": {
-    "pagefind": "^1.5.2"
+    "pagefind": "^1.5.2",
+    "sharp": "^0.35.5"
   },
   "private": true,
   "packageManager": "pnpm@11.11.0"

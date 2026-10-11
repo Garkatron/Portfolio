@@ -22,14 +22,16 @@ pnpm preview    # serve dist/ (full site incl. search)
 | Experience | `src/data/experience.json` |
 | Explorer → Tools (icon keys from `src/data/techIcons.js`) | `src/data/tools.json` |
 | Player tracks / Spotify playlist | `src/data/playlist.json` |
-| Blog posts (Markdown + frontmatter `title`, `date`, `description`) | `src/data/blog/<lang>/<slug>.md` |
+| Blog posts (Markdown + frontmatter `title`, `date`, `description`) | `src/data/blog/<lang>/<slug>/index.md` |
 | UI strings | `src/i18n/<lang>.json` |
 
 - **Translations in content:** any field `x` can have an `x_en` sibling (`description` / `description_en`).
   The base value is the default locale (Spanish) and is the fallback.
 - **Project images:** put files in `public/images/projects/` and reference them as `/images/projects/…`.
   Missing images fall back to the striped placeholder.
-- **Blog:** a post missing in `en/` falls back to the `es/` version with a notice.
+- **Blog:** each post is a folder — `index.md` plus its own images, referenced relatively
+  (`./diagram.jpg`) and optimized to webp at build time (needs the `sharp` devDependency).
+  A post missing in `en/` falls back to the `es/` version with a notice.
 - **Book covers:** `cover` accepts an image URL (Open Library works: `https://covers.openlibrary.org/b/isbn/<isbn>-M.jpg`) or a local `/images/books/…` file.
 - **Videos:** `videos.json` holds `playlists`; each renders as an explorer-style folder and opens into a mini
   YouTube (player + sidebar). A video uses either the YouTube `id` (the part after `watch?v=`) **or** a direct

@@ -1,9 +1,10 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
-// Static blog: Markdown files under src/data/blog/<lang>/<slug>.md.
+// Static blog: one folder per post under src/data/blog/<lang>/<slug>/, with
+// `index.md` as the post itself so its images can live alongside it.
 const blog = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/data/blog" }),
+  loader: glob({ pattern: "**/index.md", base: "./src/data/blog" }),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),

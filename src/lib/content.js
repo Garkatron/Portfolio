@@ -121,15 +121,17 @@ export function getPlaylist(providerId = siteData.audioProvider) {
 }
 
 /**
- * Blog posts live in src/data/blog/<lang>/<slug>.md. A locale without its own
- * copy of a post falls back to the default-locale version (`fallback: true`).
+ * Blog posts live in src/data/blog/<lang>/<slug>/index.md, with any images the
+ * post uses sitting next to it — a folder per post, so assets never get mixed
+ * up between posts. A locale without its own copy of a post falls back to the
+ * default-locale version (`fallback: true`).
  */
 export async function getPosts(lang) {
   const entries = await getCollection("blog", (e) => !e.data.draft);
   const bySlug = new Map();
   for (const entry of entries) {
-    const [entryLang, ...rest] = entry.id.split("/");
-    const slug = rest.join("/");
+    // The collection id is `<lang>/<slug>/index`; the slug is the folder name.
+    const [entryLang, slug] = entry.id.split("/");
     if (entryLang !== lang && entryLang !== defaultLocale) continue;
     const existing = bySlug.get(slug);
     if (existing && entryLang !== lang) continue;

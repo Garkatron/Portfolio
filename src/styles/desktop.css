@@ -48,8 +48,8 @@ body:has(.os-desktop) { overflow: hidden; }
   position: absolute;
   inset: 0;
   background-image: radial-gradient(var(--line) 1px, transparent 1px);
-  background-size: 22px 22px;
-  opacity: .45;
+  background-size: 26px 26px;
+  opacity: .22;
   pointer-events: none;
 }
 
@@ -72,10 +72,10 @@ body:has(.os-desktop) { overflow: hidden; }
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -4px;
-  height: 3px;
+  bottom: -3px;
+  height: 2px;
   background: repeating-linear-gradient(-45deg, var(--warn) 0 8px, var(--ink) 8px 16px);
-  opacity: .55;
+  opacity: .28;
   pointer-events: none;
 }
 .os-brand {
@@ -94,22 +94,6 @@ body:has(.os-desktop) { overflow: hidden; }
   font-size: 10px;
   line-height: 15px;
 }
-.os-branch {
-  color: var(--dim);
-  font-size: 10px;
-  border: 1px solid var(--line);
-  padding: 0 6px;
-  line-height: 16px;
-}
-.os-path {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--dim);
-  font-size: 11px;
-}
-.os-path::first-letter { color: var(--warn); }
 .os-topbar-tools {
   margin-left: auto;
   display: flex;
@@ -153,13 +137,6 @@ body:has(.os-desktop) { overflow: hidden; }
   background: color-mix(in srgb, var(--bg2) 82%, transparent);
   border-right: 1px solid var(--line);
   backdrop-filter: blur(4px);
-}
-.os-dock-title {
-  font-size: 9px;
-  color: var(--dim);
-  font-weight: 400;
-  padding: 0 4px 4px;
-  letter-spacing: .12em;
 }
 .os-icon {
   display: grid;
@@ -446,11 +423,11 @@ body:has(.os-desktop) { overflow: hidden; }
     border-bottom: 1px solid var(--line);
     padding: 6px 8px;
   }
-  .os-dock-title, .os-dock-sep { display: none; }
+  .os-dock-sep { display: none; }
   .os-icon { flex: none; width: auto; min-width: 62px; padding: 4px; }
   .os-icon-label { font-size: 9px; }
   .os-brand { font-size: 11px; }
-  .os-branch, .os-path, .os-pt-long, .os-tray-ok { display: none; }
+  .os-pt-long, .os-tray-ok { display: none; }
   .os-pt-short { display: inline; }
   .os-topbar { gap: 8px; padding: 0 8px; }
   .os-topbar .search input { width: 120px; }

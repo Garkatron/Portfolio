@@ -156,8 +156,6 @@ export default function Videos({ playlists, dict, fallback }: VideosProps) {
     [playlists, filter, query],
   );
 
-  const totalVideos = playlists.reduce((sum, pl) => sum + pl.videos.length, 0);
-
   const openVideo = (pl: VideoPlaylist, index: number) => {
     setPlaylistId(pl.id);
     setVideoIndex(index);
@@ -234,8 +232,6 @@ export default function Videos({ playlists, dict, fallback }: VideosProps) {
           />
         </label>
       )}
-
-      <span className="yt-masthead-count">{t("videos.count", { n: totalVideos })}</span>
     </header>
   );
 
@@ -244,29 +240,31 @@ export default function Videos({ playlists, dict, fallback }: VideosProps) {
     return (
       <div className="yt">
         {masthead}
-        <div className="yt-chips" role="tablist" aria-label={t("videos.playlists")}>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={filter === null}
-            className={`yt-chip${filter === null ? " on" : ""}`}
-            onClick={() => setFilter(null)}
-          >
-            {t("videos.all")}
-          </button>
-          {playlists.map((pl) => (
+        {playlists.length > 1 && (
+          <div className="yt-chips" role="tablist" aria-label={t("videos.playlists")}>
             <button
-              key={pl.id}
               type="button"
               role="tab"
-              aria-selected={filter === pl.id}
-              className={`yt-chip${filter === pl.id ? " on" : ""}`}
-              onClick={() => setFilter(pl.id)}
+              aria-selected={filter === null}
+              className={`yt-chip${filter === null ? " on" : ""}`}
+              onClick={() => setFilter(null)}
             >
-              {pl.name}
+              {t("videos.all")}
             </button>
-          ))}
-        </div>
+            {playlists.map((pl) => (
+              <button
+                key={pl.id}
+                type="button"
+                role="tab"
+                aria-selected={filter === pl.id}
+                className={`yt-chip${filter === pl.id ? " on" : ""}`}
+                onClick={() => setFilter(pl.id)}
+              >
+                {pl.name}
+              </button>
+            ))}
+          </div>
+        )}
 
         {allVideos.length ? (
           <div className="yt-grid">
@@ -302,7 +300,8 @@ export default function Videos({ playlists, dict, fallback }: VideosProps) {
                       <span className="yt-card-title">{item.title}</span>
                       <span className="yt-card-channel">{channel}</span>
                       <span className="yt-card-meta">
-                        {pl.name} · {item.id ? "YouTube" : t("videos.file")}
+                        {pl.name}
+                        {item.id ? "" : ` · ${t("videos.file")}`}
                       </span>
                     </span>
                   </span>
@@ -432,7 +431,6 @@ export default function Videos({ playlists, dict, fallback }: VideosProps) {
                     <span className="yt-next-info">
                       <span className="yt-next-title">{item.title}</span>
                       <span className="yt-next-channel">{item.author || playlist.name}</span>
-                      <span className="yt-next-meta">{playlist.name}</span>
                     </span>
                   </button>
                 </li>

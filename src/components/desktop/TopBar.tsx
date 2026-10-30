@@ -3,12 +3,11 @@ import { useTheme } from "../theme/ThemeProvider.tsx";
 import Search from "../shell/Search.jsx";
 
 interface TopBarProps {
-  path: string;
   onOpenPalette: () => void;
 }
 
-/** Window-manager top bar: brand, active file, search, palette and accents. */
-export default function TopBar({ path, onOpenPalette }: TopBarProps) {
+/** Window-manager top bar: brand, search, palette and accents. */
+export default function TopBar({ onOpenPalette }: TopBarProps) {
   const { t } = useI18n();
   const { theme, setTheme, themes } = useTheme();
 
@@ -16,10 +15,6 @@ export default function TopBar({ path, onOpenPalette }: TopBarProps) {
     <header className="os-topbar">
       <span className="os-brand px">
         ◆ GARKATRON<span className="os-brand-os">OS</span>
-      </span>
-      <span className="os-branch">main</span>
-      <span className="os-path" title={path}>
-        / {path}
       </span>
 
       <div className="os-topbar-tools">

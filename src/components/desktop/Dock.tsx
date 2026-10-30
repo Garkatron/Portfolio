@@ -30,7 +30,6 @@ export default function Dock({ nav, activeAux, onOpenNav, onOpenAux }: DockProps
 
   return (
     <nav id="os-dock" className="os-dock" aria-label={t("shell.os.apps")}>
-      <h6 className="os-dock-title px">{t("shell.os.apps")}</h6>
       {nav.map((item) => (
         <button
           key={item.id}

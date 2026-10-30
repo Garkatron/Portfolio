@@ -151,22 +151,29 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
         onFocus: () => setFocused("route"),
       },
       (root) => {
-        const tabsRoot = document.createElement("div");
-        tabsRoot.className = "os-window-tabs";
-        mounts.current.set("route", tabsRoot);
+        // A single tab only repeats the window title; keep the bar for pages
+        // that actually have section tabs.
+        const tabsRoot = shell.tabs.length > 1 ? document.createElement("div") : null;
+        if (tabsRoot) {
+          tabsRoot.className = "os-window-tabs";
+          mounts.current.set("route", tabsRoot);
+        }
         const page = document.createElement("div");
         page.className = "os-window-page";
         const editor = document.createElement("div");
         editor.className = "editor";
         editor.append(content);
         page.append(editor);
-        root.append(tabsRoot, page);
-        render(
-          <I18nProvider lang={shell.lang} dict={shell.dict} fallback={shell.fallbackDict}>
-            <Tabs tabs={shell.tabs} />
-          </I18nProvider>,
-          tabsRoot,
-        );
+        if (tabsRoot) root.append(tabsRoot);
+        root.append(page);
+        if (tabsRoot) {
+          render(
+            <I18nProvider lang={shell.lang} dict={shell.dict} fallback={shell.fallbackDict}>
+              <Tabs tabs={shell.tabs} />
+            </I18nProvider>,
+            tabsRoot,
+          );
+        }
       },
     );
 
@@ -348,7 +355,7 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
 
   return (
     <div className="os-desktop">
-      <TopBar path={shell.path} onOpenPalette={() => setPaletteOpen(true)} />
+      <TopBar onOpenPalette={() => setPaletteOpen(true)} />
 
       <div className="os-body">
         <Dock

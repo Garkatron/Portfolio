@@ -142,8 +142,6 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
         title: shell.path,
         width: defaultWidth,
         height: height - 32,
-        initialX: 16,
-        initialY: 16,
         minWidth: activeApp === "videos" ? 240 : 320,
         minHeight: 240,
         maxWidth: Math.max(320, width - 32),
@@ -224,12 +222,9 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
         app === "player"
           ? { width: 360, height: 560 }
           : app === "videos"
-            ? { width: 520, height: 520 }
+            ? { width: 420, height: Math.max(320, stageHeight - 32) }
             : { width: 480, height: 360 };
       const { width, height } = size;
-      const seq = windowsRef.current.filter((w) => w.kind !== "route").length;
-      const x = Math.max(16, stageWidth - width - 24 - seq * 24);
-      const y = Math.max(48, 72 + seq * 24);
       const title =
         app === "player"
           ? t("shell.player")
@@ -244,12 +239,10 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
           title,
           width,
           height,
-          initialX: x,
-          initialY: y,
           minWidth: 280,
           minHeight: 220,
-          maxWidth: Math.max(280, stageWidth - x - 8),
-          maxHeight: Math.max(220, stageHeight - y - 8),
+          maxWidth: Math.max(280, stageWidth - 16),
+          maxHeight: Math.max(220, stageHeight - 16),
           closeable: true,
           minimizable: true,
           labels,

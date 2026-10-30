@@ -10,6 +10,7 @@ import SysLog from "../shell/SysLog.jsx";
 import Tabs from "../shell/Tabs.jsx";
 import Videos from "../Videos.tsx";
 import { boot, log } from "../../lib/syslog.js";
+import { getAudioHost } from "../../lib/audio/host.js";
 import { DesktopWM } from "../../lib/desktop/wm.js";
 import TopBar from "./TopBar";
 import Dock from "./Dock";
@@ -278,6 +279,9 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
       handle.setCallbacks({
         onVisibilityChange: (visibility) => syncVisibility(app, visibility),
         onClose: () => {
+          // Minimizing keeps the component mounted and the music playing;
+          // actually closing the player window stops the sound.
+          if (app === "player") getAudioHost()?.pause();
           const pad = mounts.current.get(app);
           if (pad) {
             render(null, pad);

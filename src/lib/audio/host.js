@@ -95,6 +95,9 @@ function createHost() {
   // SoundCloud tracks resolve fine yet 404 on the media endpoint; the widget
   // still fires PLAY, so without this the UI would claim to play silence.
   const dead = new Set();
+  // Set when the player window is closed (not minimized). It also suppresses
+  // late provider events, which would otherwise restart a just-closed track.
+  let suspended = false;
 
   const state = {
     tracks: [],
@@ -199,11 +202,17 @@ function createHost() {
     widget.bind(Events.READY, () => {
       state.waiting = false;
       syncWidgetVolume(); // only now does the iframe exist to receive it
-      widget?.play(); // auto_play may have been blocked before any interaction
+      if (!suspended) widget?.play(); // auto_play may have been blocked before any interaction
       emit();
     });
 
     widget.bind(Events.PLAY, () => {
+      if (suspended) {
+        widget?.pause();
+        state.playing = false;
+        emit();
+        return;
+      }
       state.playing = true;
       state.waiting = false;
       clearTimeout(autoplayTimer);
@@ -429,6 +438,7 @@ function createHost() {
    * rejected, fall back to a muted start and unmute on the first input.
    */
   function autoplayStream() {
+    if (suspended) return;
     // A visitor who muted does not want sound, so skip the audible attempt and
     // the "click to enable" note that comes with it: muted autoplay always works.
     if (state.muted) {
@@ -474,6 +484,7 @@ function createHost() {
   function select(index, { autoplay: shouldAutoplay = true, gesture = false } = {}) {
     const track = state.tracks[index];
     if (!track) return;
+    if (suspended) shouldAutoplay = false;
     if (gesture) clearWake();
 
     // Silence and reset the outgoing track while `mode` still describes it: the
@@ -497,6 +508,7 @@ function createHost() {
 
   function toggle() {
     if (state.mode === "link") return;
+    suspended = false;
     clearWake();
     if (state.mode === "embed" && dead.has(state.index)) return;
 
@@ -526,6 +538,25 @@ function createHost() {
     emit();
   }
 
+  /**
+   * Silence the transport without forgetting what was playing.
+   *
+   * Closing the player window pauses; minimizing only hides the window (SLAOS
+   * keeps the component mounted), so the music keeps playing there. The track,
+   * order and playhead stay put, so reopening resumes exactly where it stopped.
+   */
+  function pause() {
+    suspended = true;
+    if (state.mode === "stream") audio.pause();
+    else if (state.mode === "embed") widget?.pause();
+    clearTimeout(autoplayTimer);
+    clearTimeout(progressTimer);
+    state.playing = false;
+    state.waiting = false;
+    clearWake();
+    emit();
+  }
+
   // ---- audio element events ----------------------------------------------
   // Only the custom transport reports through the <audio> element; in embed mode
   // the widget owns playback and reports through bindWidget instead.
@@ -539,6 +570,11 @@ function createHost() {
   }
 
   onStream("play", () => {
+    if (suspended) {
+      audio.pause();
+      state.playing = false;
+      return;
+    }
     state.playing = true;
     clearWake();
   });
@@ -607,9 +643,13 @@ function createHost() {
     },
     select,
     toggle,
+    pause,
     seek,
     /** Selecting from a click also unlocks the browser's autoplay policy. */
-    play: (index) => select(index, { gesture: true }),
+    play: (index) => {
+      suspended = false;
+      select(index, { gesture: true });
+    },
 
     setVolume(value) {
       const next = Math.min(1, Math.max(0, Number(value)));

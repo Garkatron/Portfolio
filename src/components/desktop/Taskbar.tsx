@@ -39,6 +39,7 @@ function Clock({ lang }: { lang: string }) {
 
 const GLYPH: Record<OpenWindow["kind"], string> = {
   route: "▤",
+  videos: "▶",
   player: "♪",
   syslog: ">_",
 };

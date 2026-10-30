@@ -1,7 +1,7 @@
 // Builds the serializable props for the desktop island: nav, tabs, routes,
 // locale alternates, site status and the active dictionary.
 import { defaultLocale, getDict, locales, localePath, stripLocale } from "../i18n/index.js";
-import { getPlaylist, getProjects, getSite } from "./content.js";
+import { getPlaylist, getProjects, getSite, getVideos } from "./content.js";
 
 /** Nav entries in dock order: id → [dictionary file key, root-relative href]. */
 const NAV = [
@@ -60,6 +60,7 @@ export async function buildShell({ lang, page, pathname, path, tabs }) {
       codingSince: site.codingSince,
     },
     playlist: await getPlaylist(),
+    videos: getVideos(lang),
     projectCount: getProjects(lang).length,
   };
 }

@@ -13,13 +13,15 @@ const GLYPHS: Record<string, string> = {
   about: "◈",
   projects: "▤",
   books: "▥",
-  videos: "▶",
   roadmap: "◇",
   blog: "✎",
   contact: "✉",
 };
 
+// Utilities open as floating windows above the current page. Videos is one of
+// them now, so it no longer replaces the route window.
 const AUX: { id: AuxApp; glyph: string; label: string }[] = [
+  { id: "videos", glyph: "▶", label: "files.videos" },
   { id: "player", glyph: "♪", label: "shell.player" },
   { id: "syslog", glyph: ">_", label: "shell.syslog" },
 ];
@@ -30,7 +32,7 @@ export default function Dock({ nav, activeAux, onOpenNav, onOpenAux }: DockProps
 
   return (
     <nav id="os-dock" className="os-dock" aria-label={t("shell.os.apps")}>
-      {nav.map((item) => (
+      {nav.filter((item) => item.id !== "videos").map((item) => (
         <button
           key={item.id}
           type="button"

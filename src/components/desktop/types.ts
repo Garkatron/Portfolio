@@ -1,6 +1,7 @@
 // Serializable props produced by src/lib/shell.js and passed to the desktop
 // island. The dictionaries are deeply nested JSON, so they stay loosely typed
 // here; everything the desktop itself touches is explicit.
+import type { VideoPlaylist } from "../Videos";
 
 export type Dict = Record<string, any>;
 
@@ -60,10 +61,11 @@ export interface ShellData {
   locales: Locale[];
   site: SiteInfo;
   playlist: Playlist;
+  videos: VideoPlaylist[];
   projectCount: number;
 }
 
-export type AuxApp = "player" | "syslog";
+export type AuxApp = "videos" | "player" | "syslog";
 
 export interface OpenWindow {
   id: string;

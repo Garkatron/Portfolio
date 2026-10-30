@@ -30,6 +30,8 @@ interface VideosProps {
   playlists: VideoPlaylist[];
   dict: any;
   fallback: any;
+  /** Inside a desktop window: keep the playlist/video state local, no URL. */
+  embedded?: boolean;
 }
 
 function readUrl(): { p: string | null; v: string | null } {
@@ -60,10 +62,6 @@ function avatarColor(name: string): string {
   let hash = 0;
   for (const char of name) hash = (hash * 31 + char.charCodeAt(0)) % 360;
   return `hsl(${hash} 42% 36%)`;
-}
-
-function scrollTop(): void {
-  document.querySelector<HTMLElement>(".os-window-page")?.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 const IconLike = () => (
@@ -103,7 +101,7 @@ const IconSearch = () => (
 
 const PlayBadge = () => <span className="yt-logo-play" aria-hidden="true" />;
 
-export default function Videos({ playlists, dict, fallback }: VideosProps) {
+export default function Videos({ playlists, dict, fallback, embedded = false }: VideosProps) {
   const t = useMemo(() => createT(dict, fallback), [dict, fallback]);
   const [playlistId, setPlaylistId] = useState<string | null>(null);
   const [videoIndex, setVideoIndex] = useState(0);
@@ -114,19 +112,26 @@ export default function Videos({ playlists, dict, fallback }: VideosProps) {
   const [saved, setSaved] = useState(false);
   const [copied, setCopied] = useState(false);
   const copyTimer = useRef<number | undefined>(undefined);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const scrollToTop = () => {
+    const scroller = rootRef.current?.closest(".os-app-pad, .os-window-page") as HTMLElement | null;
+    scroller?.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const playlist = playlists.find((entry) => entry.id === playlistId) ?? null;
   const video = playlist?.videos[videoIndex] ?? playlist?.videos[0] ?? null;
 
   // Adopt any playlist/video named in the URL (after mount, so SSR is stable).
   useEffect(() => {
+    if (embedded) return;
     const { p, v } = readUrl();
     const match = playlists.find((entry) => entry.id === p);
     if (!match) return;
     setPlaylistId(match.id);
     const index = v ? match.videos.findIndex((item) => item.key === v) : 0;
     setVideoIndex(index >= 0 ? index : 0);
-  }, [playlists]);
+  }, [embedded, playlists]);
 
   // Subscriptions are per playlist and remembered between visits.
   useEffect(() => {
@@ -159,23 +164,23 @@ export default function Videos({ playlists, dict, fallback }: VideosProps) {
   const openVideo = (pl: VideoPlaylist, index: number) => {
     setPlaylistId(pl.id);
     setVideoIndex(index);
-    writeUrl(pl.id, pl.videos[index]?.key ?? null);
+    if (!embedded) writeUrl(pl.id, pl.videos[index]?.key ?? null);
     log("open", `▶ ${pl.videos[index]?.title ?? ""}`);
-    scrollTop();
+    scrollToTop();
   };
 
   const goHome = () => {
     setPlaylistId(null);
-    writeUrl(null, null);
-    scrollTop();
+    if (!embedded) writeUrl(null, null);
+    scrollToTop();
   };
 
   const pick = (index: number) => {
     if (!playlist) return;
     setVideoIndex(index);
-    writeUrl(playlist.id, playlist.videos[index]?.key ?? null);
+    if (!embedded) writeUrl(playlist.id, playlist.videos[index]?.key ?? null);
     log("open", `▶ ${playlist.videos[index]?.title ?? ""}`);
-    scrollTop();
+    scrollToTop();
   };
 
   const toggleSubscribe = () => {
@@ -238,7 +243,7 @@ export default function Videos({ playlists, dict, fallback }: VideosProps) {
   // ---- browse ------------------------------------------------------------
   if (!playlist) {
     return (
-      <div className="yt">
+      <div className="yt" ref={rootRef}>
         {masthead}
         {playlists.length > 1 && (
           <div className="yt-chips" role="tablist" aria-label={t("videos.playlists")}>
@@ -321,7 +326,7 @@ export default function Videos({ playlists, dict, fallback }: VideosProps) {
   const color = avatarColor(channel);
 
   return (
-    <div className="yt">
+    <div className="yt" ref={rootRef}>
       {masthead}
       <div className="yt-watch">
         <div className="yt-watch-main">

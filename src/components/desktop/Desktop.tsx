@@ -8,6 +8,7 @@ import CommandPalette from "../shell/CommandPalette.jsx";
 import Player from "../shell/Player.jsx";
 import SysLog from "../shell/SysLog.jsx";
 import Tabs from "../shell/Tabs.jsx";
+import Videos from "../Videos.tsx";
 import { boot, log } from "../../lib/syslog.js";
 import { DesktopWM } from "../../lib/desktop/wm.js";
 import TopBar from "./TopBar";
@@ -79,10 +80,6 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
     }),
     [t],
   );
-
-  const go = useCallback((href: string) => {
-    navigate(href);
-  }, []);
 
   const focusWindow = useCallback((win: OpenWindow) => {
     if (win.minimized) {
@@ -223,12 +220,22 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
 
       const stageWidth = stage.clientWidth;
       const stageHeight = stage.clientHeight;
-      const width = app === "player" ? 360 : 480;
-      const height = app === "player" ? 560 : 360;
+      const size =
+        app === "player"
+          ? { width: 360, height: 560 }
+          : app === "videos"
+            ? { width: 520, height: 520 }
+            : { width: 480, height: 360 };
+      const { width, height } = size;
       const seq = windowsRef.current.filter((w) => w.kind !== "route").length;
       const x = Math.max(16, stageWidth - width - 24 - seq * 24);
       const y = Math.max(48, 72 + seq * 24);
-      const title = app === "player" ? t("shell.player") : t("shell.syslog");
+      const title =
+        app === "player"
+          ? t("shell.player")
+          : app === "videos"
+            ? shell.files.videos
+            : t("shell.syslog");
 
       const handle = await wm.open(
         {
@@ -250,12 +257,25 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
         },
         (root) => {
           const pad = document.createElement("div");
-          pad.className = `os-app-pad${app === "syslog" ? " os-app-terminal" : ""}`;
+          pad.className = `os-app-pad${app === "syslog" ? " os-app-terminal" : ""}${
+            app === "videos" ? " os-app-videos" : ""
+          }`;
           mounts.current.set(app, pad);
           root.append(pad);
           render(
             <I18nProvider lang={shell.lang} dict={shell.dict} fallback={shell.fallbackDict}>
-              {app === "player" ? <Player playlist={shell.playlist} /> : <SysLog />}
+              {app === "player" ? (
+                <Player playlist={shell.playlist} />
+              ) : app === "videos" ? (
+                <Videos
+                  playlists={shell.videos}
+                  dict={shell.dict}
+                  fallback={shell.fallbackDict}
+                  embedded
+                />
+              ) : (
+                <SysLog />
+              )}
             </I18nProvider>,
             pad,
           );
@@ -282,8 +302,25 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
     [focusWindow, labels, remember, shell, syncVisibility, t],
   );
 
+  // Videos is a floating utility now: any navigation to its route (palette,
+  // keyboard shortcut) opens the window instead of replacing the page.
+  const go = useCallback(
+    (href: string) => {
+      if (href === shell.routes.videos) {
+        void spawnAux("videos");
+        return;
+      }
+      navigate(href);
+    },
+    [shell.routes.videos, spawnAux],
+  );
+
   const openNav = useCallback(
     (item: NavItem) => {
+      if (item.id === "videos") {
+        void spawnAux("videos");
+        return;
+      }
       if (item.active) {
         const route = windowsRef.current.find((w) => w.kind === "route");
         if (route) focusWindow(route);
@@ -292,7 +329,7 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
       }
       go(item.href);
     },
-    [focusWindow, go, spawnMain],
+    [focusWindow, go, spawnAux, spawnMain],
   );
 
   const toggleWindow = useCallback((win: OpenWindow) => {

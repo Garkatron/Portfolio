@@ -322,8 +322,7 @@ a { color: inherit; }
   --yt-line: #303030;
   container-type: inline-size;
   min-height: 100%;
-  padding: 0 24px 36px;
-  padding: 0 clamp(12px, 3cqi, 24px) 36px;
+  padding: 0 16px 36px;
   background: var(--yt-bg);
   color: var(--yt-text);
   font-family: "Roboto", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -439,7 +438,7 @@ a { color: inherit; }
 /* browse grid */
 .yt-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(250px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(230px, 100%), 1fr));
   gap: 24px 16px;
 }
 .yt-card {

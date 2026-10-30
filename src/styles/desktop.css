@@ -315,6 +315,8 @@ body:has(.os-desktop) { overflow: hidden; }
   scrollbar-color: var(--line) transparent;
 }
 .os-app-pad .card { margin: 0; }
+/* The YouTube app paints its own dark canvas edge to edge. */
+.os-app-videos { padding: 0; background: #0f0f0f; }
 .os-app-terminal { padding: 0; overflow: hidden; background: var(--bg2); }
 .os-app-terminal .card { height: 100%; border: 0; background: transparent; }
 .os-app-terminal .log {

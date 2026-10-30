@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { navigate } from "astro:transitions/client";
 import { log } from "../../lib/syslog.js";
-import { useI18n } from "./i18n.jsx";
+import { useI18n } from "./i18n.tsx";
 
 // Pagefind is generated into dist/pagefind/ by `pnpm build` (see package.json).
 // It picks the index matching <html lang>, so results follow the page locale.
@@ -93,7 +93,7 @@ export default function Search() {
         placeholder={t("search.placeholder")}
         aria-label={t("search.label")}
         value={query}
-        onChange={(e) => {
+        onInput={(e) => {
           setQuery(e.target.value);
           setOpen(true);
         }}

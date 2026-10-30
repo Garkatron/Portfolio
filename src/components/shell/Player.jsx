@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState } from "preact/hooks";
 import { useAudioHost } from "../../lib/audio/useAudioHost.js";
 import { log } from "../../lib/syslog.js";
 // Imported SVGs resolve to `{src, width, …}`, not to a bare URL string, hence
 // the `.src` below — same as the tool icons in src/lib/content.js.
 import soundOn from "../../assets/icon/phosphor--speaker-high.svg";
 import soundOff from "../../assets/icon/phosphor--speaker-slash.svg";
-import { useI18n } from "./i18n.jsx";
+import { useI18n } from "./i18n.tsx";
 
 // Provider-agnostic player. It renders whatever src/lib/audio/index.js
 // resolved: the host's transport for tracks with a direct stream (Spotify's 30s
@@ -146,7 +146,7 @@ export default function Player({ playlist }) {
               step="0.05"
               value={volume}
               aria-label={t("player.volume")}
-              onChange={(e) => host?.setVolume(e.target.value)}
+              onInput={(e) => host?.setVolume(e.target.value)}
             />
             <button
               type="button"
@@ -183,7 +183,7 @@ export default function Player({ playlist }) {
         className="track-search"
         placeholder={t("player.searchPlaceholder")}
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        onInput={(e) => setQuery(e.target.value)}
         aria-label={t("player.searchPlaceholder")}
       />
 

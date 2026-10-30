@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import { createT } from "../i18n/translate.js";
 import { log } from "../lib/syslog.js";
 

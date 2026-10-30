@@ -1,9 +1,9 @@
-// Builds the serializable props for the <Shell> island: nav, tabs, routes,
-// locale alternates, sidebar data and the active dictionary.
+// Builds the serializable props for the desktop island: nav, tabs, routes,
+// locale alternates, site status and the active dictionary.
 import { defaultLocale, getDict, locales, localePath, stripLocale } from "../i18n/index.js";
-import { getPlaylist, getProjects, getSite, getToolGroups } from "./content.js";
+import { getPlaylist, getProjects, getSite } from "./content.js";
 
-/** Nav entries in Explorer order: id → [dictionary file key, root-relative href]. */
+/** Nav entries in dock order: id → [dictionary file key, root-relative href]. */
 const NAV = [
   ["about", "/"],
   ["projects", "/projects/"],
@@ -14,6 +14,7 @@ const NAV = [
   ["contact", "/contact/"],
 ];
 
+/** @returns {Record<string, string>} */
 export function getRoutes(lang) {
   const r = Object.fromEntries(NAV.map(([id, href]) => [id, localePath(lang, href)]));
   return { ...r, home: r.about };
@@ -22,9 +23,9 @@ export function getRoutes(lang) {
 /**
  * @param {object} opts
  * @param {string} opts.lang
- * @param {string} opts.page      nav id highlighted in the Explorer
+ * @param {string} opts.page      nav id highlighted in the dock
  * @param {string} opts.pathname  Astro.url.pathname
- * @param {string} [opts.path]    file path shown in the titlebar
+ * @param {string} [opts.path]    file path shown in the window title
  * @param {{file: string, href: string, active?: boolean}[]} [opts.tabs]
  */
 export async function buildShell({ lang, page, pathname, path, tabs }) {
@@ -58,7 +59,6 @@ export async function buildShell({ lang, page, pathname, path, tabs }) {
       openToWork: site.openToWork,
       codingSince: site.codingSince,
     },
-    toolGroups: getToolGroups(lang),
     playlist: await getPlaylist(),
     projectCount: getProjects(lang).length,
   };

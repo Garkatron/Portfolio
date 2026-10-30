@@ -1,9 +1,12 @@
 ---
 // Every page renders through this layout: <head>, pre-paint theme/lang script,
-// and the persistent editor shell around the page content.
+// and the desktop shell. Page content is rendered as a sibling of the desktop
+// island (not as its child) so Preact never reconciles the server HTML; the
+// island adopts #content into the route window after hydration.
 import "../styles/global.css";
+import "../styles/desktop.css";
 import { ClientRouter } from "astro:transitions";
-import Shell from "../components/shell/Shell.jsx";
+import Shell from "../components/desktop/Desktop.tsx";
 import { useTranslations } from "../i18n/index.js";
 import { buildShell } from "../lib/shell.js";
 
@@ -55,14 +58,21 @@ const alternates = Object.fromEntries(shell.locales.map((l) => [l.code, l.href])
         } catch (e) {}
       })();
     </script>
+    <noscript>
+      <style>
+        /* Without JS the desktop cannot adopt the page, so show it inline. */
+        #os-page-source { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+      </style>
+    </noscript>
   </head>
 
   <body>
     <a class="skip" href="#content">{t("shell.skip")}</a>
-    <Shell client:load shell={shell}>
+    <Shell client:only="preact" shell={shell} />
+    <div id="os-page-source">
       <div id="content" data-pagefind-body>
         <slot />
       </div>
-    </Shell>
+    </div>
   </body>
 </html>

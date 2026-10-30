@@ -33,7 +33,14 @@
     "encoding": "UTF-8 · LF",
     "cursor": "Ln {ln}, Col {col}",
     "skip": "Skip to content",
-    "openMenu": "open explorer"
+    "openMenu": "open applications",
+    "os": {
+      "apps": "Applications",
+      "menu": "Menu",
+      "close": "Close window",
+      "minimize": "Minimize window",
+      "maximize": "Maximize window"
+    }
   },
   "profile": {
     "name": "NAME",

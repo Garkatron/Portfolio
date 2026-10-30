@@ -20,7 +20,7 @@ const file = `projects/${project.slug}.tsx`;
 
 // Tech entries pick up icon + color from tools.json when the name matches.
 const toolsByName = new Map(getToolGroups(lang).flatMap((g) => g.tools).map((tool) => [tool.name.toLowerCase(), tool]));
-const tech = project.tech.map((name) => ({ name, tool: toolsByName.get(name.toLowerCase()) }));
+const tech = project.tech.map((name: string) => ({ name, tool: toolsByName.get(name.toLowerCase()) }));
 
 const tabs = [
   { file: t("files.projects"), href: routes.projects },
@@ -44,7 +44,7 @@ const tabs = [
   {
     project.screenshots.length > 0 && (
       <div class="shots" aria-label={t("projects.screenshots")}>
-        {project.screenshots.map((src, i) => <img src={src} alt={`${project.title} — ${i + 1}`} loading="lazy" />)}
+        {project.screenshots.map((src: string, i: number) => <img src={src} alt={`${project.title} — ${i + 1}`} loading="lazy" />)}
       </div>
     )
   }
@@ -67,7 +67,7 @@ const tabs = [
       <h5 class="px">{t("projects.tech")}</h5>
       <ul class="tech-list">
         {
-          tech.map(({ name, tool }) => (
+          tech.map(({ name, tool }: any) => (
             <li>
               {tool?.icon ? (
                 <span class="tool-icon" aria-hidden="true" style={`--tool-color:${tool.color};--tool-icon:url("${tool.icon}")`} />

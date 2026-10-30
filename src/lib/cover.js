@@ -46,7 +46,7 @@ function columnsOf(text) {
  * @param {object} post one of getPosts' entries, whose frontmatter is spread in
  *   at the top level (`post.title`, `post.cover`), with the raw entry kept in
  *   `post.entry` — the id is what locates the cover file.
- * @returns {{kind: 'image', image: object, alt: string}
+ * @returns {{kind: 'image', image: import('astro').ImageMetadata, alt: string}
  *         | {kind: 'ascii', text: string, columns: number, alt: string}}
  */
 export function getCover(post) {

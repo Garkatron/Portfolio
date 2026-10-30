@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import { useTheme } from "../theme/ThemeProvider.jsx";
+import { useEffect, useMemo, useState } from "preact/hooks";
+import { useTheme } from "../theme/ThemeProvider.tsx";
 import { log } from "../../lib/syslog.js";
-import { useI18n } from "./i18n.jsx";
+import { useI18n } from "./i18n.tsx";
 
 function normalize(s) {
   return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
@@ -105,7 +105,7 @@ export default function CommandPalette({ open, onClose, routes, locales, go, onS
             // and keystrokes typed right after ⌘K aren't lost.
             autoFocus
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onInput={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder={t("palette.placeholder")}
             aria-label={t("palette.placeholder")}

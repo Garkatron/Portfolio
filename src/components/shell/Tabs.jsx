@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "preact/hooks";
 import { log } from "../../lib/syslog.js";
 
 /** Tabs = the current page's section files. Same-page anchors just move the active tab. */

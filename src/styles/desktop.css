@@ -1,0 +1,431 @@
+/* ============================================================
+   GARKATRON OS — desktop chrome around the editor-style windows.
+   Windows are created by SLAOS (src/lib/desktop/wm.ts); everything
+   here is presentation plus direct-manipulation affordances.
+   ============================================================ */
+
+/* The server-rendered page lives here until the desktop adopts it.
+   It stays in the HTML (so Pagefind and no-JS still see it) but is
+   visually out of the way. */
+#os-page-source {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+body:has(.os-desktop) { overflow: hidden; }
+
+.os-desktop {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg2);
+  color: var(--fg);
+  overflow: hidden;
+}
+
+/* desktop wallpaper: dot grid + a very quiet wordmark in the stage */
+.os-desktop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity: .45;
+  pointer-events: none;
+}
+
+/* ---------- top bar ---------- */
+.os-topbar {
+  position: relative;
+  z-index: 50;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 38px;
+  padding: 0 12px;
+  background: color-mix(in srgb, var(--bg2) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+.os-topbar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 3px;
+  background: repeating-linear-gradient(-45deg, var(--warn) 0 8px, var(--ink) 8px 16px);
+  opacity: .55;
+  pointer-events: none;
+}
+.os-brand {
+  color: var(--fg);
+  font-size: 13px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.os-brand::first-letter { color: var(--warn); }
+.os-brand-os {
+  color: var(--warn);
+  border: 1px solid var(--line);
+  padding: 0 4px;
+  font-size: 10px;
+  line-height: 15px;
+}
+.os-branch {
+  color: var(--dim);
+  font-size: 10px;
+  border: 1px solid var(--line);
+  padding: 0 6px;
+  line-height: 16px;
+}
+.os-path {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--dim);
+  font-size: 11px;
+}
+.os-path::first-letter { color: var(--warn); }
+.os-topbar-tools {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.os-palette-trigger {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font: inherit;
+  font-size: 11px;
+  height: 24px;
+  padding: 0 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.os-palette-trigger:hover { color: var(--acc); border-color: var(--acc); }
+.os-pt-short { display: none; }
+
+/* ---------- body: app rail + stage ---------- */
+.os-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.os-dock {
+  position: relative;
+  z-index: 5;
+  flex: none;
+  width: 108px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+  background: color-mix(in srgb, var(--bg2) 82%, transparent);
+  border-right: 1px solid var(--line);
+  backdrop-filter: blur(4px);
+}
+.os-dock-title {
+  font-size: 9px;
+  color: var(--dim);
+  font-weight: 400;
+  padding: 0 4px 4px;
+  letter-spacing: .12em;
+}
+.os-icon {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 6px 4px;
+  background: none;
+  border: 1px solid transparent;
+  color: var(--dim);
+  font: inherit;
+  font-size: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+.os-icon:hover { background: var(--panel); border-color: var(--line); color: var(--fg); }
+.os-icon.active { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, var(--line)); background: color-mix(in srgb, var(--warn) 8%, transparent); }
+.os-glyph {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 30px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--acc);
+  font-size: 17px;
+  line-height: 1;
+}
+.os-icon.active .os-glyph { border-color: var(--warn); color: var(--warn); }
+.os-icon.running .os-glyph { border-color: var(--green); color: var(--green); }
+.os-icon-label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.os-dock-sep {
+  height: 1px;
+  margin: 6px 2px;
+  background: var(--line);
+}
+
+.os-stage {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.os-wallmark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--fg);
+  font-size: clamp(48px, 9vw, 140px);
+  letter-spacing: .08em;
+  opacity: .028;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- SLAOS windows ---------- */
+.os-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-width: calc(100% - 32px);
+  max-height: calc(100% - 32px);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .55);
+}
+.os-window.is-focused {
+  border-color: color-mix(in srgb, var(--acc) 55%, var(--line));
+  box-shadow: 0 22px 60px rgba(0, 0, 0, .65);
+}
+.os-window.is-dragging { cursor: grabbing; user-select: none; }
+
+.os-window-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 8px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--line);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+.os-window.is-focused .os-window-bar {
+  background: color-mix(in srgb, var(--panel) 62%, var(--bg2));
+  box-shadow: inset 0 2px 0 var(--acc);
+}
+.os-window-dots { display: flex; gap: 3px; }
+.os-window-dots i {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.os-window.is-focused .os-window-dots i:first-child { background: var(--warn); }
+.os-window-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--dim);
+  letter-spacing: .04em;
+}
+.os-window.is-focused .os-window-title { color: var(--fg); }
+.os-window-controls { margin-left: auto; display: flex; gap: 4px; }
+.os-ctrl {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 16px;
+  padding: 0;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font: inherit;
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+}
+.os-ctrl:hover { color: var(--fg); border-color: var(--fg); }
+.os-ctrl-min:hover { background: var(--warn); border-color: var(--warn); color: var(--ink); }
+.os-ctrl-max:hover { background: var(--green); border-color: var(--green); color: var(--ink); }
+.os-ctrl-close:hover { background: var(--red); border-color: var(--red); color: var(--ink); }
+
+.os-resize {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+  touch-action: none;
+  opacity: .18;
+  background:
+    linear-gradient(135deg, transparent 0 45%, var(--fg) 45% 52%, transparent 52% 64%, var(--fg) 64% 71%, transparent 71%);
+}
+.os-window.is-focused .os-resize { opacity: .5; }
+
+.os-window-body,
+.os-window-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.os-window-tabs { flex: none; }
+.os-window-page {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.os-window-page .editor { padding: 28px 36px 52px; }
+
+/* app content (player / terminal) */
+.os-app-pad {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.os-app-pad .card { margin: 0; }
+.os-app-terminal { padding: 0; overflow: hidden; background: var(--bg2); }
+.os-app-terminal .card { height: 100%; border: 0; background: transparent; }
+.os-app-terminal .log {
+  max-height: none;
+  height: 100%;
+  overflow: auto;
+  padding: 14px;
+  font-size: 15px;
+}
+
+/* ---------- taskbar ---------- */
+.os-taskbar {
+  position: relative;
+  z-index: 50;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 8px;
+  background: var(--bg2);
+  border-top: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--dim);
+  white-space: nowrap;
+}
+.os-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 10px;
+  background: var(--warn);
+  color: var(--ink);
+  border: 1px solid var(--warn);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.os-start:hover { background: var(--warn-hover); }
+.os-tasks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.os-task {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 180px;
+  height: 22px;
+  padding: 0 8px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--dim);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.os-task:hover { color: var(--fg); border-color: var(--acc); }
+.os-task.focused { color: var(--fg); border-color: var(--warn); box-shadow: inset 0 -2px 0 var(--warn); }
+.os-task.minimized { opacity: .55; }
+.os-task-title { overflow: hidden; text-overflow: ellipsis; }
+.os-task-glyph { color: var(--acc); }
+.os-tray { margin-left: auto; display: flex; align-items: center; gap: 14px; min-width: 0; }
+.os-tray-ok { color: var(--green); }
+.os-clock { color: var(--fg); font-size: 12px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 980px) {
+  .os-dock { width: 92px; }
+  .os-icon-label { font-size: 9px; }
+}
+@media (max-width: 560px) {
+  /* The palette still switches accents; keep the bar from overflowing. */
+  .os-topbar .swatches { display: none; }
+}
+@media (max-width: 720px) {
+  .os-body { flex-direction: column; }
+  .os-dock {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 6px 8px;
+  }
+  .os-dock-title, .os-dock-sep { display: none; }
+  .os-icon { flex: none; width: auto; min-width: 62px; padding: 4px; }
+  .os-icon-label { font-size: 9px; }
+  .os-brand { font-size: 11px; }
+  .os-branch, .os-path, .os-pt-long, .os-tray-ok { display: none; }
+  .os-pt-short { display: inline; }
+  .os-topbar { gap: 8px; padding: 0 8px; }
+  .os-topbar .search input { width: 120px; }
+  .os-topbar-tools { gap: 8px; }
+  .os-window-page .editor { padding: 22px 18px 40px; }
+  .os-task { max-width: 130px; }
+}

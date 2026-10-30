@@ -1,9 +1,9 @@
-// React binding for the persistent playback host (src/lib/audio/host.js).
+// Preact binding for the persistent playback host (src/lib/audio/host.js).
 //
 // Islands come and go with Astro's client-side navigation; this hook re-attaches
 // to the one host that survives, so playback continues across pages and the
 // player UI picks up exactly where it left off.
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "preact/hooks";
 
 import { getAudioHost } from "./host.js";
 

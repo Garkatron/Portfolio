@@ -27,11 +27,6 @@
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --font-vt: "VT323", monospace;
 
-  /* The whole editor is drawn at 160% so it reads comfortably at 100% browser
-     zoom (applied in the `min-width: 1888px` block below). Tweak here to
-     rescale — the gate is 1180 × this value. */
-  --ui-zoom: 1.6;
-
   color-scheme: dark;
 }
 
@@ -64,17 +59,6 @@ body {
   flex-direction: column;
 }
 
-/* Draw the whole editor at 160% so it reads comfortably at 100% browser zoom.
-   `zoom` scales every size (text, spacing, the px-based layout) exactly like
-   browser zoom. It is gated to the widths that already fit the three-column
-   layout (1180 × 1.6 = 1888): below that the unscaled responsive design takes
-   over, which keeps phones readable instead of shrinking to 60% of a phone. */
-@media (min-width: 1888px) {
-  html { zoom: var(--ui-zoom); }
-  /* `vh` is not affected by `zoom`, so divide it back out to keep the shell one
-     screen tall instead of 1.6 screens. */
-  body { min-height: calc(100vh / var(--ui-zoom)); }
-}
 a { color: inherit; }
 ::selection { background: var(--warn); color: var(--ink); }
 :focus-visible { outline: 1px dashed var(--acc); outline-offset: 2px; }

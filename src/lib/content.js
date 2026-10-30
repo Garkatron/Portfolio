@@ -36,6 +36,7 @@ function byOrder(a, b) {
   return oa !== ob ? oa - ob : String(b.year).localeCompare(String(a.year));
 }
 
+/** @returns {any[]} */
 export function getProjects(lang) {
   return [...projectsData].sort(byOrder).map((raw) => {
     const p = localize(raw, lang);
@@ -56,12 +57,14 @@ export function getProjects(lang) {
   });
 }
 
+/** @returns {any[]} */
 export function getFeaturedProjects(lang, limit = 4) {
   const all = getProjects(lang);
   const featured = all.filter((p) => p.featured);
   return (featured.length ? featured : all).slice(0, limit);
 }
 
+/** @returns {Record<string, any[]>} */
 export function getBooks(lang) {
   const books = localize(booksData, lang);
   return Object.fromEntries(BOOK_STATUSES.map((s) => [s, books.filter((b) => b.status === s)]));
@@ -72,6 +75,8 @@ export function getBooks(lang) {
  * explorer-style folders) each with a flat list of videos (rendered like a
  * YouTube sidebar). A video is either a YouTube `id` or a direct file `src`
  * (e.g. /videos/clip.mp4, served from public/). See src/data/videos.json.
+ *
+ * @returns {any[]}
  */
 export function getVideos(lang) {
   const data = localize(videosData, lang);
@@ -92,6 +97,7 @@ export function getVideos(lang) {
   }));
 }
 
+/** @returns {{ milestones: any[], targetProfile: any[] }} */
 export function getRoadmap(lang) {
   const r = localize(roadmapData, lang);
   const text = (entry) => (typeof entry === "string" ? entry : entry.text);
@@ -101,10 +107,12 @@ export function getRoadmap(lang) {
   };
 }
 
+/** @returns {any[]} */
 export function getExperience(lang) {
   return localize(experienceData, lang);
 }
 
+/** @returns {any[]} */
 export function getToolGroups(lang) {
   return localize(toolsData, lang).groups.map((g) => ({
     ...g,

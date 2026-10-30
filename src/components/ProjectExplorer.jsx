@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import { createT } from "../i18n/translate.js";
 import ProjectCard from "./ProjectCard.jsx";
 
@@ -78,7 +78,7 @@ export default function ProjectExplorer({ projects, dict, fallback }) {
             value={query}
             placeholder={t("projects.search")}
             aria-label={t("projects.search")}
-            onChange={(e) => update(e.target.value, selected)}
+            onInput={(e) => update(e.target.value, selected)}
           />
           <span className="filter-count" aria-live="polite">
             {t("projects.count", { n: visible.length, total: projects.length })}

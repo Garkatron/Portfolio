@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { defineConfig } from 'astro/config'
-import react from '@astrojs/react'
+import preact from '@astrojs/preact'
 import tailwindcss from '@tailwindcss/vite'
 
 // Locales are discovered from src/i18n/*.json, so adding a language is just
@@ -13,7 +13,7 @@ const locales = readdirSync(new URL('./src/i18n/', import.meta.url))
 export default defineConfig({
   site: site.baseUrl,
   base: '/',
-  integrations: [react()],
+  integrations: [preact()],
   i18n: {
     locales,
     defaultLocale: site.defaultLocale,

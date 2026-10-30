@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { readLog, subscribe } from "../../lib/syslog.js";
-import { useI18n } from "./i18n.jsx";
+import { useI18n } from "./i18n.tsx";
 
 const VISIBLE = 9;
 const DIM_TYPES = new Set(["coffee", "unknown"]);

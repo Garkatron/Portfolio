@@ -1,13 +1,30 @@
 # GARKATRON — portfolio
 
-Static portfolio built as a code editor ("Editor × Hazard", see `mockups/d-editor-hazard-mix.html`).
-Astro 5 + React 19 + Tailwind v4, deployed to GitHub Pages at <https://garkatron.site/>.
+Static portfolio built as a desktop OS ("Editor × Hazard", see `mockups/d-editor-hazard-mix.html`).
+Astro 5 + Preact 10 + Tailwind v4, deployed to GitHub Pages at <https://garkatron.site/>.
+
+The desktop chrome (top bar, app dock, taskbar, draggable windows) is built with
+[SLAOS](https://github.com/Garkatron/SLAOS), vendored in `vendor/` (see
+`vendor/README.md`). New desktop components live in `src/components/desktop/`
+and are TypeScript (`.tsx`); the page content islands remain `.jsx` islands
+(already migrated from React to Preact). Every route is still a normal Astro
+page: its server-rendered HTML is adopted into the main window, so SEO,
+Pagefind and the build-time content pipeline are unchanged.
 
 ```sh
 pnpm install
 pnpm dev        # http://localhost:4321 (header search needs a build, see below)
 pnpm build      # astro build + Pagefind search index -> dist/
 pnpm preview    # serve dist/ (full site incl. search)
+pnpm check      # TypeScript + Astro diagnostics
+```
+
+With Nix, the same commands run inside the pinned dev shell (Node 22 + pnpm):
+
+```sh
+nix develop        # or `direnv allow` if you use direnv
+pnpm install
+pnpm dev
 ```
 
 ## Editing content (no .astro/.jsx changes needed)

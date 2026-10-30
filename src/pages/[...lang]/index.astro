@@ -21,7 +21,7 @@ const experience = getExperience(lang);
 const split = Math.ceil(site.name.length / 2);
 const [solid, outline] = [site.name.slice(0, split), site.name.slice(split)];
 
-const f = (key) => t(`files.${key}`);
+const f = (key: string) => t(`files.${key}`);
 const tabs = [
   { file: f("about"), href: "#content", active: true },
   { file: f("projects"), href: "#projects" },
@@ -29,7 +29,7 @@ const tabs = [
   { file: f("roadmap"), href: "#roadmap" },
   { file: f("experience"), href: "#experience" },
 ];
-const cardLabels = (p) => ({ repo: t("projects.repo"), live: t("projects.live"), barcode: t("projects.barcode", { url: p.url }) });
+const cardLabels = (p: any) => ({ repo: t("projects.repo"), live: t("projects.live"), barcode: t("projects.barcode", { url: p.url }) });
 ---
 
 <Base lang={lang} page="about" tabs={tabs}>
@@ -80,10 +80,10 @@ const cardLabels = (p) => ({ repo: t("projects.repo"), live: t("projects.live"),
           <div class="meta">
             {x.startDate}{x.endDate && x.endDate !== x.startDate ? ` – ${x.endDate}` : ""}
             {x.website && <> · <a href={x.website} target="_blank" rel="noreferrer">{x.website.replace(/^https?:\/\//, "")}</a></>}
-            {x.links?.map((l) => <> · <a href={l.url} target="_blank" rel="noreferrer">{l.label}</a></>)}
+            {x.links?.map((l: any) => <> · <a href={l.url} target="_blank" rel="noreferrer">{l.label}</a></>)}
           </div>
           {x.description && <p>{x.description}</p>}
-          {x.highlights?.length > 0 && <ul>{x.highlights.map((h) => <li>{h}</li>)}</ul>}
+          {x.highlights?.length > 0 && <ul>{x.highlights.map((h: any) => <li>{h}</li>)}</ul>}
         </article>
       ))
     }

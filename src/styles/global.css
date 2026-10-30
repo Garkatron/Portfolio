@@ -328,6 +328,9 @@ a { color: inherit; }
   font-family: "Roboto", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 .os-window-page .editor:has(.yt) { padding: 0; }
+/* The YouTube app owns the whole scroll viewport, including the empty space
+   below short result grids (the page itself normally paints var(--bg)). */
+.os-window-page:has(.yt) { background: #0f0f0f; }
 
 /* masthead */
 .yt-masthead {

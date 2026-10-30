@@ -131,17 +131,23 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
     // window manager works in layout coordinates.
     const width = stage.clientWidth;
     const height = stage.clientHeight;
+    // Apps open at different default sizes: YouTube is a narrow utility
+    // window, projects need room for the card grid. Everything else keeps the
+    // full working width.
+    const activeApp = shell.nav.find((item) => item.active)?.id;
+    const ratio = activeApp === "videos" ? 0.25 : activeApp === "projects" ? 0.5 : 1;
+    const defaultWidth = Math.max(240, Math.round((width - 32) * ratio));
 
     const handle: WindowHandle = await wm.open(
       {
         appId: "route",
         type: "route",
         title: shell.path,
-        width: width - 32,
+        width: defaultWidth,
         height: height - 32,
         initialX: 16,
         initialY: 16,
-        minWidth: 320,
+        minWidth: activeApp === "videos" ? 240 : 320,
         minHeight: 240,
         maxWidth: Math.max(320, width - 32),
         maxHeight: Math.max(240, height - 32),
@@ -364,11 +370,7 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
           onOpenNav={openNav}
           onOpenAux={spawnAux}
         />
-        <div className="os-stage" ref={stageRef}>
-          <span className="os-wallmark px" aria-hidden="true">
-            GARKATRON
-          </span>
-        </div>
+        <div className="os-stage" ref={stageRef} />
       </div>
 
       <Taskbar

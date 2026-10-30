@@ -186,19 +186,6 @@ body:has(.os-desktop) { overflow: hidden; }
   min-height: 0;
   overflow: hidden;
 }
-.os-wallmark {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: var(--fg);
-  font-size: clamp(48px, 9vw, 140px);
-  letter-spacing: .08em;
-  opacity: .028;
-  pointer-events: none;
-  user-select: none;
-}
-
 /* ---------- SLAOS windows ---------- */
 .os-window {
   position: absolute;
@@ -314,6 +301,7 @@ body:has(.os-desktop) { overflow: hidden; }
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--line) transparent;
+  container-type: inline-size;
 }
 .os-window-page .editor { padding: 28px 36px 52px; }
 

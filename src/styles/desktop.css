@@ -224,7 +224,19 @@ body:has(.os-desktop) { overflow: hidden; }
   border-color: color-mix(in srgb, var(--acc) 55%, var(--line));
   box-shadow: 0 22px 60px rgba(0, 0, 0, .65);
 }
-.os-window.is-dragging { cursor: grabbing; user-select: none; }
+.os-window.is-dragging { cursor: grabbing; user-select: none; transition: none; }
+/* Maximize/restore: a single smooth ease-out grow or shrink — no overshoot. */
+.os-window.is-animating {
+  transition:
+    left .22s cubic-bezier(.22, .61, .36, 1),
+    top .22s cubic-bezier(.22, .61, .36, 1),
+    width .22s cubic-bezier(.22, .61, .36, 1),
+    height .22s cubic-bezier(.22, .61, .36, 1);
+}
+/* A maximized window fills the stage; the resize clamp only applies to
+   floating windows. */
+.os-window.is-maximized { max-width: none; max-height: none; }
+.os-window.is-maximized .os-resize { display: none; }
 
 .os-window-bar {
   flex: none;
@@ -399,6 +411,9 @@ body:has(.os-desktop) { overflow: hidden; }
 @media (max-width: 980px) {
   .os-dock { width: 92px; }
   .os-icon-label { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .os-window.is-animating { transition: none; }
 }
 @media (max-width: 560px) {
   /* The palette still switches accents; keep the bar from overflowing. */

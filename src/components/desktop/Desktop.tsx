@@ -75,6 +75,7 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
       close: t("shell.os.close"),
       minimize: t("shell.os.minimize"),
       maximize: t("shell.os.maximize"),
+      restore: t("shell.os.restore"),
     }),
     [t],
   );

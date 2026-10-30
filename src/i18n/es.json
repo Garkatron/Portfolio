@@ -39,7 +39,8 @@
       "menu": "Menú",
       "close": "Cerrar ventana",
       "minimize": "Minimizar ventana",
-      "maximize": "Maximizar ventana"
+      "maximize": "Maximizar ventana",
+      "restore": "Restaurar ventana"
     }
   },
   "profile": {

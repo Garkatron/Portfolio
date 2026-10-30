@@ -18,6 +18,7 @@ export interface OsWindowLabels {
   close: string;
   minimize: string;
   maximize: string;
+  restore?: string;
 }
 
 export interface OsWindowProps extends WindowProps {
@@ -105,7 +106,12 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
 
   const controls = document.createElement("span");
   controls.className = "os-window-controls";
-  const labels = props.labels ?? { close: "Close", minimize: "Minimize", maximize: "Maximize" };
+  const labels = props.labels ?? {
+    close: "Close",
+    minimize: "Minimize",
+    maximize: "Maximize",
+    restore: "Restore",
+  };
 
   const makeControl = (name: string, label: string, glyph: string) => {
     const button = document.createElement("button");
@@ -123,6 +129,94 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
   controls.append(minimize, maximize, close);
   bar.append(dots, title, controls);
 
+  // ── maximize / restore ──────────────────────────────────────────────
+  // SLAOS' built-in maximize only changes width/height (no reposition) and
+  // ignores manual resizes, so the control is driven here instead. A detached
+  // element is handed to SLAOS to keep its control wiring intact.
+  interface Bounds {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  }
+
+  let maximized = false;
+  let restoreBounds: Bounds | null = null;
+  let animationTimer: number | undefined;
+
+  const currentBounds = (): Bounds => ({
+    left: parseFloat(frame.style.left) || 0,
+    top: parseFloat(frame.style.top) || 0,
+    width: frame.offsetWidth,
+    height: frame.offsetHeight,
+  });
+
+  const applyBounds = (bounds: Bounds, animate: boolean) => {
+    if (animationTimer !== undefined) window.clearTimeout(animationTimer);
+    if (animate) {
+      frame.classList.add("is-animating");
+      // Matches the CSS duration; no bounce, only an ease-out grow/shrink.
+      animationTimer = window.setTimeout(() => {
+        frame.classList.remove("is-animating");
+        animationTimer = undefined;
+      }, 240);
+    } else {
+      frame.classList.remove("is-animating");
+    }
+    frame.style.left = `${bounds.left}px`;
+    frame.style.top = `${bounds.top}px`;
+    frame.style.width = `${bounds.width}px`;
+    frame.style.height = `${bounds.height}px`;
+  };
+
+  const setMaximizedLabel = (on: boolean) => {
+    const label = on ? labels.restore ?? labels.maximize : labels.maximize;
+    maximize.setAttribute("aria-label", label);
+    maximize.title = label;
+    maximize.textContent = on ? "❐" : "□";
+  };
+
+  const toggleMaximize = () => {
+    const stageRect = container.getBoundingClientRect();
+    if (maximized) {
+      const target =
+        restoreBounds ?? {
+          left: 16,
+          top: 16,
+          width: Math.max(240, stageRect.width - 32),
+          height: Math.max(160, stageRect.height - 32),
+        };
+      applyBounds(target, true);
+      maximized = false;
+      restoreBounds = null;
+      frame.classList.remove("is-maximized");
+      frame.dataset.maximized = "false";
+      setMaximizedLabel(false);
+      return;
+    }
+
+    restoreBounds = currentBounds();
+    frame.classList.add("is-maximized");
+    applyBounds({ left: 0, top: 0, width: stageRect.width, height: stageRect.height }, true);
+    maximized = true;
+    frame.dataset.maximized = "true";
+    setMaximizedLabel(true);
+  };
+
+  const leaveMaximized = () => {
+    if (!maximized) return;
+    maximized = false;
+    restoreBounds = null;
+    frame.classList.remove("is-maximized");
+    frame.dataset.maximized = "false";
+    setMaximizedLabel(false);
+  };
+
+  maximize.addEventListener("click", toggleMaximize);
+
+  /** SLAOS only needs *a* maximize control; ours is handled above. */
+  const maximizeProxy = document.createElement("span");
+
   const body = document.createElement("div");
   body.className = "os-window-body";
   const content = document.createElement("div");
@@ -136,7 +230,7 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
   frame.append(bar, body, resizer);
 
   resizer.addEventListener("pointerdown", (event) => {
-    if (event.button !== 0) return;
+    if (event.button !== 0 || maximized) return;
     event.preventDefault();
     event.stopPropagation();
     focusFrame(frame);
@@ -178,6 +272,21 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
     if ((event.target as Element).closest("button")) return;
     event.preventDefault();
 
+    // Dragging a maximized window first returns it to its previous size
+    // (without animation), then follows the pointer from there.
+    if (maximized) {
+      const stageRect = container.getBoundingClientRect();
+      const target =
+        restoreBounds ?? {
+          left: 16,
+          top: 16,
+          width: Math.max(240, stageRect.width - 32),
+          height: Math.max(160, stageRect.height - 32),
+        };
+      applyBounds(target, false);
+      leaveMaximized();
+    }
+
     const stageRect = container.getBoundingClientRect();
     const startX = event.clientX;
     const startY = event.clientY;
@@ -203,10 +312,14 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
 
   bar.addEventListener("dblclick", (event) => {
     if ((event.target as Element).closest("button")) return;
-    maximize.click();
+    toggleMaximize();
   });
 
-  const controlsHandle: WindowControls = { close, hidden: minimize, maximize };
+  const controlsHandle: WindowControls = {
+    close,
+    hidden: minimize,
+    maximize: maximizeProxy,
+  };
 
   return {
     frame,

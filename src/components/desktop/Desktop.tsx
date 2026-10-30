@@ -127,21 +127,24 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
     if (!content) return;
 
     mainOpen.current = true;
-    const rect = stage.getBoundingClientRect();
+    // Local CSS px: the desktop may be zoomed (see desktop.css), and the
+    // window manager works in layout coordinates.
+    const width = stage.clientWidth;
+    const height = stage.clientHeight;
 
     const handle: WindowHandle = await wm.open(
       {
         appId: "route",
         type: "route",
         title: shell.path,
-        width: rect.width - 32,
-        height: rect.height - 32,
+        width: width - 32,
+        height: height - 32,
         initialX: 16,
         initialY: 16,
         minWidth: 320,
         minHeight: 240,
-        maxWidth: Math.max(320, rect.width - 32),
-        maxHeight: Math.max(240, rect.height - 32),
+        maxWidth: Math.max(320, width - 32),
+        maxHeight: Math.max(240, height - 32),
         closeable: true,
         minimizable: true,
         labels,
@@ -205,11 +208,12 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
       const stage = stageRef.current;
       if (!wm || !stage) return;
 
-      const rect = stage.getBoundingClientRect();
+      const stageWidth = stage.clientWidth;
+      const stageHeight = stage.clientHeight;
       const width = app === "player" ? 360 : 480;
       const height = app === "player" ? 560 : 360;
       const seq = windowsRef.current.filter((w) => w.kind !== "route").length;
-      const x = Math.max(16, rect.width - width - 24 - seq * 24);
+      const x = Math.max(16, stageWidth - width - 24 - seq * 24);
       const y = Math.max(48, 72 + seq * 24);
       const title = app === "player" ? t("shell.player") : t("shell.syslog");
 
@@ -224,8 +228,8 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
           initialY: y,
           minWidth: 280,
           minHeight: 220,
-          maxWidth: Math.max(280, rect.width - x - 8),
-          maxHeight: Math.max(220, rect.height - y - 8),
+          maxWidth: Math.max(280, stageWidth - x - 8),
+          maxHeight: Math.max(220, stageHeight - y - 8),
           closeable: true,
           minimizable: true,
           labels,

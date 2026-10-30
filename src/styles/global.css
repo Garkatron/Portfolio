@@ -551,7 +551,9 @@ a { color: inherit; }
 .langs a.on { color: var(--warn); border-color: var(--warn); }
 
 /* ---------- command palette ---------- */
-.palette-backdrop { position: fixed; inset: 0; z-index: 60; background: rgba(10,10,16,.6); display: flex; justify-content: center; align-items: flex-start; padding-top: 12vh; }
+/* Absolute (not fixed): it lives inside the zoomed desktop box, so it covers
+   the app exactly regardless of the UI scale. */
+.palette-backdrop { position: absolute; inset: 0; z-index: 60; background: rgba(10,10,16,.6); display: flex; justify-content: center; align-items: flex-start; padding-top: 12vh; }
 .palette { width: min(560px, 92vw); background: var(--bg2); border: 1px solid var(--line); box-shadow: 0 24px 60px rgba(0,0,0,.6); border-top: 2px solid var(--warn); }
 .palette-input { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
 .palette-input .prompt { color: var(--warn); }

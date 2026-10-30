@@ -44,9 +44,27 @@ function focusFrame(frame: HTMLElement): void {
   });
 }
 
+interface StageSize {
+  width: number;
+  height: number;
+}
+
+/** Layout size in local CSS px (the desktop is zoomed, so this is not visual). */
+function stageSize(container: HTMLElement): StageSize {
+  return { width: container.clientWidth, height: container.clientHeight };
+}
+
+/** Visual pixels per local CSS px (1 unless the desktop UI scale is active). */
+function uiScale(container: HTMLElement): number {
+  const width = container.clientWidth;
+  if (!width) return 1;
+  const visual = container.getBoundingClientRect().width;
+  return visual > 0 ? visual / width : 1;
+}
+
 function initialPosition(
   props: OsWindowProps,
-  stage: DOMRect,
+  stage: StageSize,
   width: number,
   height: number,
 ): [number, number] {
@@ -74,7 +92,7 @@ function initialPosition(
 }
 
 function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
-  const stage = container.getBoundingClientRect();
+  const stage = stageSize(container);
   const pad = 16;
   const width = clamp(props.width, 240, Math.max(240, stage.width - pad * 2));
   const height = clamp(props.height, 160, Math.max(160, stage.height - pad * 2));
@@ -177,14 +195,14 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
   };
 
   const toggleMaximize = () => {
-    const stageRect = container.getBoundingClientRect();
+    const stage = stageSize(container);
     if (maximized) {
       const target =
         restoreBounds ?? {
           left: 16,
           top: 16,
-          width: Math.max(240, stageRect.width - 32),
-          height: Math.max(160, stageRect.height - 32),
+          width: Math.max(240, stage.width - 32),
+          height: Math.max(160, stage.height - 32),
         };
       applyBounds(target, true);
       maximized = false;
@@ -197,7 +215,7 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
 
     restoreBounds = currentBounds();
     frame.classList.add("is-maximized");
-    applyBounds({ left: 0, top: 0, width: stageRect.width, height: stageRect.height }, true);
+    applyBounds({ left: 0, top: 0, width: stage.width, height: stage.height }, true);
     maximized = true;
     frame.dataset.maximized = "true";
     setMaximizedLabel(true);
@@ -235,7 +253,8 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
     event.stopPropagation();
     focusFrame(frame);
 
-    const stageRect = container.getBoundingClientRect();
+    const stage = stageSize(container);
+    const scale = uiScale(container);
     const startX = event.clientX;
     const startY = event.clientY;
     const startWidth = frame.offsetWidth;
@@ -244,12 +263,14 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
     const top = parseFloat(frame.style.top) || 0;
     const minWidth = props.minWidth ?? 240;
     const minHeight = props.minHeight ?? 160;
-    const maxWidth = Math.max(minWidth, stageRect.width - left);
-    const maxHeight = Math.max(minHeight, stageRect.height - top);
+    const maxWidth = Math.max(minWidth, stage.width - left);
+    const maxHeight = Math.max(minHeight, stage.height - top);
 
     const onMove = (move: PointerEvent) => {
-      frame.style.width = `${clamp(startWidth + move.clientX - startX, minWidth, maxWidth)}px`;
-      frame.style.height = `${clamp(startHeight + move.clientY - startY, minHeight, maxHeight)}px`;
+      const dx = (move.clientX - startX) / scale;
+      const dy = (move.clientY - startY) / scale;
+      frame.style.width = `${clamp(startWidth + dx, minWidth, maxWidth)}px`;
+      frame.style.height = `${clamp(startHeight + dy, minHeight, maxHeight)}px`;
     };
     const onUp = () => {
       window.removeEventListener("pointermove", onMove);
@@ -275,29 +296,32 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
     // Dragging a maximized window first returns it to its previous size
     // (without animation), then follows the pointer from there.
     if (maximized) {
-      const stageRect = container.getBoundingClientRect();
+      const stage = stageSize(container);
       const target =
         restoreBounds ?? {
           left: 16,
           top: 16,
-          width: Math.max(240, stageRect.width - 32),
-          height: Math.max(160, stageRect.height - 32),
+          width: Math.max(240, stage.width - 32),
+          height: Math.max(160, stage.height - 32),
         };
       applyBounds(target, false);
       leaveMaximized();
     }
 
-    const stageRect = container.getBoundingClientRect();
+    const stage = stageSize(container);
+    const scale = uiScale(container);
     const startX = event.clientX;
     const startY = event.clientY;
     const startLeft = parseFloat(frame.style.left) || 0;
     const startTop = parseFloat(frame.style.top) || 0;
-    const maxLeft = Math.max(0, stageRect.width - frame.offsetWidth);
-    const maxTop = Math.max(0, stageRect.height - frame.offsetHeight);
+    const maxLeft = Math.max(0, stage.width - frame.offsetWidth);
+    const maxTop = Math.max(0, stage.height - frame.offsetHeight);
 
     const onMove = (move: PointerEvent) => {
-      frame.style.left = `${clamp(startLeft + move.clientX - startX, 0, maxLeft)}px`;
-      frame.style.top = `${clamp(startTop + move.clientY - startY, 0, maxTop)}px`;
+      const dx = (move.clientX - startX) / scale;
+      const dy = (move.clientY - startY) / scale;
+      frame.style.left = `${clamp(startLeft + dx, 0, maxLeft)}px`;
+      frame.style.top = `${clamp(startTop + dy, 0, maxTop)}px`;
     };
     const onUp = () => {
       window.removeEventListener("pointermove", onMove);

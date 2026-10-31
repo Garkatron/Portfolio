@@ -340,6 +340,26 @@ function createHost() {
       .catch((err) => console.warn("[audio]", err.message));
   }
 
+  /**
+   * Tear the provider player down completely.
+   *
+   * `widget.pause()` is normally enough, but the widget can also be playing
+   * autonomously (auto_play in its iframe) before the API is ready. Removing
+   * the iframe guarantees closing the player window actually stops the sound;
+   * a later play recreates it through ensureWidget().
+   */
+  function disposeEmbed() {
+    try {
+      widget?.pause();
+    } catch {}
+    widget = null;
+    widgetVolumeStale = false;
+    if (embed) {
+      embed.remove();
+      embed = null;
+    }
+  }
+
   function syncWidgetVolume() {
     // The widget takes 0-100; the host keeps 0-1, like the <audio> element. It
     // has no mute of its own, so silence is volume 0 and `state.volume` — the
@@ -520,8 +540,14 @@ function createHost() {
       return;
     }
 
-    // The widget reports real PLAY/PAUSE, so only nudge it here.
-    widget?.toggle();
+    // The widget reports real PLAY/PAUSE, so only nudge it here. After a close
+    // it has been disposed; rebuild it and let its READY event start playback.
+    if (!widget) {
+      const track = state.tracks[state.index];
+      if (track) loadTrack(track, { gesture: true });
+      return;
+    }
+    widget.toggle();
   }
 
   function seek(fraction) {
@@ -548,7 +574,7 @@ function createHost() {
   function pause() {
     suspended = true;
     if (state.mode === "stream") audio.pause();
-    else if (state.mode === "embed") widget?.pause();
+    else if (state.mode === "embed") disposeEmbed();
     clearTimeout(autoplayTimer);
     clearTimeout(progressTimer);
     state.playing = false;

@@ -27,6 +27,11 @@ export interface OsWindowProps extends WindowProps {
   labels?: OsWindowLabels;
   /** Called when the window is raised (click, spawn, taskbar). */
   onFocus?: () => void;
+  /**
+   * Runs on the close button before SLAOS' own close wiring. Lets the player
+   * stop its audio even if the click lands during the short spawn window.
+   */
+  onCloseIntent?: () => void;
 }
 
 let zCounter = 10;
@@ -231,6 +236,7 @@ function buildFrame(container: HTMLElement, props: OsWindowProps): FrameParts {
   };
 
   maximize.addEventListener("click", toggleMaximize);
+  close.addEventListener("click", () => props.onCloseIntent?.());
 
   /** SLAOS only needs *a* maximize control; ours is handled above. */
   const maximizeProxy = document.createElement("span");

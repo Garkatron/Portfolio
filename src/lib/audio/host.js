@@ -355,6 +355,11 @@ function createHost() {
     widget = null;
     widgetVolumeStale = false;
     if (embed) {
+      // Navigating the frame away first also stops playback on engines that
+      // keep a removed iframe's media alive for a moment.
+      try {
+        embed.src = "about:blank";
+      } catch {}
       embed.remove();
       embed = null;
     }
@@ -573,8 +578,10 @@ function createHost() {
    */
   function pause() {
     suspended = true;
-    if (state.mode === "stream") audio.pause();
-    else if (state.mode === "embed") disposeEmbed();
+    // Belt and braces: stop the direct stream and tear down a provider frame
+    // regardless of which mode the host currently believes it is in.
+    audio.pause();
+    disposeEmbed();
     clearTimeout(autoplayTimer);
     clearTimeout(progressTimer);
     state.playing = false;

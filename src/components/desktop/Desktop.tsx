@@ -248,6 +248,7 @@ function DesktopSurface({ shell }: { shell: ShellData }) {
           minimizable: true,
           labels,
           onFocus: () => setFocused(app),
+          onCloseIntent: app === "player" ? () => getAudioHost()?.pause() : undefined,
         },
         (root) => {
           const pad = document.createElement("div");
